@@ -1,219 +1,320 @@
-const openButton = document.getElementById("openButton");
+// ========================================
+// NICOLE'S BIRTHDAY WEBSITE
+// FULL PAGE NAVIGATION SCRIPT
+// ========================================
+
 const cover = document.getElementById("cover");
 const page2 = document.getElementById("page2");
 const music = document.getElementById("birthdayMusic");
 
+// Buttons
+const openButton = document.getElementById("openButton");
+const continueButton = document.getElementById("continueButton");
 
-openButton.addEventListener("click", async () => {
+// Memory book
+const memoryBook = document.getElementById("memoryBook");
+const memoryPages = document.querySelectorAll(".memory-page");
+const memoryNextButton = document.getElementById("memoryNextButton");
+const memoryBackButton = document.getElementById("memoryBackButton");
 
-  /* Start the Page 1 transition */
-  cover.classList.add("leaving");
 
+// ========================================
+// STARTING STATE
+// ========================================
 
-  /* Start the music */
-  try {
+// Everything starts hidden except the cover.
 
-    await music.play();
+if (cover) {
+  cover.style.display = "flex";
+}
 
-  } catch (error) {
+if (page2) {
+  page2.classList.remove("show");
+  page2.style.display = "none";
+}
 
-    console.log(
-      "Music playback was blocked by the browser."
-    );
+if (memoryBook) {
+  memoryBook.classList.remove("show");
+  memoryBook.style.display = "none";
+}
 
+// Hide every memory page except the first one
+memoryPages.forEach((page, index) => {
+  page.classList.remove("active");
+
+  if (index === 0) {
+    page.classList.add("active");
   }
-
-
-  /* Wait for the transition, then reveal Page 2 */
-  setTimeout(() => {
-
-    cover.style.display = "none";
-
-    page2.classList.add("show");
-
-    page2.setAttribute(
-      "aria-hidden",
-      "false"
-    );
-
-  }, 850);
-
 });
 
-/* =========================================
-   PAGE 3 — MEMORY BOOK
-========================================= */
 
-const page3 = document.getElementById("page3");
+// ========================================
+// PAGE 1 → PAGE 2
+// ========================================
 
-const memoryBook = document.getElementById("memoryBook");
-const memoryImage = document.getElementById("memoryImage");
+if (openButton) {
+  openButton.addEventListener("click", async () => {
 
-const memoryPrev = document.getElementById("memoryPrev");
-const memoryNext = document.getElementById("memoryNext");
+    // Start the music from the button click
+    if (music) {
+      try {
+        await music.play();
+      } catch (error) {
+        console.log("Music playback was blocked.");
+      }
+    }
 
-const memoryNumber = document.getElementById("memoryNumber");
-const memoryHint = document.getElementById("memoryHint");
-const memoryContinue = document.getElementById("memoryContinue");
+    // Fade the cover away
+    if (cover) {
+      cover.classList.add("leaving");
+    }
 
+    // Wait for the transition
+    setTimeout(() => {
 
-const memories = [
-  "assets/memory-1.png",
-  "assets/memory-2.png",
-  "assets/memory-3.png",
-  "assets/memory-4.png",
-  "assets/memory-5.png",
-  "assets/memory-6.png",
-  "assets/memory-7.png",
-  "assets/memory-8.png"
-];
+      // Completely hide Page 1
+      if (cover) {
+        cover.style.display = "none";
+      }
 
+      // Show Page 2
+      if (page2) {
+        page2.style.display = "flex";
 
-let currentMemory = 0;
-let isTurning = false;
+        // Small delay so the transition works properly
+        requestAnimationFrame(() => {
+          page2.classList.add("show");
+          page2.setAttribute("aria-hidden", "false");
+        });
+      }
 
+      // Make sure memory book is NOT showing yet
+      if (memoryBook) {
+        memoryBook.style.display = "none";
+        memoryBook.classList.remove("show");
+      }
 
-/* -----------------------------------------
-   SHOW PAGE 3
------------------------------------------ */
-
-function showMemoryBook() {
-  page3.classList.add("show");
-  page3.setAttribute("aria-hidden", "false");
+    }, 850);
+  });
 }
 
-/* -----------------------------------------
-   UPDATE PAGE
------------------------------------------ */
 
-function updateMemoryPage() {
-  memoryImage.src = memories[currentMemory];
+// ========================================
+// PAGE 2 → MEMORY BOOK
+// ========================================
 
-  memoryImage.alt =
-    `Memory scrapbook page ${currentMemory + 1}`;
+if (continueButton) {
+  continueButton.addEventListener("click", () => {
 
-  memoryNumber.textContent =
-    currentMemory + 1;
+    // Hide Page 2
+    if (page2) {
+      page2.classList.remove("show");
+      page2.setAttribute("aria-hidden", "true");
+    }
 
-  memoryPrev.disabled =
-    currentMemory === 0;
+    setTimeout(() => {
 
-  memoryNext.disabled =
-    currentMemory === memories.length - 1;
+      if (page2) {
+        page2.style.display = "none";
+      }
+
+      // Show the memory book
+      if (memoryBook) {
+        memoryBook.style.display = "flex";
+
+        requestAnimationFrame(() => {
+          memoryBook.classList.add("show");
+          memoryBook.setAttribute("aria-hidden", "false");
+        });
+      }
+
+      // Always start memory book at page 1
+      memoryPages.forEach((page, index) => {
+        page.classList.toggle("active", index === 0);
+      });
+
+      currentMemoryPage = 0;
+      updateMemoryButtons();
+
+    }, 400);
+  });
+}
 
 
-  if (currentMemory === memories.length - 1) {
-    memoryHint.textContent =
-      "that's the last one... for now ♡";
+// ========================================
+// MEMORY BOOK
+// ========================================
 
-    memoryContinue.style.display =
-      "inline-block";
-  } else {
-    memoryHint.textContent =
-      "click the arrow to turn the page ♡";
+let currentMemoryPage = 0;
 
-    memoryContinue.style.display =
-      "none";
+
+// Show only the current memory page
+function showMemoryPage(index) {
+
+  if (memoryPages.length === 0) return;
+
+  // Keep the number inside the valid range
+  if (index < 0) {
+    index = 0;
   }
+
+  if (index >= memoryPages.length) {
+    index = memoryPages.length - 1;
+  }
+
+  currentMemoryPage = index;
+
+  memoryPages.forEach((page, pageIndex) => {
+
+    if (pageIndex === currentMemoryPage) {
+      page.classList.add("active");
+    } else {
+      page.classList.remove("active");
+    }
+
+  });
+
+  updateMemoryButtons();
 }
 
 
-/* -----------------------------------------
-   TURN PAGE
------------------------------------------ */
+// ========================================
+// NEXT MEMORY PAGE
+// ========================================
 
-function turnMemory(direction) {
+if (memoryNextButton) {
 
-  if (isTurning) return;
+  memoryNextButton.addEventListener("click", () => {
 
-  const nextIndex =
-    currentMemory + direction;
+    if (currentMemoryPage < memoryPages.length - 1) {
 
+      // Move to next page
+      showMemoryPage(currentMemoryPage + 1);
+
+    } else {
+
+      // If this is the LAST memory page,
+      // you can connect this later to the next section.
+      console.log("End of memory book.");
+    }
+
+  });
+
+}
+
+
+// ========================================
+// PREVIOUS MEMORY PAGE
+// ========================================
+
+if (memoryBackButton) {
+
+  memoryBackButton.addEventListener("click", () => {
+
+    if (currentMemoryPage > 0) {
+      showMemoryPage(currentMemoryPage - 1);
+    }
+
+  });
+
+}
+
+
+// ========================================
+// MEMORY BUTTON STATE
+// ========================================
+
+function updateMemoryButtons() {
+
+  if (memoryBackButton) {
+
+    if (currentMemoryPage === 0) {
+      memoryBackButton.style.visibility = "hidden";
+    } else {
+      memoryBackButton.style.visibility = "visible";
+    }
+
+  }
+
+
+  if (memoryNextButton) {
+
+    if (currentMemoryPage === memoryPages.length - 1) {
+
+      // Still show the button on the final page
+      // so we can connect the next section later.
+      memoryNextButton.innerHTML = "♡";
+
+    } else {
+
+      memoryNextButton.innerHTML = "→";
+
+    }
+
+  }
+
+}
+
+
+// ========================================
+// KEYBOARD SUPPORT
+// ========================================
+
+// This lets you use the keyboard on a laptop,
+// but it doesn't affect the phone experience.
+
+document.addEventListener("keydown", (event) => {
+
+  // Don't do anything if memory book isn't visible
   if (
-    nextIndex < 0 ||
-    nextIndex >= memories.length
+    !memoryBook ||
+    memoryBook.style.display === "none"
   ) {
     return;
   }
 
 
-  isTurning = true;
+  if (event.key === "ArrowRight") {
 
-  memoryBook.classList.add("flipping");
+    if (currentMemoryPage < memoryPages.length - 1) {
+      showMemoryPage(currentMemoryPage + 1);
+    }
 
-
-  setTimeout(() => {
-
-    currentMemory = nextIndex;
-
-    /*
-      Change the image while the page
-      is turned over so the new page
-      appears when it comes back.
-    */
-
-    memoryImage.src =
-      memories[currentMemory];
-
-    memoryImage.alt =
-      `Memory scrapbook page ${currentMemory + 1}`;
-
-    memoryNumber.textContent =
-      currentMemory + 1;
-
-  }, 470);
+  }
 
 
-  setTimeout(() => {
+  if (event.key === "ArrowLeft") {
 
-    memoryBook.classList.remove("flipping");
+    if (currentMemoryPage > 0) {
+      showMemoryPage(currentMemoryPage - 1);
+    }
 
-    updateMemoryPage();
+  }
 
-    isTurning = false;
-
-  }, 950);
-}
-
-
-/* -----------------------------------------
-   NEXT / PREVIOUS
------------------------------------------ */
-
-memoryNext.addEventListener("click", () => {
-  turnMemory(1);
-});
-
-memoryPrev.addEventListener("click", () => {
-  turnMemory(-1);
 });
 
 
-/* -----------------------------------------
-   LAST PAGE → CONTINUE
------------------------------------------ */
+// ========================================
+// PREVENT ACCIDENTAL PAGE SCROLLING
+// ========================================
 
-memoryContinue.addEventListener("click", () => {
+document.body.addEventListener(
+  "touchmove",
+  (event) => {
 
-  /*
-    We'll connect this to Page 4
-    when we build the next section.
-  */
+    // Don't allow the website to become a
+    // giant vertically scrolling page.
+    if (memoryBook && memoryBook.classList.contains("show")) {
+      event.preventDefault();
+    }
 
-  alert("NEXT PAGE COMING ♡");
-});
+  },
+  { passive: false }
+);
 
 
-/* -----------------------------------------
-   INITIAL STATE
------------------------------------------ */
+// ========================================
+// INITIALIZE
+// ========================================
 
-updateMemoryPage();
-
-const goToMemories =
-  document.getElementById("goToMemories");
-
-goToMemories.addEventListener("click", () => {
-  page3.classList.add("show");
-  page3.setAttribute("aria-hidden", "false");
-});
+updateMemoryButtons();
