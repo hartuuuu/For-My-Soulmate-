@@ -1211,15 +1211,6 @@ body {
    MOBILE
 ========================================= */
 
-@media (max-width: 700px) {
-
-  .memory-book-page {
-    padding:
-      50px
-      12px
-      35px;
-  }
-
   .memory-header {
     margin-bottom: 20px;
   }
