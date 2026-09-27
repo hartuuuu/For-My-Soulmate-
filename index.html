@@ -2,278 +2,1303 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#fff8e9" />
 
-  <title>For Nicole ♡</title>
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap"
-    rel="stylesheet"
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   />
 
-  <link rel="stylesheet" href="style.css" />
+  <title>A Little Something for You ♡</title>
+
+  <style>
+    /* =========================================================
+       FONTS
+       ========================================================= */
+
+    @font-face {
+      font-family: "InternetFriends";
+      src: url("assets/Internet Friends.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "IceCream";
+      src: url("assets/Ice Cream.otf") format("opentype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+
+    /* =========================================================
+       BASIC RESET
+       ========================================================= */
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+
+      overflow: hidden;
+
+      background: #f7efdf;
+
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    /* =========================================================
+       THE PORTRAIT SITE
+
+       Desktop:
+       sits in the middle like a phone/portrait page.
+
+       Phone:
+       expands to the available screen.
+       ========================================================= */
+
+    #site {
+      position: relative;
+
+      width: min(100vw, 430px);
+      height: 100svh;
+
+      max-height: 100svh;
+
+      overflow: hidden;
+
+      background: #fffaf0;
+
+      isolation: isolate;
+    }
+
+
+    /* =========================================================
+       GENERAL PAGE SYSTEM
+       ========================================================= */
+
+    .screen {
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      overflow: hidden;
+
+      opacity: 0;
+      visibility: hidden;
+
+      pointer-events: none;
+
+      transition:
+        opacity 0.65s ease,
+        visibility 0.65s ease;
+    }
+
+    .screen.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+
+    /* =========================================================
+       PAGE 1
+       ========================================================= */
+
+    #cover {
+      background-image: url("assets/background.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+    }
+
+    .cover-overlay {
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          rgba(255, 249, 226, 0.10),
+          rgba(255, 249, 226, 0.18)
+        );
+
+      pointer-events: none;
+    }
+
+    .cover-content {
+      position: relative;
+      z-index: 2;
+
+      width: 88%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      gap: 14px;
+    }
+
+    .date {
+      margin: 0;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 0.95rem;
+
+      color: #665548;
+
+      letter-spacing: 0.08em;
+    }
+
+    .cover-small {
+      margin: 0;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: clamp(1.35rem, 5vw, 1.75rem);
+
+      color: #34281f;
+    }
+
+    .cover-small .heart {
+      color: #f1c928;
+    }
+
+    .cover-message {
+      margin: 0;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: clamp(1.15rem, 4.5vw, 1.55rem);
+
+      line-height: 1.25;
+
+      color: #34281f;
+    }
+
+    .open-button {
+      margin-top: 16px;
+
+      border: 1.5px solid #493b30;
+
+      background: rgba(255, 252, 239, 0.72);
+
+      color: #34281f;
+
+      border-radius: 999px;
+
+      padding: 12px 22px;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 1.1rem;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .open-button:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .open-button:active {
+      transform: scale(0.96);
+    }
+
+    .button-heart {
+      margin-left: 5px;
+    }
+
+    .cover-squiggle {
+      position: absolute;
+
+      font-family: "InternetFriends", cursive;
+
+      color: #7d674e;
+
+      opacity: 0.65;
+
+      pointer-events: none;
+    }
+
+    .squiggle-1 {
+      top: 7%;
+      left: 8%;
+    }
+
+    .squiggle-2 {
+      top: 11%;
+      right: 8%;
+    }
+
+    .squiggle-3 {
+      bottom: 9%;
+      left: 10%;
+    }
+
+    .squiggle-4 {
+      bottom: 13%;
+      right: 10%;
+    }
+
+
+    /* =========================================================
+       PAGE 2 — HAPPY BIRTHDAY
+       ========================================================= */
+
+    #birthday {
+      background:
+        radial-gradient(
+          circle at 50% 30%,
+          rgba(255,255,255,0.9),
+          transparent 45%
+        ),
+        #f8f0df;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .birthday-inner {
+      width: 88%;
+      height: 92%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      position: relative;
+    }
+
+    .birthday-intro {
+      margin: 0 0 7px;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 1.05rem;
+
+      color: #796452;
+    }
+
+    .birthday-label {
+      margin: 0;
+
+      font-size: 0.55rem;
+
+      letter-spacing: 0.25em;
+
+      color: #a48b70;
+    }
+
+    .birthday-title {
+      margin: 3px 0 0;
+
+      font-family: "IceCream", cursive;
+
+      font-size: clamp(2.6rem, 13vw, 4rem);
+
+      line-height: 0.82;
+
+      color: #49392d;
+
+      text-align: center;
+    }
+
+    .birthday-name {
+      margin: 7px 0 15px;
+
+      font-family: "IceCream", cursive;
+
+      font-size: clamp(2rem, 9vw, 3rem);
+
+      color: #e1ae22;
+    }
+
+    .birthday-photo-wrap {
+      position: relative;
+
+      width: 66%;
+
+      margin: 4px 0 15px;
+    }
+
+    .birthday-photo {
+      display: block;
+
+      width: 100%;
+
+      background: white;
+
+      padding: 8px;
+
+      box-shadow:
+        0 10px 25px rgba(70, 52, 35, 0.16);
+
+      transform: rotate(-2deg);
+    }
+
+    .birthday-caption {
+      margin: -2px 0 0;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 0.9rem;
+
+      color: #55463a;
+    }
+
+    .birthday-message {
+      margin-top: 4px;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 1.05rem;
+
+      line-height: 1.45;
+
+      color: #403329;
+    }
+
+    .birthday-message p {
+      margin: 3px 0;
+    }
+
+    .birthday-heart {
+      color: #d7ae25;
+    }
+
+    .birthday-next {
+      margin-top: 15px;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 0.85rem;
+
+      color: #907b67;
+
+      opacity: 0.8;
+    }
+
+
+    /* =========================================================
+       MEMORY BOOK
+       ========================================================= */
+
+    #memories {
+      background: #f4ead7;
+
+      perspective: 1800px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /*
+      The book itself stays portrait-sized.
+    */
+
+    .memory-book {
+      position: relative;
+
+      width: 100%;
+      height: 100%;
+
+      transform-style: preserve-3d;
+    }
+
+
+    /* =========================================================
+       MEMORY PAGES
+
+       Each image is one entire page.
+
+       The images are 1389 x 1964, so we preserve their
+       original portrait ratio.
+       ========================================================= */
+
+    .memory-page {
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      overflow: hidden;
+
+      background: #fff;
+
+      transform-origin: left center;
+
+      transform-style: preserve-3d;
+
+      backface-visibility: hidden;
+
+      transition:
+        transform 0.85s cubic-bezier(0.65, 0, 0.35, 1),
+        opacity 0.2s ease;
+    }
+
+    .memory-page img {
+      display: block;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /*
+      The pages are stacked.
+
+      Page 1 is on top.
+      When flipped, it rotates away and reveals page 2.
+    */
+
+    .memory-page:nth-child(1) {
+      z-index: 8;
+    }
+
+    .memory-page:nth-child(2) {
+      z-index: 7;
+    }
+
+    .memory-page:nth-child(3) {
+      z-index: 6;
+    }
+
+    .memory-page:nth-child(4) {
+      z-index: 5;
+    }
+
+    .memory-page:nth-child(5) {
+      z-index: 4;
+    }
+
+    .memory-page:nth-child(6) {
+      z-index: 3;
+    }
+
+    .memory-page:nth-child(7) {
+      z-index: 2;
+    }
+
+    .memory-page:nth-child(8) {
+      z-index: 1;
+    }
+
+    .memory-page.flipped {
+      transform: rotateY(-180deg);
+    }
+
+
+    /* =========================================================
+       MEMORY BOOK CONTROLS
+       ========================================================= */
+
+    .memory-counter {
+      position: absolute;
+
+      left: 50%;
+
+      bottom: 14px;
+
+      transform: translateX(-50%);
+
+      z-index: 30;
+
+      padding: 5px 9px;
+
+      border-radius: 999px;
+
+      background: rgba(255, 250, 238, 0.72);
+
+      backdrop-filter: blur(4px);
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 0.75rem;
+
+      color: #625344;
+
+      pointer-events: none;
+    }
+
+    .memory-hint {
+      position: absolute;
+
+      left: 50%;
+
+      bottom: 38px;
+
+      transform: translateX(-50%);
+
+      z-index: 30;
+
+      white-space: nowrap;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 0.75rem;
+
+      color: #685746;
+
+      opacity: 0.85;
+
+      pointer-events: none;
+
+      animation: hintFloat 2s ease-in-out infinite;
+    }
+
+    @keyframes hintFloat {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(-4px);
+      }
+    }
+
+    .memory-next-button {
+      position: absolute;
+
+      right: 13px;
+      bottom: 13px;
+
+      z-index: 40;
+
+      border: 1px solid rgba(79, 62, 46, 0.35);
+
+      background: rgba(255, 250, 239, 0.78);
+
+      color: #4d3e31;
+
+      border-radius: 999px;
+
+      padding: 8px 13px;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 0.75rem;
+
+      cursor: pointer;
+
+      backdrop-filter: blur(4px);
+    }
+
+    .memory-next-button:active {
+      transform: scale(0.95);
+    }
+
+
+    /* =========================================================
+       FUTURE SECTION PLACEHOLDER
+
+       We can replace this with your next actual page later.
+       ========================================================= */
+
+    #after-memories {
+      background: #f8efdf;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+    }
+
+    .after-content {
+      width: 82%;
+    }
+
+    .after-content h2 {
+      margin: 0;
+
+      font-family: "IceCream", cursive;
+
+      font-size: 3rem;
+
+      color: #49392d;
+    }
+
+    .after-content p {
+      font-family: "InternetFriends", cursive;
+
+      font-size: 1.15rem;
+
+      color: #5c4b3b;
+    }
+
+
+    /* =========================================================
+       SMALL PHONES
+       ========================================================= */
+
+    @media (max-width: 360px) {
+      .birthday-photo-wrap {
+        width: 62%;
+      }
+
+      .birthday-message {
+        font-size: 0.95rem;
+      }
+
+      .memory-next-button {
+        right: 8px;
+        bottom: 8px;
+      }
+
+      .memory-counter {
+        bottom: 9px;
+      }
+
+      .memory-hint {
+        bottom: 31px;
+      }
+    }
+
+
+    /* =========================================================
+       DESKTOP
+
+       Keep the actual site portrait-sized.
+       ========================================================= */
+
+    @media (min-width: 700px) {
+      body {
+        background:
+          radial-gradient(
+            circle at center,
+            #fffaf0 0%,
+            #eadfca 100%
+          );
+      }
+
+      #site {
+        width: 430px;
+
+        /*
+          The 2:3 image pages should remain portrait.
+          This gives the whole experience a phone-like
+          presentation on laptop.
+        */
+
+        height: min(100svh, 645px);
+
+        box-shadow:
+          0 20px 60px rgba(70, 52, 35, 0.18);
+
+        border-radius: 2px;
+      }
+    }
+  </style>
 </head>
+
 
 <body>
 
-  <!-- ==================================================
-       PAGE 1 — COVER
-  ================================================== -->
+  <div id="site">
 
-  <main class="cover" id="cover">
 
-    <!-- Handwritten decorations -->
-    <div class="squiggle squiggle-one" aria-hidden="true">〰</div>
-    <div class="squiggle squiggle-two" aria-hidden="true">〰</div>
-    <div class="squiggle squiggle-three" aria-hidden="true">〰</div>
-    <div class="squiggle squiggle-four" aria-hidden="true">〰</div>
+    <!-- =====================================================
+         PAGE 1
+         ===================================================== -->
 
-    <section class="cover-content">
+    <section
+      class="screen active"
+      id="cover"
+      aria-label="Birthday introduction"
+    >
 
-      <p class="date">09.28.26</p>
+      <div class="cover-overlay"></div>
 
-      <div class="message">
+      <div class="cover-squiggle squiggle-1">〰 ♡</div>
+      <div class="cover-squiggle squiggle-2">✦ 〰</div>
+      <div class="cover-squiggle squiggle-3">♡ 〰</div>
+      <div class="cover-squiggle squiggle-4">✦ ♡</div>
 
-        <h1>
+      <div class="cover-content">
+
+        <p class="date">
+          09.28.26
+        </p>
+
+        <p class="cover-small">
           psst... hey, you.
-          <span class="yellow-heart">♥</span>
-        </h1>
+          <span class="heart">♥</span>
+        </p>
 
-        <p>
+        <p class="cover-message">
           there's something waiting for you inside.
         </p>
 
-      </div>
+        <button
+          class="open-button"
+          id="openButton"
+          type="button"
+        >
+          CLICK ME
+          <span class="button-heart">♡</span>
+        </button>
 
-      <button
-        class="open-button"
-        id="openButton"
-        type="button"
-      >
-        <span>CLICK ME</span>
-        <span class="button-heart">♡</span>
-      </button>
+      </div>
 
     </section>
 
-  </main>
 
+    <!-- =====================================================
+         PAGE 2
+         ===================================================== -->
 
-  <!-- ==================================================
-       PAGE 2 — BIRTHDAY REVEAL
-  ================================================== -->
-
-  <section
-    class="birthday-page"
-    id="page2"
-    aria-hidden="true"
-  >
-
-    <!-- Subtle paper texture -->
-    <div
-      class="paper-grain"
-      aria-hidden="true"
-    ></div>
-
-    <!-- Decorative scribbles -->
-    <div
-      class="scribble top-scribble"
-      aria-hidden="true"
+    <section
+      class="screen"
+      id="birthday"
+      aria-label="Happy Birthday Nicole"
     >
-      ✦ 〰 ✦
-    </div>
 
-    <div
-      class="scribble bottom-scribble"
-      aria-hidden="true"
-    >
-      ♡ 〰
-    </div>
+      <div class="birthday-inner">
 
+        <p class="birthday-intro">
+          look who's getting older... 😭
+        </p>
 
-    <div class="birthday-inner">
-
-      <!-- Little opening line -->
-      <p class="little-intro">
-        look who's getting older... <span>😭</span>
-      </p>
-
-
-      <!-- Birthday title -->
-      <div class="birthday-heading">
-
-        <span class="tiny-label">
+        <p class="birthday-label">
           TODAY IS ALL ABOUT YOU
-        </span>
+        </p>
 
-        <h2>
+        <h1 class="birthday-title">
           HAPPY<br>
-          <span>BIRTHDAY,</span>
+          BIRTHDAY,
+        </h1>
+
+        <h2 class="birthday-name">
+          NICOLE <span>♥</span>
         </h2>
 
-        <h3>
-          NICOLE <span>♥</span>
-        </h3>
 
-      </div>
-
-
-      <!-- Childhood photo -->
-      <div class="memory-photo-wrap">
-
-        <div class="photo-card">
+        <div class="birthday-photo-wrap">
 
           <img
-            class="childhood-photo"
+            class="birthday-photo"
             src="assets/childhood-photo.png"
             alt="Nicole and her friend as children"
-          />
+          >
 
-          <p class="photo-caption">
+          <p class="birthday-caption">
             look at us 🥹
           </p>
 
         </div>
 
-        <!-- Tape -->
-        <span
-          class="tape tape-left"
-          aria-hidden="true"
-        ></span>
 
-        <span
-          class="tape tape-right"
-          aria-hidden="true"
-        ></span>
+        <div class="birthday-message">
 
-      </div>
+          <p>
+            another year of you.
+          </p>
+
+          <p>
+            and i'm really glad i get to be here for it.
+            <span class="birthday-heart">♡</span>
+          </p>
+
+        </div>
 
 
-      <!-- Birthday message -->
-      <div class="birthday-message">
-
-        <p>
-          another year of you.
-        </p>
-
-        <p>
-          and i'm really glad to be here for it.
-          <span>♡</span>
+        <p class="birthday-next">
+          click anywhere to keep going ↓
         </p>
 
       </div>
 
+    </section>
 
-      <!-- Hint that the website continues -->
+
+    <!-- =====================================================
+         PAGE 3 — MEMORY BOOK
+         ===================================================== -->
+
+    <section
+      class="screen"
+      id="memories"
+      aria-label="Our memories"
+    >
+
+      <div
+        class="memory-book"
+        id="memoryBook"
+      >
+
+        <!-- PAGE 1 -->
+        <div class="memory-page">
+          <img
+            src="assets/1.png"
+            alt="Memory page 1"
+            draggable="false"
+          >
+        </div>
+
+        <!-- PAGE 2 -->
+        <div class="memory-page">
+          <img
+            src="assets/2.png"
+            alt="Memory page 2"
+            draggable="false"
+          >
+        </div>
+
+        <!-- PAGE 3 -->
+        <div class="memory-page">
+          <img
+            src="assets/3.png"
+            alt="Memory page 3"
+            draggable="false"
+          >
+        </div>
+
+        <!-- PAGE 4 -->
+        <div class="memory-page">
+          <img
+            src="assets/4.png"
+            alt="Memory page 4"
+            draggable="false"
+          >
+        </div>
+
+        <!-- PAGE 5 -->
+        <div class="memory-page">
+          <img
+            src="assets/5.png"
+            alt="Memory page 5"
+            draggable="false"
+          >
+        </div>
+
+        <!-- PAGE 6 -->
+        <div class="memory-page">
+          <img
+            src="assets/6.png"
+            alt="Memory page 6"
+            draggable="false"
+          >
+        </div>
+
+        <!-- PAGE 7 -->
+        <div class="memory-page">
+          <img
+            src="assets/7(1).png"
+            alt="Memory page 7"
+            draggable="false"
+          >
+        </div>
+
+        <!-- PAGE 8 -->
+        <div class="memory-page">
+          <img
+            src="assets/8.png"
+            alt="Memory page 8"
+            draggable="false"
+          >
+        </div>
+
+      </div>
+
+
+      <!-- page number -->
+
+      <div
+        class="memory-counter"
+        id="memoryCounter"
+      >
+        1 / 8
+      </div>
+
+
+      <!-- little instruction -->
+
+      <div
+        class="memory-hint"
+        id="memoryHint"
+      >
+        click to turn the page ♡
+      </div>
+
+
+      <!-- explicit next button -->
+
       <button
-  class="continue-hint"
-  id="goToMemories"
-  type="button"
->
-  there's more waiting... ↓
-</button>
+        class="memory-next-button"
+        id="memoryNext"
+        type="button"
+      >
+        NEXT →
+      </button>
 
-    </div>
-
-  </section>
+    </section>
 
 
-  <!-- ==================================================
-       MUSIC
-  ================================================== -->
+    <!-- =====================================================
+         TEMPORARY PAGE AFTER MEMORIES
+         ===================================================== -->
 
-  <audio
-    id="birthdayMusic"
-    preload="auto"
-    loop
-  >
-    <source
-      src="assets/take-our-time.mp3"
-      type="audio/mpeg"
-    />
-  </audio>
-
-<!-- =========================
-     PAGE 3 — MEMORY BOOK
-========================= -->
-
-<section class="memory-book-page" id="page3" aria-hidden="true">
-
-  <div class="memory-background-doodles">
-    <span>✦</span>
-    <span>♡</span>
-    <span>〰</span>
-    <span>✦</span>
-  </div>
-
-  <div class="memory-header">
-    <p class="memory-small-title">a little trip down memory lane...</p>
-    <h2>some memories ♡</h2>
-  </div>
-
-  <div class="book-area">
-
-    <button
-      class="book-arrow book-prev"
-      id="memoryPrev"
-      type="button"
-      aria-label="Previous memory"
+    <section
+      class="screen"
+      id="after-memories"
     >
-      ←
-    </button>
 
-    <div class="memory-book" id="memoryBook">
+      <div class="after-content">
 
-      <div class="book-page book-page-back"></div>
+        <h2>
+          and there's more ♡
+        </h2>
 
-      <div class="book-page book-page-front" id="memoryPage">
-        <img
-          id="memoryImage"
-          src="assets/memory-1.png"
-          alt="Memory page 1"
-        />
+        <p>
+          next section coming soon...
+        </p>
+
       </div>
 
-    </div>
+    </section>
 
-    <button
-      class="book-arrow book-next"
-      id="memoryNext"
-      type="button"
-      aria-label="Next memory"
+
+    <!-- =====================================================
+         MUSIC
+         ===================================================== -->
+
+    <audio
+      id="birthdayMusic"
+      preload="auto"
+      loop
     >
-      →
-    </button>
+      <source
+        src="assets/take-our-time.mp3"
+        type="audio/mpeg"
+      >
+    </audio>
+
 
   </div>
 
-  <div class="memory-controls">
 
-    <p class="memory-page-number">
-      <span id="memoryNumber">1</span> / 8
-    </p>
+  <script>
 
-    <p class="memory-hint" id="memoryHint">
-      click the arrow to turn the page ♡
-    </p>
+    /* =========================================================
+       ELEMENTS
+       ========================================================= */
 
-    <button
-      class="memory-continue"
-      id="memoryContinue"
-      type="button"
-    >
-      KEEP GOING ♡
-    </button>
+    const cover =
+      document.getElementById("cover");
 
-  </div>
+    const birthday =
+      document.getElementById("birthday");
 
-</section>
-  <script src="script.js"></script>
+    const memories =
+      document.getElementById("memories");
+
+    const afterMemories =
+      document.getElementById("after-memories");
+
+    const openButton =
+      document.getElementById("openButton");
+
+    const birthdayMusic =
+      document.getElementById("birthdayMusic");
+
+    const birthdayInner =
+      document.querySelector(".birthday-inner");
+
+    const memoryPages =
+      document.querySelectorAll(".memory-page");
+
+    const memoryCounter =
+      document.getElementById("memoryCounter");
+
+    const memoryHint =
+      document.getElementById("memoryHint");
+
+    const memoryNext =
+      document.getElementById("memoryNext");
+
+
+    /* =========================================================
+       CURRENT SCREEN
+       ========================================================= */
+
+    let currentScreen = "cover";
+
+
+    function showScreen(screen) {
+
+      document
+        .querySelectorAll(".screen")
+        .forEach((element) => {
+
+          element.classList.remove("active");
+
+        });
+
+
+      screen.classList.add("active");
+
+      currentScreen =
+        screen.id;
+
+    }
+
+
+    /* =========================================================
+       PAGE 1 → PAGE 2
+       ========================================================= */
+
+    openButton.addEventListener(
+      "click",
+      async () => {
+
+        /*
+          Music starts here because this click counts
+          as a user interaction.
+        */
+
+        try {
+
+          await birthdayMusic.play();
+
+        } catch (error) {
+
+          console.log(
+            "Music playback was blocked."
+          );
+
+        }
+
+
+        showScreen(birthday);
+
+      }
+    );
+
+
+    /* =========================================================
+       PAGE 2 → MEMORY BOOK
+       ========================================================= */
+
+    birthdayInner.addEventListener(
+      "click",
+      () => {
+
+        showScreen(memories);
+
+      }
+    );
+
+
+    /* =========================================================
+       MEMORY BOOK
+       ========================================================= */
+
+    let currentMemory =
+      0;
+
+
+    function updateMemoryUI() {
+
+      memoryCounter.textContent =
+        `${currentMemory + 1} / ${memoryPages.length}`;
+
+
+      if (
+        currentMemory ===
+        memoryPages.length - 1
+      ) {
+
+        memoryHint.textContent =
+          "one more click... ♡";
+
+        memoryNext.textContent =
+          "FINISH →";
+
+      } else {
+
+        memoryHint.textContent =
+          "click to turn the page ♡";
+
+        memoryNext.textContent =
+          "NEXT →";
+
+      }
+
+    }
+
+
+    function turnNextPage() {
+
+      /*
+        If there are still memory pages left,
+        flip the current page away.
+      */
+
+      if (
+        currentMemory <
+        memoryPages.length - 1
+      ) {
+
+        memoryPages[
+          currentMemory
+        ].classList.add("flipped");
+
+        currentMemory++;
+
+        updateMemoryUI();
+
+        return;
+
+      }
+
+
+      /*
+        After page 8, move forward.
+        We'll replace this section with your
+        next real page when we build it.
+      */
+
+      showScreen(afterMemories);
+
+    }
+
+
+    /* =========================================================
+       CLICK THE MEMORY PAGE
+       ========================================================= */
+
+    memories.addEventListener(
+      "click",
+      (event) => {
+
+        /*
+          Don't double-trigger if the actual NEXT
+          button was clicked.
+        */
+
+        if (
+          event.target ===
+          memoryNext
+        ) {
+
+          return;
+
+        }
+
+        turnNextPage();
+
+      }
+    );
+
+
+    /* =========================================================
+       NEXT BUTTON
+       ========================================================= */
+
+    memoryNext.addEventListener(
+      "click",
+      (event) => {
+
+        event.stopPropagation();
+
+        turnNextPage();
+
+      }
+    );
+
+
+    /* =========================================================
+       KEYBOARD SUPPORT
+       ========================================================= */
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (
+          event.key === "Enter" ||
+          event.key === "ArrowRight" ||
+          event.key === " "
+        ) {
+
+          if (
+            currentScreen ===
+            "cover"
+          ) {
+
+            openButton.click();
+
+          }
+
+          else if (
+            currentScreen ===
+            "birthday"
+          ) {
+
+            showScreen(memories);
+
+          }
+
+          else if (
+            currentScreen ===
+            "memories"
+          ) {
+
+            turnNextPage();
+
+          }
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       INITIAL MEMORY STATE
+       ========================================================= */
+
+    updateMemoryUI();
+
+  </script>
 
 </body>
 </html>
