@@ -5,60 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#fff8e9" />
   <title>For Nicole ♡</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
+  <!-- PAGE 1 -->
   <main class="cover" id="cover">
-
-    <!-- subtle handwritten decorations -->
     <div class="squiggle squiggle-one" aria-hidden="true">〰</div>
     <div class="squiggle squiggle-two" aria-hidden="true">〰</div>
     <div class="squiggle squiggle-three" aria-hidden="true">〰</div>
     <div class="squiggle squiggle-four" aria-hidden="true">〰</div>
 
     <section class="cover-content">
-
       <p class="date">09.28.26</p>
-
       <div class="message">
-        <h1>
-          psst... hey, you.
-          <span class="yellow-heart">💛</span>
-        </h1>
-
-        <p>
-          there's something waiting for you inside.
-        </p>
+        <h1>psst... hey, you. <span class="yellow-heart">♥</span></h1>
+        <p>there's something waiting for you inside.</p>
       </div>
-
       <button class="open-button" id="openButton" type="button">
-        <span>CLICK ME</span>
-        <span class="button-heart">♡</span>
+        <span>CLICK ME</span><span class="button-heart">♡</span>
       </button>
-
     </section>
   </main>
 
+  <!-- PAGE 2 -->
+  <section class="birthday-page" id="page2" aria-hidden="true">
+    <div class="paper-grain" aria-hidden="true"></div>
+    <div class="scribble top-scribble" aria-hidden="true">✦ 〰 ✦</div>
+    <div class="scribble bottom-scribble" aria-hidden="true">♡ 〰</div>
 
-  <!-- Temporary Page 2 -->
-  <section class="page-placeholder" id="page2" aria-hidden="true">
+    <div class="birthday-inner">
+      <p class="little-intro">look who's getting older... <span>😭</span></p>
 
-    <div>
-      <p>Page 2 goes here ♡</p>
-      <small>Your birthday surprise is still being made...</small>
+      <div class="birthday-heading">
+        <span class="tiny-label">TODAY IS ALL ABOUT YOU</span>
+        <h2>HAPPY<br><span>BIRTHDAY,</span></h2>
+        <h3>NICOLE <span>♥</span></h3>
+      </div>
+
+      <div class="memory-photo-wrap">
+        <!-- Replace this file with your childhood photo: assets/childhood-photo.jpg -->
+        <div class="photo-card">
+          <img class="childhood-photo" src="assets/childhood-photo.png" alt="Nicole and her friend as children" />
+          <p class="photo-caption">look at us 🥹</p>
+        </div>
+        <span class="tape tape-left" aria-hidden="true"></span>
+        <span class="tape tape-right" aria-hidden="true"></span>
+      </div>
+
+      <div class="birthday-message">
+        <p>another year of you.</p>
+        <p>and i'm really glad to be here for it. <span>♡</span></p>
+      </div>
+
+      <div class="continue-hint">there's more waiting... ↓</div>
     </div>
-
   </section>
 
+  <audio id="birthdayMusic" preload="auto" loop>
+    <source src="assets/take-our-time.mp3" type="audio/mpeg" />
+  </audio>
 
   <script src="script.js"></script>
-
 </body>
 </html>
