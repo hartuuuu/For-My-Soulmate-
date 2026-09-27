@@ -194,7 +194,81 @@
     />
   </audio>
 
+<!-- =========================
+     PAGE 3 — MEMORY BOOK
+========================= -->
 
+<section class="memory-book-page" id="page3" aria-hidden="true">
+
+  <div class="memory-background-doodles">
+    <span>✦</span>
+    <span>♡</span>
+    <span>〰</span>
+    <span>✦</span>
+  </div>
+
+  <div class="memory-header">
+    <p class="memory-small-title">a little trip down memory lane...</p>
+    <h2>some memories ♡</h2>
+  </div>
+
+  <div class="book-area">
+
+    <button
+      class="book-arrow book-prev"
+      id="memoryPrev"
+      type="button"
+      aria-label="Previous memory"
+    >
+      ←
+    </button>
+
+    <div class="memory-book" id="memoryBook">
+
+      <div class="book-page book-page-back"></div>
+
+      <div class="book-page book-page-front" id="memoryPage">
+        <img
+          id="memoryImage"
+          src="assets/memory-1.png"
+          alt="Memory page 1"
+        />
+      </div>
+
+    </div>
+
+    <button
+      class="book-arrow book-next"
+      id="memoryNext"
+      type="button"
+      aria-label="Next memory"
+    >
+      →
+    </button>
+
+  </div>
+
+  <div class="memory-controls">
+
+    <p class="memory-page-number">
+      <span id="memoryNumber">1</span> / 8
+    </p>
+
+    <p class="memory-hint" id="memoryHint">
+      click the arrow to turn the page ♡
+    </p>
+
+    <button
+      class="memory-continue"
+      id="memoryContinue"
+      type="button"
+    >
+      KEEP GOING ♡
+    </button>
+
+  </div>
+
+</section>
   <script src="script.js"></script>
 
 </body>
