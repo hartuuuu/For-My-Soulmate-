@@ -1,0 +1,439 @@
+:root {
+  --cream: #fff8e9;
+  --brown: #5e5042;
+  --soft-brown: #806f5e;
+  --yellow: #f1c75b;
+  --button-bg: rgba(255, 250, 238, 0.82);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background: var(--cream);
+  color: var(--brown);
+  font-family: "Caveat", cursive;
+  overflow-x: hidden;
+}
+
+
+/* =========================
+   PAGE 1 — COVER
+   ========================= */
+
+.cover {
+  position: relative;
+  min-height: 100svh;
+  width: 100%;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  /* YOUR SUNFLOWER IMAGE */
+  background-image: url("assets/background.png");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  opacity: 1;
+  transform: scale(1);
+
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
+}
+
+
+/* very subtle overlay */
+.cover::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: rgba(255, 249, 232, 0.025);
+
+  pointer-events: none;
+}
+
+
+/* =========================
+   CONTENT
+   ========================= */
+
+.cover-content {
+  position: relative;
+  z-index: 3;
+
+  width: min(90%, 700px);
+  min-height: 100svh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 2rem 1.5rem;
+}
+
+
+/* =========================
+   DATE
+   ========================= */
+
+.date {
+  position: absolute;
+
+  top: clamp(28px, 6vh, 65px);
+
+  margin: 0;
+
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
+
+  letter-spacing: 0.12em;
+
+  color: var(--soft-brown);
+
+  opacity: 0.85;
+}
+
+
+/* =========================
+   MAIN MESSAGE
+   ========================= */
+
+.message {
+  padding: 1.5rem 1.8rem;
+
+  border-radius: 50%;
+
+  background: rgba(255, 253, 247, 0.08);
+
+  text-shadow:
+    0 1px 10px rgba(255, 255, 255, 0.45);
+}
+
+.message h1 {
+  margin: 0;
+
+  font-size: clamp(3.1rem, 9vw, 6rem);
+
+  font-weight: 500;
+
+  line-height: 0.95;
+
+  letter-spacing: 0.01em;
+
+  color: var(--brown);
+}
+
+.yellow-heart {
+  display: inline-block;
+
+  font-size: 0.72em;
+
+  transform: translateY(-0.04em);
+
+  filter:
+    drop-shadow(
+      0 2px 5px rgba(180, 140, 50, 0.16)
+    );
+}
+
+.message p {
+  margin: 1.25rem 0 0;
+
+  font-size: clamp(1.35rem, 4vw, 2rem);
+
+  line-height: 1.1;
+
+  color: var(--soft-brown);
+}
+
+
+/* =========================
+   BUTTON
+   ========================= */
+
+.open-button {
+  margin-top: clamp(2.4rem, 6vh, 4rem);
+
+  padding: 0.9rem 1.65rem 1rem;
+
+  border: 1px solid rgba(126, 106, 78, 0.26);
+
+  border-radius: 999px;
+
+  background: var(--button-bg);
+
+  color: var(--brown);
+
+  font-family: inherit;
+
+  font-size: clamp(1.35rem, 3.5vw, 1.8rem);
+
+  letter-spacing: 0.05em;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 25px rgba(111, 91, 62, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease;
+}
+
+
+.open-button:hover,
+.open-button:focus-visible {
+  transform: translateY(-2px);
+
+  background: rgba(255, 252, 241, 0.95);
+
+  box-shadow:
+    0 0 0 6px rgba(241, 199, 91, 0.10),
+    0 10px 32px rgba(111, 91, 62, 0.13);
+
+  outline: none;
+}
+
+
+.open-button:active {
+  transform: scale(0.98);
+}
+
+
+.button-heart {
+  display: inline-block;
+
+  margin-left: 0.25em;
+
+  font-size: 1.05em;
+
+  transition: transform 220ms ease;
+}
+
+
+.open-button:hover .button-heart,
+.open-button:focus-visible .button-heart {
+  transform: scale(1.12);
+}
+
+
+/* =========================
+   HANDWRITTEN SQUIGGLES
+   ========================= */
+
+.squiggle {
+  position: absolute;
+
+  z-index: 2;
+
+  font-family: "Caveat", cursive;
+
+  font-size: clamp(3rem, 8vw, 5rem);
+
+  line-height: 1;
+
+  color: #c99f45;
+
+  opacity: 0.65;
+
+  user-select: none;
+
+  pointer-events: none;
+
+  animation:
+    barelyFloat 7s ease-in-out infinite;
+}
+
+
+.squiggle-one {
+  top: 18%;
+  left: 10%;
+
+  transform: rotate(-12deg);
+}
+
+
+.squiggle-two {
+  top: 29%;
+  right: 11%;
+
+  transform: rotate(14deg);
+
+  animation-delay: -2s;
+}
+
+
+.squiggle-three {
+  bottom: 19%;
+  left: 14%;
+
+  transform: rotate(8deg);
+
+  animation-delay: -4s;
+}
+
+
+.squiggle-four {
+  bottom: 12%;
+  right: 13%;
+
+  transform: rotate(-10deg);
+
+  animation-delay: -1s;
+}
+
+
+@keyframes barelyFloat {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(-10deg);
+  }
+
+  50% {
+    transform: translateY(-5px) rotate(-7deg);
+  }
+
+}
+
+
+/* =========================
+   PAGE 1 EXIT
+   ========================= */
+
+.cover.leaving {
+  opacity: 0;
+
+  transform: scale(1.015);
+}
+
+
+/* =========================
+   TEMPORARY PAGE 2
+   ========================= */
+
+.page-placeholder {
+  min-height: 100svh;
+
+  display: grid;
+  place-items: center;
+
+  text-align: center;
+
+  padding: 2rem;
+
+  background: var(--cream);
+
+  color: var(--brown);
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  pointer-events: none;
+}
+
+
+.page-placeholder.show {
+  opacity: 1;
+
+  visibility: visible;
+
+  pointer-events: auto;
+}
+
+
+.page-placeholder p {
+  margin: 0 0 0.4rem;
+
+  font-size: clamp(2.5rem, 8vw, 5rem);
+}
+
+
+.page-placeholder small {
+  font-size: 1.2rem;
+
+  opacity: 0.7;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 600px) {
+
+  .cover {
+    background-position: center center;
+  }
+
+  .cover-content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .message {
+    padding: 1.2rem 1rem;
+  }
+
+  .message h1 {
+    font-size: clamp(2.8rem, 13vw, 4.3rem);
+  }
+
+  .message p {
+    max-width: 280px;
+  }
+
+  .open-button {
+    margin-top: 2.5rem;
+  }
+
+  .squiggle-one {
+    left: 3%;
+  }
+
+  .squiggle-two {
+    right: 3%;
+  }
+
+  .squiggle-three {
+    left: 4%;
+  }
+
+  .squiggle-four {
+    right: 4%;
+  }
+}
+
+
+/* accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .squiggle,
+  .open-button,
+  .button-heart {
+    animation: none;
+    transition: none;
+  }
+
+}
