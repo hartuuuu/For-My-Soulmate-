@@ -848,6 +848,14 @@ body {
 }
 
 .memory-book-page.show {
+  visibility: visible;
+}
+
+.memory-book-page:not(.show) {
+  visibility: hidden;
+}
+    
+.memory-book-page.show {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
