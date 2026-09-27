@@ -1048,7 +1048,13 @@ body {
   width: 100%;
   height: 100%;
 
-  object-fit: cover;
+  /*
+    SHOW THE ENTIRE DESIGN.
+    Do NOT crop it.
+  */
+  object-fit: contain;
+
+  background: #fffdf8;
 }
 
 
