@@ -11,6 +11,7 @@
   <title>A Little Something for You ♡</title>
 
   <style>
+
     /* =========================================================
        FONTS
        ========================================================= */
@@ -33,7 +34,7 @@
 
 
     /* =========================================================
-       BASIC RESET
+       RESET
        ========================================================= */
 
     * {
@@ -63,13 +64,7 @@
 
 
     /* =========================================================
-       THE PORTRAIT SITE
-
-       Desktop:
-       sits in the middle like a phone/portrait page.
-
-       Phone:
-       expands to the available screen.
+       PORTRAIT SITE
        ========================================================= */
 
     #site {
@@ -89,7 +84,7 @@
 
 
     /* =========================================================
-       GENERAL PAGE SYSTEM
+       GENERAL SCREEN SYSTEM
        ========================================================= */
 
     .screen {
@@ -124,6 +119,7 @@
 
     #cover {
       background-image: url("assets/background.png");
+
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -225,6 +221,7 @@
 
     .open-button:hover {
       transform: translateY(-2px);
+
       background: rgba(255, 255, 255, 0.9);
     }
 
@@ -425,10 +422,6 @@
       justify-content: center;
     }
 
-    /*
-      The book itself stays portrait-sized.
-    */
-
     .memory-book {
       position: relative;
 
@@ -441,11 +434,6 @@
 
     /* =========================================================
        MEMORY PAGES
-
-       Each image is one entire page.
-
-       The images are 1389 x 1964, so we preserve their
-       original portrait ratio.
        ========================================================= */
 
     .memory-page {
@@ -479,15 +467,12 @@
       object-fit: contain;
 
       user-select: none;
+
       -webkit-user-drag: none;
     }
 
-    /*
-      The pages are stacked.
 
-      Page 1 is on top.
-      When flipped, it rotates away and reveals page 2.
-    */
+    /* page stacking */
 
     .memory-page:nth-child(1) {
       z-index: 8;
@@ -527,14 +512,13 @@
 
 
     /* =========================================================
-       MEMORY BOOK CONTROLS
+       MEMORY CONTROLS
        ========================================================= */
 
     .memory-counter {
       position: absolute;
 
       left: 50%;
-
       bottom: 14px;
 
       transform: translateX(-50%);
@@ -562,7 +546,6 @@
       position: absolute;
 
       left: 50%;
-
       bottom: 38px;
 
       transform: translateX(-50%);
@@ -585,13 +568,20 @@
     }
 
     @keyframes hintFloat {
-      0%, 100% {
-        transform: translateX(-50%) translateY(0);
+
+      0%,
+      100% {
+        transform:
+          translateX(-50%)
+          translateY(0);
       }
 
       50% {
-        transform: translateX(-50%) translateY(-4px);
+        transform:
+          translateX(-50%)
+          translateY(-4px);
       }
+
     }
 
     .memory-next-button {
@@ -627,9 +617,7 @@
 
 
     /* =========================================================
-       FUTURE SECTION PLACEHOLDER
-
-       We can replace this with your next actual page later.
+       TEMPORARY NEXT PAGE
        ========================================================= */
 
     #after-memories {
@@ -670,6 +658,7 @@
        ========================================================= */
 
     @media (max-width: 360px) {
+
       .birthday-photo-wrap {
         width: 62%;
       }
@@ -690,16 +679,16 @@
       .memory-hint {
         bottom: 31px;
       }
+
     }
 
 
     /* =========================================================
-       DESKTOP
-
-       Keep the actual site portrait-sized.
+       LAPTOP / DESKTOP
        ========================================================= */
 
     @media (min-width: 700px) {
+
       body {
         background:
           radial-gradient(
@@ -712,12 +701,6 @@
       #site {
         width: 430px;
 
-        /*
-          The 2:3 image pages should remain portrait.
-          This gives the whole experience a phone-like
-          presentation on laptop.
-        */
-
         height: min(100svh, 645px);
 
         box-shadow:
@@ -725,7 +708,9 @@
 
         border-radius: 2px;
       }
+
     }
+
   </style>
 </head>
 
@@ -747,10 +732,22 @@
 
       <div class="cover-overlay"></div>
 
-      <div class="cover-squiggle squiggle-1">〰 ♡</div>
-      <div class="cover-squiggle squiggle-2">✦ 〰</div>
-      <div class="cover-squiggle squiggle-3">♡ 〰</div>
-      <div class="cover-squiggle squiggle-4">✦ ♡</div>
+      <div class="cover-squiggle squiggle-1">
+        〰 ♡
+      </div>
+
+      <div class="cover-squiggle squiggle-2">
+        ✦ 〰
+      </div>
+
+      <div class="cover-squiggle squiggle-3">
+        ♡ 〰
+      </div>
+
+      <div class="cover-squiggle squiggle-4">
+        ✦ ♡
+      </div>
+
 
       <div class="cover-content">
 
@@ -864,82 +861,114 @@
         id="memoryBook"
       >
 
-        <!-- PAGE 1 -->
+
+        <!-- MEMORY 1 -->
+
         <div class="memory-page">
+
           <img
-            src="assets/1.png"
+            src="assets/memory-1.png"
             alt="Memory page 1"
             draggable="false"
           >
+
         </div>
 
-        <!-- PAGE 2 -->
+
+        <!-- MEMORY 2 -->
+
         <div class="memory-page">
+
           <img
-            src="assets/2.png"
+            src="assets/memory-2.png"
             alt="Memory page 2"
             draggable="false"
           >
+
         </div>
 
-        <!-- PAGE 3 -->
+
+        <!-- MEMORY 3 -->
+
         <div class="memory-page">
+
           <img
-            src="assets/3.png"
+            src="assets/memory-3.png"
             alt="Memory page 3"
             draggable="false"
           >
+
         </div>
 
-        <!-- PAGE 4 -->
+
+        <!-- MEMORY 4 -->
+
         <div class="memory-page">
+
           <img
-            src="assets/4.png"
+            src="assets/memory-4.png"
             alt="Memory page 4"
             draggable="false"
           >
+
         </div>
 
-        <!-- PAGE 5 -->
+
+        <!-- MEMORY 5 -->
+
         <div class="memory-page">
+
           <img
-            src="assets/5.png"
+            src="assets/memory-5.png"
             alt="Memory page 5"
             draggable="false"
           >
+
         </div>
 
-        <!-- PAGE 6 -->
+
+        <!-- MEMORY 6 -->
+
         <div class="memory-page">
+
           <img
-            src="assets/6.png"
+            src="assets/memory-6.png"
             alt="Memory page 6"
             draggable="false"
           >
+
         </div>
 
-        <!-- PAGE 7 -->
+
+        <!-- MEMORY 7 -->
+
         <div class="memory-page">
+
           <img
-            src="assets/7(1).png"
+            src="assets/memory-7.png"
             alt="Memory page 7"
             draggable="false"
           >
+
         </div>
 
-        <!-- PAGE 8 -->
+
+        <!-- MEMORY 8 -->
+
         <div class="memory-page">
+
           <img
-            src="assets/8.png"
+            src="assets/memory-8.png"
             alt="Memory page 8"
             draggable="false"
           >
+
         </div>
 
       </div>
 
 
-      <!-- page number -->
+      <!-- MEMORY COUNTER -->
 
       <div
         class="memory-counter"
@@ -949,7 +978,7 @@
       </div>
 
 
-      <!-- little instruction -->
+      <!-- MEMORY HINT -->
 
       <div
         class="memory-hint"
@@ -959,7 +988,7 @@
       </div>
 
 
-      <!-- explicit next button -->
+      <!-- NEXT BUTTON -->
 
       <button
         class="memory-next-button"
@@ -973,7 +1002,7 @@
 
 
     <!-- =====================================================
-         TEMPORARY PAGE AFTER MEMORIES
+         TEMPORARY PAGE AFTER MEMORY 8
          ===================================================== -->
 
     <section
@@ -1005,10 +1034,12 @@
       preload="auto"
       loop
     >
+
       <source
         src="assets/take-our-time.mp3"
         type="audio/mpeg"
       >
+
     </audio>
 
 
@@ -1059,7 +1090,8 @@
        CURRENT SCREEN
        ========================================================= */
 
-    let currentScreen = "cover";
+    let currentScreen =
+      "cover";
 
 
     function showScreen(screen) {
@@ -1088,11 +1120,6 @@
     openButton.addEventListener(
       "click",
       async () => {
-
-        /*
-          Music starts here because this click counts
-          as a user interaction.
-        */
 
         try {
 
@@ -1167,11 +1194,6 @@
 
     function turnNextPage() {
 
-      /*
-        If there are still memory pages left,
-        flip the current page away.
-      */
-
       if (
         currentMemory <
         memoryPages.length - 1
@@ -1190,29 +1212,18 @@
       }
 
 
-      /*
-        After page 8, move forward.
-        We'll replace this section with your
-        next real page when we build it.
-      */
-
       showScreen(afterMemories);
 
     }
 
 
     /* =========================================================
-       CLICK THE MEMORY PAGE
+       CLICK MEMORY PAGE
        ========================================================= */
 
     memories.addEventListener(
       "click",
       (event) => {
-
-        /*
-          Don't double-trigger if the actual NEXT
-          button was clicked.
-        */
 
         if (
           event.target ===
@@ -1246,7 +1257,7 @@
 
 
     /* =========================================================
-       KEYBOARD SUPPORT
+       KEYBOARD
        ========================================================= */
 
     document.addEventListener(
@@ -1293,7 +1304,7 @@
 
 
     /* =========================================================
-       INITIAL MEMORY STATE
+       INITIAL STATE
        ========================================================= */
 
     updateMemoryUI();
