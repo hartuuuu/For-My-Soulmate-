@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Little Something For Nicky ♡</title>
+  
+  <!-- Soft Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-cream: #fffdf5;
+      --soft-yellow: #fef0be;
+      --text-color: #5a4e3e;
+      --accent-warm: #e09f3e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: var(--bg-cream);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* Page container with smooth transitions */
+    .page-container {
+      width: 100%;
+      max-width: 500px;
+      min-height: 100vh;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease-in-out;
+    }
+
+    .page-container.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Handwritten font style */
+    .handwriting {
+      font-family: 'Caveat', cursive;
+    }
+
+    /* PAGE 1: COVER SPECIFIC STYLES */
+    #page1 {
+      /* Uses the sunflower image as background overlay */
+      background: linear-gradient(rgba(255, 253, 245, 0.85), rgba(255, 253, 245, 0.85)), url('sunflower.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .polaroid-preview {
+      background: white;
+      padding: 12px 12px 25px 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      border-radius: 4px;
+      transform: rotate(-3deg);
+      margin: 20px 0;
+      max-width: 220px;
+    }
+
+    .polaroid-preview img {
+      width: 100%;
+      border-radius: 2px;
+      filter: blur(3px); /* Subtle blur mystery for cover */
+    }
+
+    /* PAGE 2: IT'S YOUR DAY STYLES */
+    .polaroid-full {
+      background: white;
+      padding: 15px 15px 35px 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      border-radius: 4px;
+      transform: rotate(2deg);
+      margin: 25px 0;
+      max-width: 280px;
+      width: 100%;
+    }
+
+    .polaroid-full img {
+      width: 100%;
+      border-radius: 2px;
+    }
+
+    .polaroid-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      margin-top: 10px;
+      color: #72624d;
+    }
+
+    /* Buttons */
+    .btn-next {
+      background-color: var(--soft-yellow);
+      color: var(--text-color);
+      border: 1px solid #ebd48e;
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transition: all 0.2s ease;
+      margin-top: 20px;
+    }
+
+    .btn-next:hover {
+      transform: scale(1.05);
+      background-color: #fce495;
+    }
+
+    /* Music Floating Button */
+    .music-btn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid #ddd;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Audio -->
+  <audio id="bgMusic" loop>
+    <!-- You can add your audio file link here -->
+    <source src="take-our-time.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="music-btn" onclick="toggleMusic()" title="Play/Pause Song">🎵</button>
+
+  <!-- PAGE 1 — THE COVER -->
+  <div class="page-container active" id="page1">
+    <h2 class="handwriting" style="font-size: 2.5rem; color: var(--accent-warm);">hey, Nicky ♡</h2>
+    <p style="margin-top: 10px; font-size: 1.1rem;">I made a little something for you.</p>
+
+    <!-- Polaroid Preview with Sunflower/Secret vibe -->
+    <div class="polaroid-preview">
+      <img src="sunflower.jpg" alt="Cover Preview">
+    </div>
+
+    <button class="btn-next" onclick="nextPage(2)">✦ click here to see what's inside ✦</button>
+  </div>
+
+  <!-- PAGE 2 — IT'S YOUR DAY! -->
+  <div class="page-container" id="page2">
+    <h1 class="handwriting" style="font-size: 3rem; color: var(--accent-warm);">HAPPY BIRTHDAY! ♡</h1>
+    <p style="font-size: 1.1rem; margin-top: 8px;">
+      another year of you,<br>and I'm really glad I get to be part of it.
+    </p>
+
+    <div class="polaroid-full">
+      <img src="memory1.jpg" alt="Childhood photo with Nicky">
+      <p class="polaroid-caption">one of my favorite memories with you 📸</p>
+    </div>
+
+    <button class="btn-next" onclick="nextPage(3)">keep going →</button>
+  </div>
+
+  <script>
+    // Smooth Page Navigation
+    function nextPage(pageNum) {
+      // Hide all pages
+      const pages = document.querySelectorAll('.page-container');
+      pages.forEach(page => page.classList.remove('active'));
+
+      // Show requested page
+      const targetPage = document.getElementById('page' + pageNum);
+      if (targetPage) {
+        targetPage.classList.add('active');
+      }
+
+      // Automatically play music on first click if paused
+      const music = document.getElementById('bgMusic');
+      if (music && music.paused) {
+        music.play().catch(() => {
+          // Browser audio autoplay policy handler
+        });
+      }
+    }
+
+    // Toggle Music Play/Pause
+    function toggleMusic() {
+      const music = document.getElementById('bgMusic');
+      if (music.paused) {
+        music.play();
+      } else {
+        music.pause();
+      }
+    }
+  </script>
+</body>
+</html>
