@@ -975,15 +975,23 @@ body {
 .memory-book {
   position: relative;
 
-  width: min(72vw, 690px);
+  /*
+    This is our little "phone screen".
+    On a laptop it stays this size.
+    On a phone it shrinks to fit.
+  */
+  width: min(82vw, 390px);
+  height: min(78vh, 690px);
+
   aspect-ratio: 1389 / 1964;
 
   perspective: 1800px;
 
+  flex-shrink: 0;
+
   filter:
     drop-shadow(0 25px 25px rgba(74, 57, 40, 0.22));
 }
-
 
 /* individual page */
 
