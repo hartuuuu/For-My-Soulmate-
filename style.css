@@ -790,6 +790,461 @@ body {
   * {
     animation: none !important;
 
+    /* =========================================
+   CUSTOM FONTS
+========================================= */
+
+@font-face {
+  font-family: "Ice Cream";
+  src: url("assets/Ice Cream.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Internet Friends";
+  src: url("assets/Internet Friends.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+/* =========================================
+   PAGE 3 — MEMORY BOOK
+========================================= */
+
+.memory-book-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 70px 24px 50px;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(255, 236, 169, 0.35),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 80% 75%,
+      rgba(255, 219, 226, 0.3),
+      transparent 30%
+    ),
+    #fff8e8;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(30px);
+
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease;
+}
+
+.memory-book-page.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+
+/* sunflower-ish subtle background texture */
+
+.memory-book-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image: url("assets/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+
+/* =========================================
+   LITTLE DOODLES
+========================================= */
+
+.memory-background-doodles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.memory-background-doodles span {
+  position: absolute;
+
+  font-family: "Ice Cream", cursive;
+  font-size: clamp(24px, 4vw, 48px);
+
+  opacity: 0.25;
+}
+
+.memory-background-doodles span:nth-child(1) {
+  top: 12%;
+  left: 8%;
+  transform: rotate(-15deg);
+}
+
+.memory-background-doodles span:nth-child(2) {
+  top: 25%;
+  right: 8%;
+  transform: rotate(12deg);
+}
+
+.memory-background-doodles span:nth-child(3) {
+  bottom: 17%;
+  left: 7%;
+  transform: rotate(8deg);
+}
+
+.memory-background-doodles span:nth-child(4) {
+  bottom: 10%;
+  right: 10%;
+  transform: rotate(-10deg);
+}
+
+
+/* =========================================
+   MEMORY HEADER
+========================================= */
+
+.memory-header {
+  position: relative;
+  z-index: 5;
+
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.memory-small-title {
+  margin: 0 0 8px;
+
+  font-family: "Ice Cream", cursive;
+  font-size: clamp(20px, 3vw, 30px);
+
+  color: #6f6255;
+}
+
+.memory-header h2 {
+  margin: 0;
+
+  font-family: "Internet Friends", cursive;
+  font-size: clamp(48px, 8vw, 92px);
+
+  line-height: 0.95;
+
+  color: #453b31;
+
+  text-shadow:
+    2px 2px 0 rgba(255, 255, 255, 0.8);
+}
+
+
+/* =========================================
+   BOOK AREA
+========================================= */
+
+.book-area {
+  position: relative;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: min(100%, 1100px);
+}
+
+
+/* =========================================
+   THE BOOK
+========================================= */
+
+.memory-book {
+  position: relative;
+
+  width: min(72vw, 690px);
+  aspect-ratio: 1389 / 1964;
+
+  perspective: 1800px;
+
+  filter:
+    drop-shadow(0 25px 25px rgba(74, 57, 40, 0.22));
+}
+
+
+/* individual page */
+
+.book-page {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: #fffdf8;
+
+  border-radius: 3px;
+
+  overflow: hidden;
+
+  transform-origin: left center;
+
+  backface-visibility: hidden;
+}
+
+
+/* back page */
+
+.book-page-back {
+  z-index: 1;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(70, 50, 30, 0.08),
+      transparent 10%
+    ),
+    #f8f0df;
+}
+
+
+/* actual visible page */
+
+.book-page-front {
+  z-index: 2;
+
+  box-shadow:
+    inset 8px 0 18px rgba(50, 35, 20, 0.07),
+    0 2px 5px rgba(50, 35, 20, 0.08);
+
+  transition:
+    transform 0.95s cubic-bezier(.77, 0, .18, 1);
+}
+
+.book-page-front img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+/* flipping state */
+
+.memory-book.flipping .book-page-front {
+  transform: rotateY(-180deg);
+}
+
+
+/* =========================================
+   PAGE TURN SHADOW
+========================================= */
+
+.book-page-front::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0),
+      rgba(80,60,40,0.12),
+      rgba(255,255,255,0)
+    );
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+.memory-book.flipping .book-page-front::after {
+  animation: pageShadow 0.95s ease;
+}
+
+@keyframes pageShadow {
+  0% {
+    opacity: 0;
+  }
+
+  45% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* =========================================
+   BOOK ARROWS
+========================================= */
+
+.book-arrow {
+  position: relative;
+  z-index: 10;
+
+  width: 58px;
+  height: 58px;
+
+  margin: 0 24px;
+
+  border: 2px solid rgba(91, 72, 54, 0.35);
+  border-radius: 50%;
+
+  background: rgba(255, 250, 238, 0.88);
+
+  color: #544536;
+
+  font-size: 30px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.book-arrow:hover {
+  transform: scale(1.1);
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(80, 60, 40, 0.15);
+}
+
+.book-arrow:active {
+  transform: scale(0.95);
+}
+
+.book-arrow:disabled {
+  opacity: 0.25;
+  cursor: default;
+  transform: none;
+}
+
+
+/* =========================================
+   MEMORY CONTROLS
+========================================= */
+
+.memory-controls {
+  position: relative;
+  z-index: 5;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 25px;
+}
+
+.memory-page-number {
+  margin: 0;
+
+  font-family: "Internet Friends", cursive;
+  font-size: 27px;
+
+  color: #5d4d3d;
+}
+
+.memory-hint {
+  margin: 5px 0 18px;
+
+  font-family: "Ice Cream", cursive;
+  font-size: 22px;
+
+  color: #77695c;
+}
+
+.memory-continue {
+  padding: 13px 25px;
+
+  border: 2px solid #806e5a;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.75);
+
+  font-family: "Ice Cream", cursive;
+  font-size: 22px;
+
+  color: #5d4d3d;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.memory-continue:hover {
+  transform: translateY(-3px);
+  background: white;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+  .memory-book-page {
+    padding:
+      50px
+      12px
+      35px;
+  }
+
+  .memory-header {
+    margin-bottom: 20px;
+  }
+
+  .memory-header h2 {
+    font-size: clamp(42px, 13vw, 70px);
+  }
+
+  .memory-small-title {
+    font-size: 18px;
+  }
+
+  .memory-book {
+    width: min(76vw, 520px);
+  }
+
+  .book-arrow {
+    width: 46px;
+    height: 46px;
+
+    margin: 0 7px;
+
+    font-size: 24px;
+  }
+
+  .memory-hint {
+    font-size: 18px;
+  }
+
+  .memory-page-number {
+    font-size: 23px;
+  }
+}
     transition: none !important;
   }
 
