@@ -1,405 +1,367 @@
-:root {
-  --cream: #fff8e9;
-  --paper: #fffaf0;
-  --brown: #5e5042;
-  --soft-brown: #806f5e;
-  --yellow: #f1c75b;
-  --ink: #51473d;
-}
+/* =========================================================
+   NICOLE'S BIRTHDAY WEBSITE
+   PHONE-FIRST / PORTRAIT LAYOUT
+   ========================================================= */
+
+
+/* =========================================================
+   1. RESET
+   ========================================================= */
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html,
 body {
-  margin: 0;
   width: 100%;
+  height: 100%;
   min-height: 100%;
 }
 
+html {
+  overflow: hidden;
+}
+
 body {
-  background: var(--cream);
-  color: var(--brown);
-  font-family: "Caveat", cursive;
-  overflow-x: hidden;
+  overflow: hidden;
+  background: #f7eddc;
+  color: #33271f;
+  font-family: Georgia, "Times New Roman", serif;
 }
 
 
-/* ==================================================
-   PAGE 1
-================================================== */
+/* =========================================================
+   2. DESKTOP BACKGROUND
+   ========================================================= */
 
-.cover {
-  position: relative;
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(255, 244, 196, 0.55),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(255, 232, 177, 0.4),
+      transparent 35%
+    ),
+    #f7eddc;
+}
 
-  min-height: 100svh;
-  width: 100%;
 
-  display: grid;
-  place-items: center;
+/* =========================================================
+   3. MAIN PORTRAIT FRAME
+   ========================================================= */
+
+/*
+   IMPORTANT:
+
+   On a PHONE:
+   → the website fills the screen.
+
+   On a LAPTOP:
+   → the website becomes a phone-sized portrait
+   → centered horizontally
+   → no giant stretched website
+*/
+
+.cover,
+.birthday-page,
+.memory-book {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  width: min(100vw, 430px);
+  height: 100svh;
+
+  transform: translate(-50%, -50%);
 
   overflow: hidden;
-
-  background-image: url("assets/background.png");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-
-  opacity: 1;
-  transform: scale(1);
-
-  transition:
-    opacity 1s ease,
-    transform 1s ease;
 }
 
 
-/* Very subtle overlay */
-.cover::after {
-  content: "";
+/* =========================================================
+   4. COVER / PAGE 1
+   ========================================================= */
 
+.cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-image: url("assets/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  z-index: 100;
+
+  opacity: 1;
+
+  transition:
+    opacity 0.85s ease,
+    transform 0.85s ease;
+}
+
+
+/*
+   Slight paper overlay
+*/
+
+.cover::before {
+  content: "";
   position: absolute;
   inset: 0;
 
-  background: rgba(255, 249, 232, 0.025);
+  background:
+    linear-gradient(
+      rgba(255, 249, 226, 0.08),
+      rgba(255, 249, 226, 0.08)
+    );
 
   pointer-events: none;
 }
 
 
+/* =========================================================
+   COVER LEAVING ANIMATION
+   ========================================================= */
+
+.cover.leaving {
+  opacity: 0;
+  transform:
+    translate(-50%, -50%)
+    scale(1.025);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   5. COVER CONTENT
+   ========================================================= */
+
 .cover-content {
   position: relative;
-  z-index: 3;
+  z-index: 5;
 
-  width: min(90%, 700px);
-  min-height: 100svh;
+  width: 88%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 
   text-align: center;
-
-  padding: 2rem 1.5rem;
 }
 
 
-/* Date */
+/* DATE */
 
 .date {
-  position: absolute;
+  margin-bottom: 2.2rem;
 
-  top: clamp(28px, 6vh, 65px);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
 
-  margin: 0;
-
-  font-size: clamp(1.2rem, 3vw, 1.7rem);
-
-  letter-spacing: 0.12em;
-
-  color: var(--soft-brown);
-
-  opacity: 0.85;
+  color: #725d48;
 }
 
 
-/* Main message */
-
-.message {
-  padding: 1.5rem 1.8rem;
-
-  border-radius: 50%;
-
-  background: rgba(255, 253, 247, 0.08);
-
-  text-shadow:
-    0 1px 10px rgba(255, 255, 255, 0.45);
-}
-
+/* MAIN MESSAGE */
 
 .message h1 {
-  margin: 0;
+  margin-bottom: 0.7rem;
 
-  font-size: clamp(3.1rem, 9vw, 6rem);
-
+  font-family: "Caveat", "Segoe Print", cursive;
+  font-size: clamp(2rem, 8vw, 3rem);
   font-weight: 500;
+  line-height: 1.05;
 
-  line-height: 0.95;
-
-  letter-spacing: 0.01em;
-
-  color: var(--brown);
+  color: #2d241d;
 }
 
-
-/* Yellow heart */
-
 .yellow-heart {
-  display: inline-block;
-
-  color: #e8bd45;
-
-  font-size: 0.72em;
-
-  transform: translateY(-0.04em);
-
-  filter:
-    drop-shadow(
-      0 2px 5px rgba(180, 140, 50, 0.16)
-    );
+  color: #f3c943;
+  font-size: 0.8em;
 }
 
 
 .message p {
-  margin: 1.25rem 0 0;
+  max-width: 290px;
 
-  font-size: clamp(1.35rem, 4vw, 2rem);
+  font-family: "Caveat", "Segoe Print", cursive;
+  font-size: 1.1rem;
+  line-height: 1.4;
 
-  line-height: 1.1;
-
-  color: var(--soft-brown);
+  color: #665444;
 }
 
 
-/* Button */
+/* =========================================================
+   6. CLICK ME BUTTON
+   ========================================================= */
 
 .open-button {
-  margin-top: clamp(2.4rem, 6vh, 4rem);
+  margin-top: 2.4rem;
 
-  padding:
-    0.9rem
-    1.65rem
-    1rem;
+  min-width: 155px;
 
-  border:
-    1px solid rgba(126, 106, 78, 0.26);
+  padding: 0.85rem 1.4rem;
 
+  border: 1.5px solid #47392e;
   border-radius: 999px;
 
-  background:
-    rgba(255, 250, 238, 0.82);
+  background: rgba(255, 250, 237, 0.58);
 
-  color: var(--brown);
+  color: #30251e;
 
-  font-family: inherit;
-
-  font-size: clamp(1.35rem, 3.5vw, 1.8rem);
-
-  letter-spacing: 0.05em;
+  font-family: "Caveat", "Segoe Print", cursive;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
 
   cursor: pointer;
 
-  box-shadow:
-    0 7px 25px rgba(111, 91, 62, 0.08),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
 
   transition:
-    transform 220ms ease,
-    box-shadow 220ms ease,
-    background-color 220ms ease;
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
+.open-button:hover {
+  transform: translateY(-3px);
 
-.open-button:hover,
-.open-button:focus-visible {
-  transform: translateY(-2px);
-
-  background:
-    rgba(255, 252, 241, 0.95);
+  background: rgba(255, 255, 255, 0.8);
 
   box-shadow:
-    0 0 0 6px rgba(241, 199, 91, 0.10),
-    0 10px 32px rgba(111, 91, 62, 0.13);
-
-  outline: none;
+    0 8px 20px rgba(95, 68, 35, 0.12);
 }
-
 
 .open-button:active {
-  transform: scale(0.98);
+  transform: scale(0.96);
 }
-
 
 .button-heart {
-  display: inline-block;
-
-  margin-left: 0.25em;
-
-  font-size: 1.05em;
-
-  transition:
-    transform 220ms ease;
+  font-size: 1.2rem;
 }
 
 
-.open-button:hover .button-heart,
-.open-button:focus-visible .button-heart {
-  transform: scale(1.12);
-}
-
-
-/* Page 1 squiggles */
+/* =========================================================
+   7. COVER DOODLES / SQUIGGLES
+   ========================================================= */
 
 .squiggle {
   position: absolute;
 
   z-index: 2;
 
-  font-size: clamp(3rem, 8vw, 5rem);
-
-  line-height: 1;
-
-  color: #c99f45;
+  color: #8e735b;
 
   opacity: 0.65;
 
-  user-select: none;
-
   pointer-events: none;
 
-  animation:
-    barelyFloat
-    7s
-    ease-in-out
-    infinite;
+  font-family: cursive;
 }
 
-
 .squiggle-one {
-  top: 18%;
-  left: 10%;
+  top: 14%;
+  left: 9%;
+
+  font-size: 2rem;
+
   transform: rotate(-12deg);
 }
 
-
 .squiggle-two {
-  top: 29%;
-  right: 11%;
+  top: 23%;
+  right: 9%;
 
-  transform: rotate(14deg);
+  font-size: 1.5rem;
 
-  animation-delay: -2s;
+  transform: rotate(13deg);
 }
-
 
 .squiggle-three {
-  bottom: 19%;
-  left: 14%;
+  bottom: 17%;
+  left: 12%;
+
+  font-size: 1.8rem;
 
   transform: rotate(8deg);
-
-  animation-delay: -4s;
 }
-
 
 .squiggle-four {
   bottom: 12%;
-  right: 13%;
+  right: 12%;
+
+  font-size: 1.5rem;
 
   transform: rotate(-10deg);
-
-  animation-delay: -1s;
 }
 
 
-@keyframes barelyFloat {
-
-  0%,
-  100% {
-    transform:
-      translateY(0)
-      rotate(-10deg);
-  }
-
-  50% {
-    transform:
-      translateY(-5px)
-      rotate(-7deg);
-  }
-}
-
-
-/* Page 1 leaving */
-
-.cover.leaving {
-  opacity: 0;
-
-  transform:
-    scale(1.015);
-
-  pointer-events: none;
-}
-
-
-/* ==================================================
-   PAGE 2
-================================================== */
+/* =========================================================
+   8. PAGE 2 — BIRTHDAY PAGE
+   ========================================================= */
 
 .birthday-page {
-  position: relative;
+  display: none;
 
-  min-height: 100svh;
-
-  overflow: hidden;
-
-  display: grid;
-
-  place-items: center;
+  flex-direction: column;
+  align-items: center;
 
   background:
     radial-gradient(
-      circle at 50% 10%,
-      #fffdf7 0%,
-      var(--paper) 42%,
-      #f9efd9 100%
-    );
+      circle at 50% 25%,
+      rgba(255,255,255,0.65),
+      transparent 45%
+    ),
+    #f8efdf;
+
+  z-index: 50;
 
   opacity: 0;
 
-  visibility: hidden;
+  transition: opacity 0.45s ease;
 
-  pointer-events: none;
-
-  transform:
-    translateY(20px);
-
-  transition:
-    opacity 0.9s ease,
-    transform 0.9s ease,
-    visibility 0.9s ease;
+  overflow: hidden;
 }
-
-
-/* When Page 2 appears */
 
 .birthday-page.show {
   opacity: 1;
-
-  visibility: visible;
-
-  pointer-events: auto;
-
-  transform:
-    translateY(0);
 }
 
 
-/* Paper texture */
+/* =========================================================
+   PAGE 2 PAPER TEXTURE
+   ========================================================= */
 
 .paper-grain {
   position: absolute;
-
   inset: 0;
-
-  opacity: 0.18;
 
   pointer-events: none;
 
+  opacity: 0.18;
+
   background-image:
     radial-gradient(
-      rgba(91, 72, 48, 0.12) 0.7px,
+      rgba(100, 78, 55, 0.15) 0.7px,
       transparent 0.7px
     );
 
@@ -407,1191 +369,730 @@ body {
 }
 
 
-/* Main Page 2 container */
+/* =========================================================
+   PAGE 2 DECORATIVE SCRIBBLES
+   ========================================================= */
+
+.scribble {
+  position: absolute;
+
+  color: #d6b87b;
+
+  opacity: 0.65;
+
+  pointer-events: none;
+
+  z-index: 2;
+}
+
+.top-scribble {
+  top: 2.5rem;
+  right: 1.5rem;
+
+  font-size: 1.1rem;
+}
+
+.bottom-scribble {
+  bottom: 2rem;
+  left: 1.5rem;
+
+  font-size: 1.1rem;
+}
+
+
+/* =========================================================
+   PAGE 2 INNER CONTENT
+   ========================================================= */
 
 .birthday-inner {
   position: relative;
 
-  z-index: 2;
+  width: 100%;
+  height: 100%;
 
-  width: min(92%, 820px);
-
-  min-height: 100svh;
+  padding:
+    2.5rem
+    1.3rem
+    1.8rem;
 
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
-  justify-content: center;
 
   text-align: center;
 
-  padding:
-    4rem
-    1rem
-    5rem;
+  overflow: hidden;
 }
 
 
-/* Intro */
+/* =========================================================
+   PAGE 2 INTRO
+   ========================================================= */
 
 .little-intro {
-  margin:
-    0
-    0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.7rem;
 
-  font-size:
-    clamp(1.5rem, 3.5vw, 2rem);
+  font-family: "Caveat", "Segoe Print", cursive;
 
-  color: var(--soft-brown);
+  font-size: 1.15rem;
 
-  transform:
-    rotate(-2deg);
+  color: #77624f;
 }
 
 
-.little-intro span {
-  display: inline-block;
-}
-
-
-/* Birthday heading */
+/* =========================================================
+   PAGE 2 HEADING
+   ========================================================= */
 
 .birthday-heading {
   position: relative;
-}
+  z-index: 4;
 
+  width: 100%;
+
+  text-align: center;
+}
 
 .tiny-label {
   display: block;
 
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.2rem;
 
-  font-family:
-    "DM Sans",
-    sans-serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.28em;
 
-  font-size: 0.65rem;
-
-  letter-spacing: 0.24em;
-
-  color: #9a866c;
+  color: #a18a70;
 }
-
 
 .birthday-heading h2 {
-  margin: 0;
+  font-family: "Caveat", "Segoe Print", cursive;
 
-  font-size:
-    clamp(4.5rem, 12vw, 8rem);
+  font-size: clamp(2.7rem, 13vw, 4.5rem);
 
-  line-height: 0.72;
+  line-height: 0.78;
 
-  font-weight: 600;
+  color: #46382c;
 
-  letter-spacing: 0.015em;
-
-  color: var(--ink);
+  font-weight: 700;
 }
 
-
 .birthday-heading h2 span {
+  color: #4f3d2f;
+}
+
+.birthday-heading h3 {
+  margin-top: 0.35rem;
+
+  font-family: "Caveat", "Segoe Print", cursive;
+
+  font-size: clamp(2rem, 9vw, 3.2rem);
+
+  line-height: 1;
+
+  color: #f0b92f;
+
+  text-shadow:
+    1px 1px 0 #fff7df;
+}
+
+.birthday-heading h3 span {
   font-size: 0.7em;
 }
 
 
-.birthday-heading h3 {
-  margin:
-    0.35rem
-    0
-    0;
-
-  font-size:
-    clamp(3rem, 8vw, 5.5rem);
-
-  line-height: 0.85;
-
-  font-weight: 600;
-
-  color: #b18a45;
-
-  transform:
-    rotate(-1deg);
-}
-
-
-.birthday-heading h3 span {
-  color: #e7bd45;
-
-  font-size: 0.65em;
-}
-
-
-/* Childhood photo */
+/* =========================================================
+   9. CHILDHOOD PHOTO
+   ========================================================= */
 
 .memory-photo-wrap {
   position: relative;
 
-  margin:
-    1.5rem
-    0
-    1rem;
-}
+  width: 72%;
 
+  max-width: 285px;
+
+  margin-top: 1.3rem;
+
+  transform: rotate(-2deg);
+}
 
 .photo-card {
-  width:
-    min(58vw, 250px);
+  position: relative;
 
-  padding:
-    12px
-    12px
-    26px;
+  padding: 0.55rem 0.55rem 0.8rem;
 
-  background:
-    #fffdf8;
+  background: #fffdf7;
 
   box-shadow:
-    0 12px 28px rgba(74, 57, 37, 0.15);
+    0 12px 28px rgba(69, 51, 32, 0.16);
 
-  transform:
-    rotate(-2.5deg);
+  border-radius: 1px;
 }
-
 
 .childhood-photo {
   display: block;
 
   width: 100%;
 
-  height: auto;
-}
+  aspect-ratio: 4 / 3;
 
+  object-fit: cover;
+
+  object-position: center;
+
+  background: #eee;
+}
 
 .photo-caption {
-  margin:
-    0.45rem
-    0
-    0;
+  margin-top: 0.45rem;
 
-  font-size: 1.35rem;
+  font-family: "Caveat", "Segoe Print", cursive;
 
-  color: #756452;
+  font-size: 1rem;
+
+  color: #665545;
 }
 
 
-/* Tape */
+/* =========================================================
+   PHOTO TAPE
+   ========================================================= */
 
 .tape {
   position: absolute;
 
-  width: 72px;
+  width: 65px;
+  height: 20px;
 
-  height: 22px;
+  background: rgba(245, 207, 154, 0.65);
 
-  background:
-    rgba(239, 211, 145, 0.62);
-
-  top: -10px;
-
-  z-index: 3;
+  z-index: 5;
 }
-
 
 .tape-left {
-  left: 8px;
+  top: -7px;
+  left: -16px;
 
-  transform:
-    rotate(-13deg);
+  transform: rotate(-19deg);
 }
-
 
 .tape-right {
-  right: 8px;
+  top: -5px;
+  right: -14px;
 
-  transform:
-    rotate(11deg);
+  transform: rotate(15deg);
 }
 
 
-/* Birthday message */
+/* =========================================================
+   10. PAGE 2 MESSAGE
+   ========================================================= */
 
 .birthday-message {
-  margin:
-    0.5rem
-    0
-    0;
-
-  font-size:
-    clamp(1.65rem, 4vw, 2.35rem);
-
-  line-height: 1.02;
-
-  color: var(--soft-brown);
-}
-
-
-.birthday-message p {
-  margin:
-    0.1rem
-    0;
-}
-
-
-.birthday-message span {
-  color: #dfb63d;
-}
-
-
-/* Continue hint */
-
-.continue-hint {
   margin-top: 1.2rem;
 
-  font-family:
-    "DM Sans",
-    sans-serif;
+  width: 90%;
 
-  font-size: 0.7rem;
+  font-family: "Caveat", "Segoe Print", cursive;
 
-  letter-spacing: 0.15em;
+  font-size: 1.1rem;
 
-  text-transform: uppercase;
+  line-height: 1.3;
 
-  color: #aa967d;
+  color: #5c4b3d;
+}
 
-  animation:
-    hintFloat
-    2.8s
-    ease-in-out
-    infinite;
+.birthday-message p + p {
+  margin-top: 0.2rem;
+}
+
+.birthday-message span {
+  color: #e8b733;
 }
 
 
-@keyframes hintFloat {
+/* =========================================================
+   PAGE 2 CONTINUE HINT
+   ========================================================= */
+
+.continue-hint {
+  position: absolute;
+
+  bottom: 1.2rem;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 100%;
+
+  font-family: "Caveat", "Segoe Print", cursive;
+
+  font-size: 0.9rem;
+
+  color: #8a735e;
+
+  animation: gentleBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes gentleBounce {
 
   0%,
   100% {
-    transform:
-      translateY(0);
-
-    opacity: 0.65;
+    transform: translate(-50%, 0);
   }
 
   50% {
-    transform:
-      translateY(4px);
-
-    opacity: 1;
+    transform: translate(-50%, 5px);
   }
 }
 
 
-/* Decorative Page 2 scribbles */
+/* =========================================================
+   11. PAGE 2 CONTINUE BUTTON
+   ========================================================= */
 
-.scribble {
+/*
+   If your updated HTML uses a real button
+   with id="continueButton", this styles it.
+
+   It stays subtle so it doesn't ruin the scrapbook look.
+*/
+
+#continueButton {
   position: absolute;
 
-  z-index: 1;
+  bottom: 2.6rem;
+  left: 50%;
 
-  color: #c9a45e;
+  transform: translateX(-50%);
 
-  opacity: 0.45;
+  border: none;
 
-  font-size: 2.3rem;
-}
+  background: transparent;
 
+  color: #7b6753;
 
-.top-scribble {
-  top: 7%;
+  font-family: "Caveat", "Segoe Print", cursive;
 
-  right: 8%;
+  font-size: 1rem;
 
-  transform:
-    rotate(8deg);
-}
+  cursor: pointer;
 
-
-.bottom-scribble {
-  bottom: 8%;
-
-  left: 8%;
-
-  transform:
-    rotate(-10deg);
-}
-
-
-/* ==================================================
-   MOBILE
-================================================== */
-
-@media (max-width: 600px) {
-
-  .cover-content {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  .message {
-    padding:
-      1.2rem
-      1rem;
-  }
-
-  .message h1 {
-    font-size:
-      clamp(2.8rem, 13vw, 4.3rem);
-  }
-
-  .message p {
-    max-width: 280px;
-  }
-
-  .squiggle-one {
-    left: 3%;
-  }
-
-  .squiggle-two {
-    right: 3%;
-  }
-
-  .squiggle-three {
-    left: 4%;
-  }
-
-  .squiggle-four {
-    right: 4%;
-  }
-
-  .birthday-inner {
-    padding-top: 3rem;
-  }
-
-  .photo-card {
-    width:
-      min(62vw, 250px);
-  }
-
-  .birthday-heading h2 {
-    font-size:
-      clamp(4rem, 17vw, 6.5rem);
-  }
-
-}
-
-
-/* Reduced motion */
-
-@media (prefers-reduced-motion: reduce) {
-
-  * {
-    animation: none !important;
-
-    /* =========================================
-   CUSTOM FONTS
-========================================= */
-
-@font-face {
-  font-family: "Ice Cream";
-  src: url("assets/Ice Cream.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Internet Friends";
-  src: url("assets/Internet Friends.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-
-/* =========================================
-   PAGE 3 — MEMORY BOOK
-========================================= */
-
-.memory-book-page {
-  position: relative;
-  min-height: 100vh;
-  width: 100%;
-  overflow: hidden;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  padding: 70px 24px 50px;
-
-  background:
-    radial-gradient(
-      circle at 20% 20%,
-      rgba(255, 236, 169, 0.35),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 80% 75%,
-      rgba(255, 219, 226, 0.3),
-      transparent 30%
-    ),
-    #fff8e8;
-
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(30px);
+  padding: 0.5rem 1rem;
 
   transition:
-    opacity 0.9s ease,
-    transform 0.9s ease;
+    transform 0.25s ease,
+    color 0.25s ease;
 }
 
-.memory-book-page.show {
-  visibility: visible;
+#continueButton:hover {
+  transform:
+    translateX(-50%)
+    translateY(-3px);
+
+  color: #49392c;
 }
 
-.memory-book-page:not(.show) {
-  visibility: hidden;
+
+/* =========================================================
+   12. MEMORY BOOK
+   ========================================================= */
+
+/*
+   THIS IS THE IMPORTANT PART.
+
+   The memory section is NOT a long scrolling page.
+
+   It is a single portrait frame.
+
+   Only one .memory-page is visible at a time.
+*/
+
+.memory-book {
+  display: none;
+
+  background: #f7eddc;
+
+  z-index: 60;
+
+  opacity: 0;
+
+  transition: opacity 0.45s ease;
+
+  overflow: hidden;
+
+  touch-action: manipulation;
 }
-    
-.memory-book-page.show {
+
+.memory-book.show {
   opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
 }
 
 
-/* sunflower-ish subtle background texture */
+/* =========================================================
+   MEMORY PAGE
+   ========================================================= */
 
-.memory-book-page::before {
-  content: "";
+.memory-page {
   position: absolute;
+
   inset: 0;
 
-  background-image: url("assets/background.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  opacity: 0.16;
-  pointer-events: none;
-}
-
-
-/* =========================================
-   LITTLE DOODLES
-========================================= */
-
-.memory-background-doodles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.memory-background-doodles span {
-  position: absolute;
-
-  font-family: "Ice Cream", cursive;
-  font-size: clamp(24px, 4vw, 48px);
-
-  opacity: 0.25;
-}
-
-.memory-background-doodles span:nth-child(1) {
-  top: 12%;
-  left: 8%;
-  transform: rotate(-15deg);
-}
-
-.memory-background-doodles span:nth-child(2) {
-  top: 25%;
-  right: 8%;
-  transform: rotate(12deg);
-}
-
-.memory-background-doodles span:nth-child(3) {
-  bottom: 17%;
-  left: 7%;
-  transform: rotate(8deg);
-}
-
-.memory-background-doodles span:nth-child(4) {
-  bottom: 10%;
-  right: 10%;
-  transform: rotate(-10deg);
-}
-
-
-/* =========================================
-   MEMORY HEADER
-========================================= */
-
-.memory-header {
-  position: relative;
-  z-index: 5;
-
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.memory-small-title {
-  margin: 0 0 8px;
-
-  font-family: "Ice Cream", cursive;
-  font-size: clamp(20px, 3vw, 30px);
-
-  color: #6f6255;
-}
-
-.memory-header h2 {
-  margin: 0;
-
-  font-family: "Internet Friends", cursive;
-  font-size: clamp(48px, 8vw, 92px);
-
-  line-height: 0.95;
-
-  color: #453b31;
-
-  text-shadow:
-    2px 2px 0 rgba(255, 255, 255, 0.8);
-}
-
-
-/* =========================================
-   BOOK AREA
-========================================= */
-
-.book-area {
-  position: relative;
-  z-index: 5;
+  width: 100%;
+  height: 100%;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  width: min(100%, 1100px);
-}
+  opacity: 0;
 
+  visibility: hidden;
 
-/* =========================================
-   THE BOOK
-========================================= */
+  pointer-events: none;
 
-.memory-book {
-  position: relative;
-
-  /*
-    This is our little "phone screen".
-    On a laptop it stays this size.
-    On a phone it shrinks to fit.
-  */
-  width: min(82vw, 390px);
-  height: min(78vh, 690px);
-
-  aspect-ratio: 1389 / 1964;
-
-  perspective: 1800px;
-
-  flex-shrink: 0;
-
-  filter:
-    drop-shadow(0 25px 25px rgba(74, 57, 40, 0.22));
-}
-
-/* individual page */
-
-.book-page {
-  position: absolute;
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  background: #fffdf8;
-
-  border-radius: 3px;
-
-  overflow: hidden;
-
-  transform-origin: left center;
-
-  backface-visibility: hidden;
-}
-
-
-/* back page */
-
-.book-page-back {
-  z-index: 1;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(70, 50, 30, 0.08),
-      transparent 10%
-    ),
-    #f8f0df;
-}
-
-
-/* actual visible page */
-
-.book-page-front {
-  z-index: 2;
-
-  box-shadow:
-    inset 8px 0 18px rgba(50, 35, 20, 0.07),
-    0 2px 5px rgba(50, 35, 20, 0.08);
+  transform:
+    translateX(15px)
+    scale(0.985);
 
   transition:
-    transform 0.95s cubic-bezier(.77, 0, .18, 1);
+    opacity 0.35s ease,
+    transform 0.35s ease;
+
+  overflow: hidden;
 }
 
-.book-page-front img {
+
+/* ONLY THE ACTIVE PAGE SHOWS */
+
+.memory-page.active {
+  opacity: 1;
+
+  visibility: visible;
+
+  pointer-events: auto;
+
+  transform:
+    translateX(0)
+    scale(1);
+
+  z-index: 2;
+}
+
+
+/* =========================================================
+   MEMORY IMAGE
+   ========================================================= */
+
+/*
+   Your edited memory images already contain:
+   - collage
+   - captions
+   - decorations
+   - background
+   - text
+
+   Therefore we DO NOT add another scrapbook layout
+   around them.
+
+   We simply display each finished image.
+*/
+
+.memory-page img {
   display: block;
 
   width: 100%;
   height: 100%;
 
-  /*
-    SHOW THE ENTIRE DESIGN.
-    Do NOT crop it.
-  */
   object-fit: contain;
 
-  background: #fffdf8;
-}
+  object-position: center;
 
+  user-select: none;
 
-/* flipping state */
-
-.memory-book.flipping .book-page-front {
-  transform: rotateY(-180deg);
-}
-
-
-/* =========================================
-   PAGE TURN SHADOW
-========================================= */
-
-.book-page-front::after {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,0),
-      rgba(80,60,40,0.12),
-      rgba(255,255,255,0)
-    );
-
-  opacity: 0;
+  -webkit-user-drag: none;
 
   pointer-events: none;
 }
 
-.memory-book.flipping .book-page-front::after {
-  animation: pageShadow 0.95s ease;
-}
 
-@keyframes pageShadow {
-  0% {
-    opacity: 0;
-  }
+/* =========================================================
+   13. MEMORY BOOK BUTTONS
+   ========================================================= */
 
-  45% {
-    opacity: 1;
-  }
+#memoryNextButton,
+#memoryBackButton {
+  position: absolute;
 
-  100% {
-    opacity: 0;
-  }
-}
+  z-index: 20;
 
+  width: 42px;
+  height: 42px;
 
-/* =========================================
-   BOOK ARROWS
-========================================= */
+  border: 1px solid rgba(82, 62, 43, 0.28);
 
-.book-arrow {
-  position: relative;
-  z-index: 10;
-
-  width: 48px;
-  height: 48px;
-
-  margin: 0 8px;
-
-  border: none;
   border-radius: 50%;
 
-  background: rgba(255, 250, 238, 0.92);
+  background: rgba(255, 250, 237, 0.82);
 
-  color: #544536;
+  color: #554332;
 
-  font-size: 25px;
+  font-family: Georgia, serif;
 
-  cursor: pointer;
-
-  box-shadow:
-    0 5px 15px rgba(70, 50, 30, 0.12);
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.book-arrow:hover {
-  transform: scale(1.08);
-
-  background: #ffffff;
-
-  box-shadow:
-    0 8px 20px rgba(70, 50, 30, 0.18);
-}
-
-.book-arrow:active {
-  transform: scale(0.94);
-}
-
-.book-arrow:disabled {
-  opacity: 0.2;
-
-  cursor: default;
-
-  transform: none;
-
-  box-shadow: none;
-}
-
-.book-arrow:hover {
-  transform: scale(1.1);
-  background: #fff;
-  box-shadow: 0 8px 20px rgba(80, 60, 40, 0.15);
-}
-
-.book-arrow:active {
-  transform: scale(0.95);
-}
-
-.book-arrow:disabled {
-  opacity: 0.25;
-  cursor: default;
-  transform: none;
-}
-
-
-/* =========================================
-   MEMORY CONTROLS
-========================================= */
-
-.memory-controls {
-  position: relative;
-  z-index: 5;
+  font-size: 1.15rem;
 
   display: flex;
-  flex-direction: column;
   align-items: center;
-
-  margin-top: 25px;
-}
-
-.memory-page-number {
-  margin: 0;
-
-  font-family: "Internet Friends", cursive;
-  font-size: 27px;
-
-  color: #5d4d3d;
-}
-
-.memory-hint {
-  margin: 5px 0 18px;
-
-  font-family: "Ice Cream", cursive;
-  font-size: 22px;
-
-  color: #77695c;
-}
-
-.memory-continue {
-  padding: 13px 25px;
-
-  border: 2px solid #806e5a;
-  border-radius: 999px;
-
-  background: rgba(255, 255, 255, 0.75);
-
-  font-family: "Ice Cream", cursive;
-  font-size: 22px;
-
-  color: #5d4d3d;
+  justify-content: center;
 
   cursor: pointer;
+
+  box-shadow:
+    0 5px 15px rgba(61, 44, 28, 0.12);
 
   transition:
     transform 0.2s ease,
     background 0.2s ease;
 }
 
-.memory-continue:hover {
-  transform: translateY(-3px);
-  background: white;
+#memoryNextButton:hover,
+#memoryBackButton:hover {
+  background: rgba(255, 255, 255, 0.95);
+
+  transform: scale(1.08);
+}
+
+#memoryNextButton:active,
+#memoryBackButton:active {
+  transform: scale(0.92);
 }
 
 
-/* =========================================
-   MOBILE
-========================================= */
+/* NEXT */
 
-  .memory-header {
-    margin-bottom: 20px;
-  }
-
-  .memory-header h2 {
-    font-size: clamp(42px, 13vw, 70px);
-  }
-
-  .memory-small-title {
-    font-size: 18px;
-  }
-
-  .memory-book {
-    width: min(76vw, 520px);
-  }
-
-  .book-arrow {
-    width: 46px;
-    height: 46px;
-
-    margin: 0 7px;
-
-    font-size: 24px;
-  }
-
-  .memory-hint {
-    font-size: 18px;
-  }
-
-  .memory-page-number {
-    font-size: 23px;
-  }
-}
-    transition: none !important;
-  }
-
-}
-
-/* =========================================
-   GLOBAL — PHONE-SIZED EXPERIENCE
-========================================= */
-
-/*
-   The entire website behaves like a little
-   phone app / digital scrapbook.
-
-   NO PAGE SCROLLING.
-*/
-
-html,
-body {
-  width: 100%;
-  height: 100%;
-
-  margin: 0;
-  padding: 0;
-
-  overflow: hidden;
+#memoryNextButton {
+  right: 14px;
+  bottom: 18px;
 }
 
 
-/* =========================================
-   PAGE 1 — COVER
-========================================= */
+/* BACK */
 
-.cover {
-  position: fixed;
-  inset: 0;
-
-  width: 100vw;
-  height: 100dvh;
-
-  overflow: hidden;
-
-  z-index: 100;
+#memoryBackButton {
+  left: 14px;
+  bottom: 18px;
 }
 
 
-/* =========================================
-   PAGE 2 — BIRTHDAY SCREEN
-========================================= */
+/* =========================================================
+   14. MEMORY PAGE NUMBER
+   ========================================================= */
 
-.birthday-page {
-  position: fixed;
-  inset: 0;
-
-  width: 100vw;
-  height: 100dvh;
-
-  overflow: hidden;
+.memory-page-number {
+  position: absolute;
 
   z-index: 20;
+
+  bottom: 29px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  padding: 0.25rem 0.55rem;
+
+  border-radius: 999px;
+
+  background: rgba(255, 250, 237, 0.72);
+
+  color: #77624f;
+
+  font-family: "Caveat", "Segoe Print", cursive;
+
+  font-size: 0.75rem;
+
+  pointer-events: none;
 }
 
+
+/* =========================================================
+   15. FLIP-STYLE TRANSITION
+   ========================================================= */
 
 /*
-   Keep the actual birthday content
-   phone-sized and centered.
+   This gives the memory pages a little "book"
+   feeling when changing pages.
+
+   It is still lightweight enough for phones.
 */
 
-.birthday-inner {
-  position: relative;
+.memory-page.flip-out {
+  opacity: 0;
 
-  width: min(100vw, 430px);
-  height: 100dvh;
+  transform:
+    rotateY(-8deg)
+    translateX(-15px)
+    scale(0.98);
+}
 
-  margin: 0 auto;
+.memory-page.flip-in {
+  opacity: 1;
 
-  overflow: hidden;
-
-  box-sizing: border-box;
+  transform:
+    rotateY(0)
+    translateX(0)
+    scale(1);
 }
 
 
-/* =========================================
-   PAGE 3 — MEMORY SCREEN
-========================================= */
+/* =========================================================
+   16. PHONE SIZING
+   ========================================================= */
 
-.memory-book-page {
-  position: fixed;
-  inset: 0;
+@media (max-width: 430px) {
 
-  width: 100vw;
-  height: 100dvh;
-
-  min-height: 0;
-
-  box-sizing: border-box;
-
-  overflow: hidden;
-
-  padding:
-    clamp(18px, 4vh, 45px)
-    12px
-    18px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  z-index: 30;
-}
-
-
-/*
-   The content itself has a phone-like width.
-
-   On a laptop:
-       empty space | scrapbook | empty space
-
-   On a phone:
-       scrapbook fills the screen.
-*/
-
-.memory-header {
-  width: min(100%, 430px);
-
-  flex-shrink: 0;
-
-  margin-bottom: clamp(8px, 2vh, 20px);
-}
-
-
-/* =========================================
-   MEMORY BOOK SIZE
-========================================= */
-
-.book-area {
-  width: min(100%, 430px);
-
-  flex: 1;
-
-  min-height: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-.memory-book {
-  /*
-     Never let the book become enormous
-     on a laptop.
-  */
-
-  width: min(82vw, 390px);
-
-  /*
-     Keep the portrait proportions.
-  */
-
-  height: auto;
-
-  aspect-ratio: 1389 / 1964;
-
-  max-height: 66vh;
-
-  perspective: 1800px;
-
-  flex-shrink: 1;
-}
-
-
-/* =========================================
-   MEMORY CONTROLS
-========================================= */
-
-.memory-controls {
-  width: min(100%, 430px);
-
-  flex-shrink: 0;
-
-  margin-top: clamp(8px, 2vh, 18px);
-}
-
-
-/* =========================================
-   PHONE SIZING
-========================================= */
-
-@media (max-width: 600px) {
-
-  .memory-book-page {
-    padding:
-      16px
-      8px
-      14px;
+  .cover,
+  .birthday-page,
+  .memory-book {
+    width: 100vw;
+    height: 100svh;
   }
 
-  .memory-header {
-    margin-bottom: 8px;
+  .birthday-inner {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
-  .memory-header h2 {
-    font-size: clamp(38px, 11vw, 60px);
-  }
-
-  .memory-small-title {
-    font-size: 18px;
-  }
-
-  .book-area {
+  .memory-page img {
     width: 100%;
+    height: 100%;
+
+    object-fit: contain;
   }
 
-  .memory-book {
-    width: min(84vw, 390px);
-
-    max-height: 68vh;
-  }
-
-  .book-arrow {
-    width: 44px;
-    height: 44px;
-
-    margin: 0 5px;
-
-    flex-shrink: 0;
-
-    font-size: 22px;
-  }
-
-  .memory-page-number {
-    font-size: 21px;
-  }
-
-  .memory-hint {
-    font-size: 17px;
-
-    margin:
-      2px
-      0
-      8px;
-  }
-
-  .memory-continue {
-    padding:
-      10px
-      20px;
-
-    font-size: 19px;
-  }
 }
 
 
-/* =========================================
-   SHORT PHONE SCREENS
-========================================= */
+/* =========================================================
+   17. VERY SMALL PHONES
+   ========================================================= */
 
-@media (max-height: 700px) {
+@media (max-width: 360px) {
 
-  .memory-book-page {
-    padding-top: 10px;
-    padding-bottom: 10px;
+  .message h1 {
+    font-size: 1.8rem;
   }
 
-  .memory-header {
-    margin-bottom: 4px;
+  .message p {
+    font-size: 0.95rem;
   }
 
-  .memory-header h2 {
-    font-size: 40px;
+  .open-button {
+    margin-top: 1.8rem;
+
+    min-width: 140px;
+
+    padding: 0.7rem 1.2rem;
   }
 
-  .memory-small-title {
-    font-size: 16px;
+  .birthday-heading h2 {
+    font-size: 2.6rem;
   }
 
-  .memory-book {
-    max-height: 63vh;
+  .birthday-heading h3 {
+    font-size: 1.9rem;
   }
 
-  .memory-controls {
-    margin-top: 5px;
+  .memory-photo-wrap {
+    width: 70%;
   }
 
-  .memory-hint {
-    display: none;
-  }
 }
 
 
-/* =========================================
-   LAPTOP / DESKTOP
-========================================= */
+/* =========================================================
+   18. LAPTOP / DESKTOP
+   ========================================================= */
 
-@media (min-width: 601px) {
+/*
+   THIS is what fixes your laptop problem.
 
-  /*
-     Do NOT make the scrapbook wider
-     just because there is more screen space.
-  */
+   The page remains a portrait phone-like canvas
+   instead of becoming a huge stretched website.
+*/
 
+@media (min-width: 431px) {
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cover,
+  .birthday-page,
   .memory-book {
-    width: 350px;
-    max-height: 70vh;
+    width: 430px;
+    max-width: 430px;
+
+    /*
+       Keep the portrait frame from becoming
+       ridiculously tall on a laptop.
+    */
+
+    height: min(100svh, 932px);
+
+    border-radius: 4px;
+
+    box-shadow:
+      0 0 0 1px rgba(79, 57, 35, 0.08),
+      0 20px 60px rgba(65, 46, 27, 0.18);
   }
 
-  .book-arrow {
-    margin: 0 12px;
+}
+
+
+/* =========================================================
+   19. TALL DESKTOP / LARGE MONITORS
+   ========================================================= */
+
+@media (min-width: 431px) and (min-height: 950px) {
+
+  .cover,
+  .birthday-page,
+  .memory-book {
+    height: 932px;
   }
+
+}
+
+
+/* =========================================================
+   20. ACCESSIBILITY
+   ========================================================= */
+
+button:focus-visible {
+  outline: 2px solid #d5a932;
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   21. REDUCE MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+  }
+
 }
