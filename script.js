@@ -3,20 +3,39 @@ const cover = document.getElementById("cover");
 const page2 = document.getElementById("page2");
 const music = document.getElementById("birthdayMusic");
 
+
 openButton.addEventListener("click", async () => {
+
+  /* Start the Page 1 transition */
   cover.classList.add("leaving");
 
-  // Start loading the song as the scrapbook page comes in.
+
+  /* Start the music */
   try {
+
     await music.play();
+
   } catch (error) {
-    // Some browsers block playback until another interaction; the click above normally counts as one.
-    console.log("Music playback was blocked by the browser.");
+
+    console.log(
+      "Music playback was blocked by the browser."
+    );
+
   }
 
+
+  /* Wait for the transition, then reveal Page 2 */
   setTimeout(() => {
+
     cover.style.display = "none";
+
     page2.classList.add("show");
-    page2.setAttribute("aria-hidden", "false");
+
+    page2.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
   }, 850);
+
 });
