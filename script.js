@@ -215,3 +215,10 @@ memoryContinue.addEventListener("click", () => {
 ----------------------------------------- */
 
 updateMemoryPage();
+
+const goToMemories =
+  document.getElementById("goToMemories");
+
+goToMemories.addEventListener("click", () => {
+  showMemoryBook();
+});
