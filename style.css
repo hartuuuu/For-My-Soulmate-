@@ -1257,3 +1257,310 @@ body {
   }
 
 }
+
+/* =========================================
+   GLOBAL — PHONE-SIZED EXPERIENCE
+========================================= */
+
+/*
+   The entire website behaves like a little
+   phone app / digital scrapbook.
+
+   NO PAGE SCROLLING.
+*/
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+}
+
+
+/* =========================================
+   PAGE 1 — COVER
+========================================= */
+
+.cover {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
+  height: 100dvh;
+
+  overflow: hidden;
+
+  z-index: 100;
+}
+
+
+/* =========================================
+   PAGE 2 — BIRTHDAY SCREEN
+========================================= */
+
+.birthday-page {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
+  height: 100dvh;
+
+  overflow: hidden;
+
+  z-index: 20;
+}
+
+
+/*
+   Keep the actual birthday content
+   phone-sized and centered.
+*/
+
+.birthday-inner {
+  position: relative;
+
+  width: min(100vw, 430px);
+  height: 100dvh;
+
+  margin: 0 auto;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   PAGE 3 — MEMORY SCREEN
+========================================= */
+
+.memory-book-page {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
+  height: 100dvh;
+
+  min-height: 0;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  padding:
+    clamp(18px, 4vh, 45px)
+    12px
+    18px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 30;
+}
+
+
+/*
+   The content itself has a phone-like width.
+
+   On a laptop:
+       empty space | scrapbook | empty space
+
+   On a phone:
+       scrapbook fills the screen.
+*/
+
+.memory-header {
+  width: min(100%, 430px);
+
+  flex-shrink: 0;
+
+  margin-bottom: clamp(8px, 2vh, 20px);
+}
+
+
+/* =========================================
+   MEMORY BOOK SIZE
+========================================= */
+
+.book-area {
+  width: min(100%, 430px);
+
+  flex: 1;
+
+  min-height: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.memory-book {
+  /*
+     Never let the book become enormous
+     on a laptop.
+  */
+
+  width: min(82vw, 390px);
+
+  /*
+     Keep the portrait proportions.
+  */
+
+  height: auto;
+
+  aspect-ratio: 1389 / 1964;
+
+  max-height: 66vh;
+
+  perspective: 1800px;
+
+  flex-shrink: 1;
+}
+
+
+/* =========================================
+   MEMORY CONTROLS
+========================================= */
+
+.memory-controls {
+  width: min(100%, 430px);
+
+  flex-shrink: 0;
+
+  margin-top: clamp(8px, 2vh, 18px);
+}
+
+
+/* =========================================
+   PHONE SIZING
+========================================= */
+
+@media (max-width: 600px) {
+
+  .memory-book-page {
+    padding:
+      16px
+      8px
+      14px;
+  }
+
+  .memory-header {
+    margin-bottom: 8px;
+  }
+
+  .memory-header h2 {
+    font-size: clamp(38px, 11vw, 60px);
+  }
+
+  .memory-small-title {
+    font-size: 18px;
+  }
+
+  .book-area {
+    width: 100%;
+  }
+
+  .memory-book {
+    width: min(84vw, 390px);
+
+    max-height: 68vh;
+  }
+
+  .book-arrow {
+    width: 44px;
+    height: 44px;
+
+    margin: 0 5px;
+
+    flex-shrink: 0;
+
+    font-size: 22px;
+  }
+
+  .memory-page-number {
+    font-size: 21px;
+  }
+
+  .memory-hint {
+    font-size: 17px;
+
+    margin:
+      2px
+      0
+      8px;
+  }
+
+  .memory-continue {
+    padding:
+      10px
+      20px;
+
+    font-size: 19px;
+  }
+}
+
+
+/* =========================================
+   SHORT PHONE SCREENS
+========================================= */
+
+@media (max-height: 700px) {
+
+  .memory-book-page {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .memory-header {
+    margin-bottom: 4px;
+  }
+
+  .memory-header h2 {
+    font-size: 40px;
+  }
+
+  .memory-small-title {
+    font-size: 16px;
+  }
+
+  .memory-book {
+    max-height: 63vh;
+  }
+
+  .memory-controls {
+    margin-top: 5px;
+  }
+
+  .memory-hint {
+    display: none;
+  }
+}
+
+
+/* =========================================
+   LAPTOP / DESKTOP
+========================================= */
+
+@media (min-width: 601px) {
+
+  /*
+     Do NOT make the scrapbook wider
+     just because there is more screen space.
+  */
+
+  .memory-book {
+    width: 350px;
+    max-height: 70vh;
+  }
+
+  .book-arrow {
+    margin: 0 12px;
+  }
+}
