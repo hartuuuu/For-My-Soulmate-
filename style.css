@@ -1115,26 +1115,52 @@ body {
   position: relative;
   z-index: 10;
 
-  width: 58px;
-  height: 58px;
+  width: 48px;
+  height: 48px;
 
-  margin: 0 24px;
+  margin: 0 8px;
 
-  border: 2px solid rgba(91, 72, 54, 0.35);
+  border: none;
   border-radius: 50%;
 
-  background: rgba(255, 250, 238, 0.88);
+  background: rgba(255, 250, 238, 0.92);
 
   color: #544536;
 
-  font-size: 30px;
+  font-size: 25px;
 
   cursor: pointer;
+
+  box-shadow:
+    0 5px 15px rgba(70, 50, 30, 0.12);
 
   transition:
     transform 0.2s ease,
     background 0.2s ease,
     box-shadow 0.2s ease;
+}
+
+.book-arrow:hover {
+  transform: scale(1.08);
+
+  background: #ffffff;
+
+  box-shadow:
+    0 8px 20px rgba(70, 50, 30, 0.18);
+}
+
+.book-arrow:active {
+  transform: scale(0.94);
+}
+
+.book-arrow:disabled {
+  opacity: 0.2;
+
+  cursor: default;
+
+  transform: none;
+
+  box-shadow: none;
 }
 
 .book-arrow:hover {
