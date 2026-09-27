@@ -80,13 +80,7 @@ let isTurning = false;
 function showMemoryBook() {
   page3.classList.add("show");
   page3.setAttribute("aria-hidden", "false");
-
-  window.scrollTo({
-    top: page3.offsetTop,
-    behavior: "smooth"
-  });
 }
-
 
 /* -----------------------------------------
    UPDATE PAGE
