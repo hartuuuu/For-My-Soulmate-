@@ -214,5 +214,6 @@ const goToMemories =
   document.getElementById("goToMemories");
 
 goToMemories.addEventListener("click", () => {
-  showMemoryBook();
+  page3.classList.add("show");
+  page3.setAttribute("aria-hidden", "false");
 });
