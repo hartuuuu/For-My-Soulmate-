@@ -1,140 +1,379 @@
-// State variables
-const pages = ['page-1', 'page-2', 'page-3', 'page-letter', 'page-video', 'page-final'];
-let currentPageIndex = 0;
+document.addEventListener("DOMContentLoaded", () => {
+  // --- DOM ELEMENTS ---
+  const bgMusic = document.getElementById("bg-music");
 
-const memories = [
-  'assets/memory1.jpg',
-  'assets/memory2.jpg',
-  'assets/memory3.jpg',
-  'assets/memory4.jpg',
-  'assets/memory5.jpg'
-];
-let currentMemoryIndex = 0;
+  // Pages
+  const page1 = document.getElementById("page-1");
+  const page2 = document.getElementById("page-2");
+  const pageMemory = document.getElementById("page-memory-book");
+  const pageLetter = document.getElementById("page-letter");
+  const pageTemp = document.getElementById("page-temp");
 
-// Navigation
-function showPage(pageId) {
-  pages.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.classList.remove('active');
-      el.classList.add('hidden');
+  // Buttons & Navigation
+  const btnStart = document.getElementById("btn-start");
+  const p2BackBtn = document.getElementById("p2-back-btn");
+  const p2MainContent = document.getElementById("p2-main-content");
+
+  const memBackBtn = document.getElementById("mem-back-btn");
+  const memNextBtn = document.getElementById("mem-next-btn");
+  const memoryCounter = document.getElementById("memory-counter");
+  const memoryImage = document.getElementById("memory-image");
+  const memoryImageUnder = document.getElementById("memory-image-under");
+  const scrapbookPage = document.getElementById("scrapbook-page");
+  const flipCard = document.getElementById("flip-card");
+
+  const letterBackBtn = document.getElementById("letter-back-btn");
+  const letterNextBtn = document.getElementById("letter-next-btn");
+
+  const tempBackBtn = document.getElementById("temp-back-btn");
+
+  // Letter & Split Cover Elements
+  const cardTop = document.getElementById("card-top");
+  const cardBottom = document.getElementById("card-bottom");
+  const clickPrompt = document.getElementById("click-prompt");
+  const letterScrollArea = document.getElementById("letter-scroll-area");
+
+  // --- STATE ---
+  let currentPageState = "page1"; // 'page1', 'page2', 'memory', 'letter', 'temp'
+  let currentMemoryIndex = 1;
+  const totalMemories = 8;
+  let isFlipping = false;
+  let isLetterOpen = false;
+
+  // Zoom / Drag State
+  let scale = 1;
+  let pointX = 0;
+  let pointY = 0;
+  let startX = 0;
+  let startY = 0;
+  let isDragging = false;
+
+  // Touch State
+  let initialPinchDistance = null;
+  let initialScale = 1;
+  let lastTapTime = 0;
+
+  // --- PAGE NAVIGATION ---
+  function showPage(pageToShow) {
+    [page1, page2, pageMemory, pageLetter, pageTemp].forEach((p) => {
+      p.classList.add("hidden");
+      p.classList.remove("active");
+    });
+
+    pageToShow.classList.remove("hidden");
+    pageToShow.classList.add("active");
+  }
+
+  // --- TURN.JS STYLE PAGE TURN ANIMATION ---
+  function changeMemoryWithFlip(newIndex, direction = "next") {
+    if (isFlipping) return;
+    isFlipping = true;
+
+    resetZoom();
+
+    memoryImageUnder.src = `assets/memory-${newIndex}.png`;
+
+    const flipClass = direction === "next" ? "turn-next" : "turn-prev";
+    flipCard.classList.add(flipClass);
+
+    setTimeout(() => {
+      currentMemoryIndex = newIndex;
+      memoryImage.src = `assets/memory-${newIndex}.png`;
+      memoryImage.alt = `Memory ${newIndex}`;
+      memoryCounter.textContent = `${newIndex} / ${totalMemories}`;
+
+      const nextUnder = newIndex < totalMemories ? newIndex + 1 : totalMemories;
+      memoryImageUnder.src = `assets/memory-${nextUnder}.png`;
+
+      flipCard.classList.remove(flipClass);
+      isFlipping = false;
+    }, 400);
+  }
+
+  function resetZoom() {
+    scale = 1;
+    pointX = 0;
+    pointY = 0;
+    applyTransform();
+  }
+
+  function applyTransform() {
+    scale = Math.min(Math.max(1, scale), 4);
+
+    if (scale === 1) {
+      pointX = 0;
+      pointY = 0;
+    }
+
+    memoryImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+  }
+
+  // --- SPLIT CARD COVER TOGGLE ---
+  function openLetterCard() {
+    pageLetter.classList.add("open");
+    cardTop.classList.add("slide-up");
+    cardBottom.classList.add("slide-down");
+    isLetterOpen = true;
+  }
+
+  if (cardTop) cardTop.addEventListener("click", openLetterCard);
+  if (cardBottom) cardBottom.addEventListener("click", openLetterCard);
+  if (clickPrompt) clickPrompt.addEventListener("click", openLetterCard);
+
+  // Reveal next button when scrolled to the end of letter
+  if (letterScrollArea) {
+    letterScrollArea.addEventListener("scroll", () => {
+      const scrollPosition = letterScrollArea.scrollTop + letterScrollArea.clientHeight;
+      const totalHeight = letterScrollArea.scrollHeight;
+
+      if (scrollPosition >= totalHeight - 15) {
+        letterNextBtn.classList.add("visible");
+      }
+    });
+  }
+
+  // --- NAVIGATION ACTIONS ---
+  function startExperience() {
+    if (bgMusic) {
+      bgMusic.play().catch((err) => console.log("Audio play deferred:", err));
+    }
+    currentPageState = "page2";
+    showPage(page2);
+  }
+
+  function goBackFromPage2() {
+    currentPageState = "page1";
+    showPage(page1);
+  }
+
+  function goToMemoryBook() {
+    currentPageState = "memory";
+    currentMemoryIndex = 1;
+    memoryImage.src = `assets/memory-1.png`;
+    memoryImageUnder.src = `assets/memory-2.png`;
+    memoryImage.alt = `Memory 1`;
+    memoryCounter.textContent = `1 / ${totalMemories}`;
+    resetZoom();
+    showPage(pageMemory);
+  }
+
+  function nextMemoryOrPage() {
+    if (isFlipping) return;
+
+    if (currentMemoryIndex < totalMemories) {
+      changeMemoryWithFlip(currentMemoryIndex + 1, "next");
+    } else {
+      goToLetterPage();
+    }
+  }
+
+  function previousMemoryOrPage() {
+    if (isFlipping) return;
+
+    if (currentMemoryIndex > 1) {
+      changeMemoryWithFlip(currentMemoryIndex - 1, "prev");
+    } else {
+      currentPageState = "page2";
+      showPage(page2);
+    }
+  }
+
+  function goToLetterPage() {
+    currentPageState = "letter";
+    showPage(pageLetter);
+    pageLetter.classList.remove("open");
+    if (cardTop) cardTop.classList.remove("slide-up");
+    if (cardBottom) cardBottom.classList.remove("slide-down");
+    isLetterOpen = false;
+    letterNextBtn.classList.remove("visible");
+    if (letterScrollArea) letterScrollArea.scrollTop = 0;
+  }
+
+  function goBackFromLetter() {
+    currentPageState = "memory";
+    currentMemoryIndex = totalMemories;
+    memoryImage.src = `assets/memory-${totalMemories}.png`;
+    memoryImageUnder.src = `assets/memory-${totalMemories}.png`;
+    memoryImage.alt = `Memory ${totalMemories}`;
+    memoryCounter.textContent = `${totalMemories} / ${totalMemories}`;
+    resetZoom();
+    showPage(pageMemory);
+  }
+
+  function goToTempPage() {
+    currentPageState = "temp";
+    showPage(pageTemp);
+  }
+
+  function goBackFromTemp() {
+    currentPageState = "letter";
+    showPage(pageLetter);
+  }
+
+  // --- EVENT LISTENERS ---
+  btnStart.addEventListener("click", startExperience);
+
+  p2BackBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    goBackFromPage2();
+  });
+
+  p2MainContent.addEventListener("click", goToMemoryBook);
+
+  memNextBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    nextMemoryOrPage();
+  });
+
+  memBackBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    previousMemoryOrPage();
+  });
+
+  scrapbookPage.addEventListener("click", () => {
+    if (scale === 1 && !isFlipping) {
+      nextMemoryOrPage();
     }
   });
 
-  const target = document.getElementById(pageId);
-  if (target) {
-    target.classList.remove('hidden');
-    target.classList.add('active');
-    currentPageIndex = pages.indexOf(pageId);
-  }
-}
+  letterBackBtn.addEventListener("click", goBackFromLetter);
+  letterNextBtn.addEventListener("click", goToTempPage);
 
-function nextPage() {
-  if (currentPageIndex < pages.length - 1) {
-    showPage(pages[currentPageIndex + 1]);
-  }
-}
+  tempBackBtn.addEventListener("click", goBackFromTemp);
 
-function prevPage() {
-  if (currentPageIndex > 0) {
-    showPage(pages[currentPageIndex - 1]);
-  }
-}
-
-// Memory Flip Logic
-function nextMemory() {
-  const flipCard = document.getElementById('flip-card');
-  const img = document.getElementById('memory-image');
-  const counter = document.getElementById('memory-counter');
-
-  if (flipCard) {
-    flipCard.classList.add('turn-next');
-
-    setTimeout(() => {
-      currentMemoryIndex = (currentMemoryIndex + 1) % memories.length;
-      if (img) img.src = memories[currentMemoryIndex];
-      if (counter) counter.innerText = `${currentMemoryIndex + 1} / ${memories.length}`;
-      flipCard.classList.remove('turn-next');
-    }, 200);
-  }
-}
-
-// Letter Toggle Logic
-function toggleLetter() {
-  const letterPage = document.getElementById('page-letter');
-  const btn = document.getElementById('letter-next-btn');
-
-  if (letterPage) {
-    letterPage.classList.toggle('open');
-    if (btn) btn.classList.add('visible');
-  }
-}
-
-// Replay Video Logic
-function replayVideo(videoId) {
-  const vid = document.getElementById(videoId);
-  if (vid) {
-    vid.currentTime = 0;
-    vid.play();
-  }
-}
-
-// Final Page Transition & Confetti
-function goToFinalPage() {
-  showPage('page-final');
-  startConfetti();
-}
-
-function startConfetti() {
-  const canvas = document.getElementById('confetti-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-
-  canvas.width = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
-
-  const confettiCount = 45;
-  const particles = [];
-  const colors = ['#fce1e4', '#fcf4dd', '#ddedf8', '#e8dff5', '#ffffff'];
-
-  for (let i = 0; i < confettiCount; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height - canvas.height,
-      size: Math.random() * 6 + 4,
-      speedY: Math.random() * 2 + 1,
-      speedX: Math.random() * 1 - 0.5,
-      color: colors[Math.floor(Math.random() * colors.length)]
-    });
-  }
-
-  function render() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      p.y += p.speedY;
-      p.x += p.speedX;
-      if (p.y > canvas.height) p.y = -10;
-
-      ctx.fillStyle = p.color;
-      ctx.fillRect(p.x, p.y, p.size, p.size * 1.5);
-    });
-    requestAnimationFrame(render);
-  }
-
-  render();
-}
-
-// Restart Website Logic
-function restartWebsite() {
-  const vids = document.querySelectorAll('video');
-  vids.forEach(v => {
-    v.currentTime = 0;
+  // --- KEYBOARD SUPPORT ---
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight" || e.key === "Enter" || e.key === " ") {
+      if (currentPageState === "page1") {
+        startExperience();
+      } else if (currentPageState === "page2") {
+        goToMemoryBook();
+      } else if (currentPageState === "memory") {
+        nextMemoryOrPage();
+      } else if (currentPageState === "letter" && letterNextBtn.classList.contains("visible")) {
+        goToTempPage();
+      }
+    } else if (e.key === "ArrowLeft") {
+      if (currentPageState === "page2") {
+        goBackFromPage2();
+      } else if (currentPageState === "memory") {
+        previousMemoryOrPage();
+      } else if (currentPageState === "letter") {
+        goBackFromLetter();
+      } else if (currentPageState === "temp") {
+        goBackFromTemp();
+      }
+    }
   });
 
-  const letterPage = document.getElementById('page-letter');
-  if (letterPage) {
-    letterPage.classList.remove('open');
+  // --- ZOOM & DRAG IMPLEMENTATION ---
+  memoryImage.addEventListener(
+    "wheel",
+    (e) => {
+      if (e.ctrlKey || e.metaKey || scale > 1) {
+        e.preventDefault();
+        const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85;
+        scale *= zoomFactor;
+        applyTransform();
+      }
+    },
+    { passive: false }
+  );
+
+  memoryImage.addEventListener("dblclick", (e) => {
+    e.stopPropagation();
+    if (scale > 1) {
+      resetZoom();
+    } else {
+      scale = 2.5;
+      applyTransform();
+    }
+  });
+
+  memoryImage.addEventListener("mousedown", (e) => {
+    if (scale > 1) {
+      e.stopPropagation();
+      isDragging = true;
+      startX = e.clientX - pointX;
+      startY = e.clientY - pointY;
+    }
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (isDragging && scale > 1) {
+      e.preventDefault();
+      pointX = e.clientX - startX;
+      pointY = e.clientY - startY;
+      applyTransform();
+    }
+  });
+
+  window.addEventListener("mouseup", () => {
+    isDragging = false;
+  });
+
+  function getPinchDistance(touches) {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
   }
 
-  showPage('page-1');
-}
+  memoryImage.addEventListener(
+    "touchstart",
+    (e) => {
+      if (e.touches.length === 1) {
+        const now = Date.now();
+        if (now - lastTapTime < 300) {
+          e.preventDefault();
+          if (scale > 1) {
+            resetZoom();
+          } else {
+            scale = 2;
+            applyTransform();
+          }
+        }
+        lastTapTime = now;
+
+        if (scale > 1) {
+          isDragging = true;
+          startX = e.touches[0].clientX - pointX;
+          startY = e.touches[0].clientY - pointY;
+        }
+      } else if (e.touches.length === 2) {
+        e.preventDefault();
+        isDragging = false;
+        initialPinchDistance = getPinchDistance(e.touches);
+        initialScale = scale;
+      }
+    },
+    { passive: false }
+  );
+
+  memoryImage.addEventListener(
+    "touchmove",
+    (e) => {
+      if (e.touches.length === 1 && isDragging && scale > 1) {
+        e.preventDefault();
+        pointX = e.touches[0].clientX - startX;
+        pointY = e.touches[0].clientY - startY;
+        applyTransform();
+      } else if (e.touches.length === 2 && initialPinchDistance) {
+        e.preventDefault();
+        const currentDistance = getPinchDistance(e.touches);
+        const factor = currentDistance / initialPinchDistance;
+        scale = initialScale * factor;
+        applyTransform();
+      }
+    },
+    { passive: false }
+  );
+
+  memoryImage.addEventListener("touchend", (e) => {
+    if (e.touches.length < 2) {
+      initialPinchDistance = null;
+    }
+    if (e.touches.length === 0) {
+      isDragging = false;
+    }
+  });
+});
