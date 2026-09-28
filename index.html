@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Birthday Wish</title>
+  <title>Birthday Letter & Website</title>
   <style>
+    /* RESET & BASE STYLES */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -14,11 +15,11 @@
     body, html {
       width: 100%;
       height: 100%;
-      overflow: hidden;
       font-family: 'Courier New', Courier, monospace;
+      scroll-behavior: smooth;
     }
 
-    /* 1. TURN PAGE SECTION BACKGROUND */
+    /* 1. TURN PAGE SECTION */
     .turn-page-section {
       width: 100%;
       height: 100vh;
@@ -30,7 +31,7 @@
       align-items: center;
     }
 
-    /* 2. LETTER SECTION & FRONT CARD CONTAINER */
+    /* 2. LETTER SECTION CONTAINER */
     .letter-section {
       position: relative;
       width: 100%;
@@ -44,7 +45,7 @@
       align-items: center;
     }
 
-    /* Split Cover Styling */
+    /* SLIDING FRONT COVER (CARD) */
     .card-cover {
       position: absolute;
       width: 100%;
@@ -69,7 +70,7 @@
       background-position: top center;
     }
 
-    /* Slide Animations */
+    /* SLIDE ANIMATION CLASSES */
     .letter-section.open .card-top {
       transform: translateY(-100%);
     }
@@ -78,7 +79,6 @@
       transform: translateY(100%);
     }
 
-    /* Prompt Text to click cover */
     .click-prompt {
       position: absolute;
       top: 50%;
@@ -86,31 +86,32 @@
       transform: translate(-50%, -50%);
       z-index: 11;
       background: rgba(255, 255, 255, 0.85);
-      padding: 8px 16px;
+      padding: 10px 20px;
       border-radius: 20px;
       font-size: 14px;
       color: #4a4a4a;
       pointer-events: none;
       transition: opacity 0.5s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .letter-section.open .click-prompt {
       opacity: 0;
+      pointer-events: none;
     }
 
-    /* 3. SCROLLABLE LETTER CONTAINER */
+    /* 3. SCROLLABLE LETTER AREA */
     .letter-scroll-container {
       width: 85%;
       max-width: 500px;
       height: 70vh;
       overflow-y: auto;
-      padding: 25px;
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(3px);
+      padding: 30px 25px;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(4px);
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
       z-index: 5;
-      /* Custom Scrollbar for clean look */
       scrollbar-width: thin;
       scrollbar-color: #e0a9af transparent;
     }
@@ -122,23 +123,24 @@
       white-space: pre-line;
     }
 
-    /* 4. NEXT PAGE BUTTON */
+    /* 4. NEXT PAGE BUTTON (Lalabas lang pag na-scroll hanggang baba) */
     .next-page-btn {
       position: absolute;
-      bottom: 20px;
-      padding: 12px 24px;
+      bottom: 25px;
+      padding: 12px 28px;
       background-color: #e0a9af;
       color: white;
       border: none;
       border-radius: 25px;
       font-size: 15px;
+      font-weight: bold;
       cursor: pointer;
       z-index: 6;
       opacity: 0;
       visibility: hidden;
-      transform: translateY(10px);
+      transform: translateY(15px);
       transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .next-page-btn.visible {
@@ -146,16 +148,31 @@
       visibility: visible;
       transform: translateY(0);
     }
+
+    /* 5. NEXT SECTION / PAGE SAMPLE */
+    .next-section {
+      width: 100%;
+      height: 100vh;
+      background-color: #fdfbf7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
 
-  <!-- LETTER SECTION -->
-  <div class="letter-section" id="letterSection">
+  <!-- PAGE 1: TURN PAGE SECTION WITH MATCHING BACKGROUND -->
+  <section class="turn-page-section">
+    <!-- Dito nakalagay ang turn page / 8 images mo -->
+  </section>
+
+  <!-- PAGE 2: LETTER SECTION WITH SLIDING CARD -->
+  <section class="letter-section" id="letterSection">
     
-    <!-- Front Card Splitting Covers -->
-    <div class="card-cover card-top" id="cardTop" onclick="openLetter()"></div>
-    <div class="card-cover card-bottom" id="cardBottom" onclick="openLetter()"></div>
+    <!-- Split Front Cover -->
+    <div class="card-cover card-top" onclick="openLetter()"></div>
+    <div class="card-cover card-bottom" onclick="openLetter()"></div>
     <div class="click-prompt">Tap to open letter ✨</div>
 
     <!-- Scrollable Letter Text -->
@@ -171,42 +188,50 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor i
 
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-(Mag-scroll ka pa pababa para lumabas ang susunod na button!)
+(Paki-scroll pa pababa hanggang sa dulo para lumabas ang susunod na button!)
 
 ---
 End of Letter 💕
       </div>
     </div>
 
-    <!-- Next Page Trigger -->
+    <!-- Next Page Trigger Button -->
     <button class="next-page-btn" id="nextBtn" onclick="goToNextPage()">Proceed to Next Page ➔</button>
 
-  </div>
+  </section>
 
+  <!-- PAGE 3: NEXT PAGE / SECTION -->
+  <section class="next-section" id="nextSection">
+    <h2>Welcome to the Next Page! 🎉</h2>
+  </section>
+
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     const letterSection = document.getElementById('letterSection');
     const letterContainer = document.getElementById('letterContainer');
     const nextBtn = document.getElementById('nextBtn');
 
-    // Slide open animation trigger
+    // Function para mag-slide open ang front card cover
     function openLetter() {
       letterSection.classList.add('open');
     }
 
-    // Scroll detection to reveal the next page button
-    letterContainer.addEventListener('scroll', () => {
-      const scrollPosition = letterContainer.scrollTop + letterContainer.clientHeight;
-      const totalHeight = letterContainer.scrollHeight;
+    // Function para i-detect kapag na-scroll na ang sulat sa pinaka-ibaba
+    if (letterContainer) {
+      letterContainer.addEventListener('scroll', () => {
+        const scrollPosition = letterContainer.scrollTop + letterContainer.clientHeight;
+        const totalHeight = letterContainer.scrollHeight;
 
-      // Kapag nakarating sa pinaka-ibaba (may 5px threshold)
-      if (scrollPosition >= totalHeight - 5) {
-        nextBtn.classList.add('visible');
-      }
-    });
+        // Lalabas ang button kapag umabot na sa dulo (may 10px buffer)
+        if (scrollPosition >= totalHeight - 10) {
+          nextBtn.classList.add('visible');
+        }
+      });
+    }
 
+    // Function para mag-scroll papunta sa susunod na page
     function goToNextPage() {
-      alert("Proceeding to the next page...");
-      // Ilagay dito ang navigation logic patungo sa susunod mong pahina
+      document.getElementById('nextSection').scrollIntoView({ behavior: 'smooth' });
     }
   </script>
 </body>
