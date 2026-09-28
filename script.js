@@ -5,9 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Pages
   const page1 = document.getElementById("page-1");
   const page2 = document.getElementById("page-2");
-  const pageMemory = document.getElementById("page-memory-book") || document.getElementById("page-3");
+  const pageMemory = document.getElementById("page-memory-book");
   const pageLetter = document.getElementById("page-letter");
-  const pageVideo = document.getElementById("page-video") || document.getElementById("page-temp");
+  const pageVideo = document.getElementById("page-video");
   const pageFinal = document.getElementById("page-final");
 
   // Buttons & Navigation
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const letterBackBtn = document.getElementById("letter-back-btn");
   const letterNextBtn = document.getElementById("letter-next-btn");
 
-  const videoBackBtn = document.getElementById("video-back-btn") || document.getElementById("temp-back-btn");
+  const videoBackBtn = document.getElementById("video-back-btn");
   const videoNextBtn = document.getElementById("video-next-btn");
 
   // Letter & Split Cover Elements
@@ -250,6 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function restartWebsite() {
     const vids = document.querySelectorAll("video");
     vids.forEach((v) => {
+      v.pause();
       v.currentTime = 0;
     });
 
@@ -263,8 +264,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!confettiCanvas) return;
     const ctx = confettiCanvas.getContext("2d");
 
-    confettiCanvas.width = window.innerWidth;
-    confettiCanvas.height = window.innerHeight;
+    confettiCanvas.width = confettiCanvas.parentElement.clientWidth || window.innerWidth;
+    confettiCanvas.height = confettiCanvas.parentElement.clientHeight || window.innerHeight;
 
     const confettiCount = 50;
     const particles = [];
