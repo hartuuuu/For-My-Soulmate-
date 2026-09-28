@@ -1,31 +1,23 @@
-/* =====================================================
-   NICOLE'S BIRTHDAY WEBSITE
-   MAIN STYLE SHEET
-   ===================================================== */
+/* =========================================================
+   A LITTLE SOMETHING FOR YOU
+   STYLE.CSS
+   ========================================================= */
 
 
-/* =====================================================
+/* =========================================================
    FONTS
-   ===================================================== */
-
-/*
-   These use the font filenames we previously set aside.
-
-   If your actual filenames are different, tell me before
-   changing them so we don't accidentally break the fonts.
-*/
+   ========================================================= */
 
 @font-face {
-  font-family: "LittleLetters";
+  font-family: "InternetFriends";
   src: url("assets/Internet Friends.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-
 @font-face {
-  font-family: "BigHeaders";
+  font-family: "IceCream";
   src: url("assets/Ice Cream.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
@@ -33,136 +25,92 @@
 }
 
 
-/* =====================================================
+/* =========================================================
    RESET
-   ===================================================== */
+   ========================================================= */
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
-
 
 html,
 body {
   width: 100%;
   height: 100%;
 
+  margin: 0;
+  padding: 0;
+
   overflow: hidden;
 
-  background: #eee3cf;
-}
-
-
-body {
-  position: relative;
-
-  min-height: 100svh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: #4d4035;
+  background: #f7efdf;
 
   font-family: Georgia, "Times New Roman", serif;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   overscroll-behavior: none;
-
-  -webkit-tap-highlight-color: transparent;
 }
 
 
-/* =====================================================
-   GLOBAL SCREEN
-   ===================================================== */
+/* =========================================================
+   PORTRAIT SITE
+   ========================================================= */
 
-.screen {
-  position: fixed;
-
-  inset: 0;
+#site {
+  position: relative;
 
   width: min(100vw, 430px);
   height: 100svh;
 
-  margin: auto;
-
-  display: none;
-
-  opacity: 0;
+  max-height: 100svh;
 
   overflow: hidden;
 
-  transition:
-    opacity 0.45s ease,
-    transform 0.45s ease;
+  background: #fffaf0;
 
-  z-index: 1;
+  isolation: isolate;
 }
 
 
-.screen.show {
-  opacity: 1;
+/* =========================================================
+   GENERAL SCREEN SYSTEM
+   ========================================================= */
 
-  transform: translateY(0);
-}
+.screen {
+  position: absolute;
+  inset: 0;
 
+  width: 100%;
+  height: 100%;
 
-.screen[aria-hidden="true"] {
+  overflow: hidden;
+
+  opacity: 0;
+  visibility: hidden;
+
   pointer-events: none;
+
+  transition:
+    opacity 0.65s ease,
+    visibility 0.65s ease;
 }
 
-
-.screen[aria-hidden="false"] {
+.screen.active {
+  opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
 
 
-/* =====================================================
-   DESKTOP / LAPTOP
-   Keep the website phone-sized.
-   ===================================================== */
-
-@media (min-width: 431px) {
-
-  .screen {
-    width: 430px;
-
-    height: min(100svh, 932px);
-
-    top: 50%;
-
-    left: 50%;
-
-    right: auto;
-
-    bottom: auto;
-
-    transform:
-      translate(-50%, -50%);
-
-    border-radius: 14px;
-
-    overflow: hidden;
-
-    box-shadow:
-      0 25px 70px rgba(75, 55, 35, 0.18);
-
-  }
-
-
-  .screen.show {
-    transform:
-      translate(-50%, -50%);
-  }
-
-}
-
-
-/* =====================================================
+/* =========================================================
    BUTTON RESET
-   ===================================================== */
+   ========================================================= */
 
 button {
   border: 0;
@@ -178,7 +126,6 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
-
 button:focus-visible {
   outline: 2px solid rgba(110, 86, 60, 0.45);
 
@@ -186,1890 +133,849 @@ button:focus-visible {
 }
 
 
-/* =====================================================
+/* =========================================================
    PAGE 1 — COVER
-   ===================================================== */
+   ========================================================= */
 
-.cover-screen {
-
-  position: fixed;
-
-  background-image:
-    url("assets/background.png");
+#cover {
+  background-image: url("assets/background.png");
 
   background-size: cover;
-
   background-position: center;
-
   background-repeat: no-repeat;
 
-  color: #514333;
-
+  display: flex;
+  align-items: center;
   justify-content: center;
 
-  align-items: center;
-
   text-align: center;
-
-  z-index: 10;
 }
 
-
-/* Soft cream/yellow layer */
-
 .cover-overlay {
-
   position: absolute;
-
   inset: 0;
 
   background:
     linear-gradient(
-      to bottom,
-      rgba(255, 247, 207, 0.18),
-      rgba(255, 246, 214, 0.30)
+      rgba(255, 249, 226, 0.10),
+      rgba(255, 249, 226, 0.18)
     );
 
   pointer-events: none;
 }
 
+.cover-content {
+  position: relative;
+  z-index: 2;
 
-/* =====================================================
-   HANDMADE SQUIGGLES
-   ===================================================== */
+  width: 88%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 14px;
+}
+
+.date {
+  margin: 0;
+
+  font-family: "InternetFriends", cursive;
+
+  font-size: 0.95rem;
+
+  color: #665548;
+
+  letter-spacing: 0.08em;
+}
+
+.cover-small {
+  margin: 0;
+
+  font-family: "InternetFriends", cursive;
+
+  font-size: clamp(1.35rem, 5vw, 1.75rem);
+
+  color: #34281f;
+}
+
+.cover-small .heart {
+  color: #f1c928;
+}
+
+.cover-message {
+  margin: 0;
+
+  font-family: "InternetFriends", cursive;
+
+  font-size: clamp(1.15rem, 4.5vw, 1.55rem);
+
+  line-height: 1.25;
+
+  color: #34281f;
+}
+
+.open-button {
+  margin-top: 16px;
+
+  border: 1.5px solid #493b30;
+
+  background: rgba(255, 252, 239, 0.72);
+
+  color: #34281f;
+
+  border-radius: 999px;
+
+  padding: 12px 22px;
+
+  font-family: "InternetFriends", cursive;
+
+  font-size: 1.1rem;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.open-button:hover {
+  transform: translateY(-2px);
+
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.open-button:active {
+  transform: scale(0.96);
+}
+
+.button-heart {
+  margin-left: 5px;
+}
 
 .cover-squiggle {
-
   position: absolute;
 
-  width: 100px;
+  font-family: "InternetFriends", cursive;
 
-  height: 45px;
+  color: #7d674e;
 
   opacity: 0.65;
 
   pointer-events: none;
 }
 
+.squiggle-1 {
+  top: 7%;
+  left: 8%;
+}
 
-.squiggle-one {
+.squiggle-2 {
+  top: 11%;
+  right: 8%;
+}
 
-  top: 17%;
+.squiggle-3 {
+  bottom: 9%;
+  left: 10%;
+}
 
-  left: 7%;
-
-  border-top:
-    2px solid rgba(95, 74, 48, 0.55);
-
-  border-radius: 50%;
-
-  transform:
-    rotate(-9deg);
+.squiggle-4 {
+  bottom: 13%;
+  right: 10%;
 }
 
 
-.squiggle-two {
+/* =========================================================
+   PAGE 2 — HAPPY BIRTHDAY
+   ========================================================= */
 
-  right: 5%;
-
-  bottom: 22%;
-
-  border-bottom:
-    2px solid rgba(95, 74, 48, 0.45);
-
-  border-radius: 50%;
-
-  transform:
-    rotate(12deg);
-}
-
-
-.squiggle-three {
-
-  top: 29%;
-
-  right: 13%;
-
-  width: 55px;
-
-  height: 25px;
-
-  border-top:
-    1.5px solid rgba(95, 74, 48, 0.40);
-
-  border-radius: 50%;
-
-  transform:
-    rotate(20deg);
-}
-
-
-/* =====================================================
-   COVER CONTENT
-   ===================================================== */
-
-.cover-content {
-
-  position: relative;
-
-  z-index: 2;
-
-  width: 88%;
+#birthday {
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(255, 255, 255, 0.9),
+      transparent 45%
+    ),
+    #f8f0df;
 
   display: flex;
-
-  flex-direction: column;
-
   align-items: center;
-}
-
-
-.cover-date {
-
-  margin-bottom: 18px;
-
-  font-size: 12px;
-
-  letter-spacing: 0.28em;
-
-  opacity: 0.72;
-}
-
-
-.cover-psst {
-
-  margin-bottom: 4px;
-
-  font-family: "LittleLetters", cursive;
-
-  font-size: 21px;
-
-  letter-spacing: 0.02em;
-}
-
-
-.cover-title {
-
-  margin: 0 0 12px;
-
-  font-family: "BigHeaders", Georgia, serif;
-
-  font-size: clamp(58px, 17vw, 82px);
-
-  font-weight: normal;
-
-  line-height: 0.9;
-
-  color: #5a4937;
-
-  text-shadow:
-    1px 2px 0 rgba(255, 255, 255, 0.35);
-}
-
-
-.cover-message {
-
-  max-width: 290px;
-
-  margin-bottom: 28px;
-
-  font-family: "LittleLetters", cursive;
-
-  font-size: 19px;
-
-  line-height: 1.35;
-}
-
-
-/* =====================================================
-   MAIN BUTTON
-   ===================================================== */
-
-.primary-button {
-
-  min-width: 145px;
-
-  padding: 12px 22px;
-
-  border:
-    1.5px solid rgba(76, 61, 45, 0.75);
-
-  border-radius: 999px;
-
-  color: #4e4031;
-
-  background:
-    rgba(255, 250, 225, 0.42);
-
-  font-family: "LittleLetters", cursive;
-
-  font-size: 18px;
-
-  transition:
-    transform 0.25s ease,
-    background 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-
-.primary-button span {
-
-  margin-left: 5px;
-
-  font-size: 19px;
-}
-
-
-.primary-button:hover {
-
-  transform:
-    translateY(-2px);
-
-  background:
-    rgba(255, 252, 232, 0.70);
-
-  box-shadow:
-    0 8px 20px rgba(79, 59, 36, 0.10);
-}
-
-
-.primary-button:active {
-
-  transform:
-    translateY(1px)
-    scale(0.98);
-}
-
-
-/* =====================================================
-   COVER EXIT
-   ===================================================== */
-
-.cover-screen.leaving {
-
-  animation:
-    coverLeave 0.75s ease forwards;
-}
-
-
-@keyframes coverLeave {
-
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(1.025);
-  }
-
-}
-
-
-/* =====================================================
-   PAGE 2 — BIRTHDAY
-   ===================================================== */
-
-.birthday-screen {
-
-  background:
-    #f4ead8;
-
   justify-content: center;
+}
 
+.birthday-inner {
+  width: 88%;
+  height: 92%;
+
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   text-align: center;
 
-  z-index: 9;
-}
-
-
-.birthday-paper {
-
   position: relative;
-
-  width: 100%;
-
-  height: 100%;
-
-  padding:
-    44px 25px 34px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  overflow: hidden;
-
-  background:
-    radial-gradient(
-      circle at 20% 15%,
-      rgba(255,255,255,0.65),
-      transparent 32%
-    ),
-    radial-gradient(
-      circle at 80% 85%,
-      rgba(227,204,169,0.22),
-      transparent 32%
-    );
 }
-
-
-/* subtle paper texture */
-
-.birthday-paper::before {
-
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  pointer-events: none;
-
-  opacity: 0.16;
-
-  background-image:
-    radial-gradient(
-      rgba(110, 87, 58, 0.25)
-      0.6px,
-      transparent 0.6px
-    );
-
-  background-size:
-    7px 7px;
-}
-
 
 .birthday-intro {
+  margin: 0 0 7px;
 
-  position: relative;
+  font-family: "InternetFriends", cursive;
 
-  margin-bottom: 7px;
+  font-size: 1.05rem;
 
-  font-family: "LittleLetters", cursive;
-
-  font-size: 20px;
+  color: #796452;
 }
-
 
 .birthday-label {
+  margin: 0;
 
-  position: relative;
+  font-size: 0.55rem;
 
-  margin-bottom: 12px;
+  letter-spacing: 0.25em;
 
-  font-size: 9px;
-
-  letter-spacing: 0.28em;
-
-  opacity: 0.55;
+  color: #a48b70;
 }
-
 
 .birthday-title {
+  margin: 3px 0 0;
 
+  font-family: "IceCream", cursive;
+
+  font-size: clamp(2.6rem, 13vw, 4rem);
+
+  line-height: 0.82;
+
+  color: #49392d;
+
+  text-align: center;
+}
+
+.birthday-name {
+  margin: 7px 0 15px;
+
+  font-family: "IceCream", cursive;
+
+  font-size: clamp(2rem, 9vw, 3rem);
+
+  color: #e1ae22;
+}
+
+.birthday-photo-wrap {
   position: relative;
 
-  margin-bottom: 19px;
+  width: 66%;
 
-  font-family: "BigHeaders", Georgia, serif;
-
-  font-size: clamp(40px, 11vw, 55px);
-
-  font-weight: normal;
-
-  line-height: 0.9;
-
-  color: #584633;
+  margin: 4px 0 15px;
 }
 
-
-.birthday-title span {
-
-  display: block;
-}
-
-
-.birthday-heart {
-
-  display: inline !important;
-
-  font-family: Georgia, serif;
-
-  font-size: 24px;
-
-  color: #d4a94d;
-}
-
-
-/* =====================================================
-   CHILDHOOD PHOTO
-   ===================================================== */
-
-.childhood-photo-card {
-
-  position: relative;
-
-  width: min(67vw, 265px);
-
-  padding:
-    10px 10px 15px;
-
-  background: #fffdf7;
-
-  box-shadow:
-    0 12px 28px rgba(69, 52, 35, 0.14);
-
-  transform:
-    rotate(-2.2deg);
-
-  margin-bottom: 19px;
-}
-
-
-.childhood-photo {
-
+.birthday-photo {
   display: block;
 
   width: 100%;
 
-  height: auto;
+  background: white;
 
-  aspect-ratio: 4 / 3;
+  padding: 8px;
 
-  object-fit: cover;
+  box-shadow:
+    0 10px 25px rgba(70, 52, 35, 0.16);
+
+  transform: rotate(-2deg);
 }
 
+.birthday-caption {
+  margin: -2px 0 0;
 
-.photo-caption {
+  font-family: "InternetFriends", cursive;
 
-  margin-top: 8px;
+  font-size: 0.9rem;
 
-  font-family: "LittleLetters", cursive;
-
-  font-size: 16px;
+  color: #55463a;
 }
-
-
-.photo-tape {
-
-  position: absolute;
-
-  width: 62px;
-
-  height: 19px;
-
-  background:
-    rgba(226, 203, 157, 0.70);
-
-  z-index: 3;
-}
-
-
-.photo-tape-left {
-
-  top: -8px;
-
-  left: 19px;
-
-  transform:
-    rotate(-8deg);
-}
-
-
-.photo-tape-right {
-
-  top: -7px;
-
-  right: 18px;
-
-  transform:
-    rotate(7deg);
-}
-
-
-/* =====================================================
-   BIRTHDAY MESSAGE
-   ===================================================== */
 
 .birthday-message {
+  margin-top: 4px;
 
-  position: relative;
+  font-family: "InternetFriends", cursive;
 
-  margin-bottom: 14px;
+  font-size: 1.05rem;
 
-  font-family: "LittleLetters", cursive;
+  line-height: 1.45;
 
-  font-size: 19px;
+  color: #403329;
+}
 
-  line-height: 1.3;
+.birthday-message p {
+  margin: 3px 0;
+}
+
+.birthday-heart {
+  color: #d7ae25;
+}
+
+.birthday-next {
+  margin-top: 15px;
+
+  font-family: "InternetFriends", cursive;
+
+  font-size: 0.85rem;
+
+  color: #907b67;
+
+  opacity: 0.8;
 }
 
 
-.birthday-message p + p {
+/* =========================================================
+   BACK BUTTON — PAGE 2
+   ========================================================= */
 
-  margin-top: 3px;
-}
-
-
-.birthday-hint {
-
-  position: relative;
-
-  margin-bottom: 8px;
-
-  font-family: "LittleLetters", cursive;
-
-  font-size: 14px;
-
-  opacity: 0.62;
-}
-
-
-.text-button {
-
-  position: relative;
-
-  padding: 5px 8px;
-
-  font-family: "LittleLetters", cursive;
-
-  font-size: 17px;
-
-  color: #5a4937;
-
-  transition:
-    transform 0.2s ease;
-}
-
-
-.text-button:hover {
-
-  transform:
-    translateX(4px);
-}
-
-
-/* =====================================================
-   BACK BUTTON
-   ===================================================== */
-
-.back-button {
-
+.page-back-button {
   position: absolute;
 
-  left: 18px;
+  top: 14px;
+  left: 14px;
 
-  bottom: 19px;
+  z-index: 50;
 
   width: 38px;
-
   height: 38px;
 
   display: flex;
-
+  align-items: center;
   justify-content: center;
 
-  align-items: center;
+  border: 1px solid rgba(79, 62, 46, 0.28);
 
   border-radius: 50%;
 
-  color: #5a4937;
+  background: rgba(255, 250, 239, 0.76);
 
-  background:
-    rgba(255, 255, 255, 0.42);
+  color: #5b4938;
 
-  font-size: 20px;
+  font-family: Georgia, "Times New Roman", serif;
 
-  opacity: 0.75;
+  font-size: 1.35rem;
+
+  line-height: 1;
+
+  backdrop-filter: blur(5px);
+
+  box-shadow:
+    0 4px 12px rgba(70, 52, 35, 0.08);
 
   transition:
     transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.page-back-button:hover {
+  transform: translateX(-2px);
+
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.page-back-button:active {
+  transform: scale(0.92);
+}
+
+
+/* =========================================================
+   MEMORY BOOK
+   ========================================================= */
+
+#memories {
+  background: #f4ead7;
+
+  perspective: 1800px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.memory-book {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  transform-style: preserve-3d;
+}
+
+
+/* =========================================================
+   MEMORY PAGES
+   ========================================================= */
+
+.memory-page {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  background: #fff;
+
+  transform-origin: left center;
+
+  transform-style: preserve-3d;
+
+  backface-visibility: hidden;
+
+  transition:
+    transform 0.85s cubic-bezier(0.65, 0, 0.35, 1),
     opacity 0.2s ease;
 }
 
 
-.back-button:hover {
-
-  opacity: 1;
-
-  transform:
-    translateX(-2px);
-}
-
-
-/* =====================================================
-   PAGE 3 — MEMORY BOOK
-   ===================================================== */
-
-.memory-screen {
-
-  background:
-    #e9dcc6;
-
-  z-index: 8;
-
-  justify-content: center;
-
-  align-items: center;
-}
-
-
-.memory-book {
-
-  position: relative;
-
-  width: 100%;
-
-  height: 100%;
-
-  overflow: hidden;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(103, 79, 51, 0.04),
-      transparent 10%,
-      transparent 90%,
-      rgba(103, 79, 51, 0.04)
-    ),
-    #eee2ce;
-}
-
-
-/* =====================================================
-   MEMORY HEADER
-   ===================================================== */
-
-.memory-header {
-
-  position: absolute;
-
-  top: 24px;
-
-  left: 0;
-
-  width: 100%;
-
-  z-index: 20;
-
-  text-align: center;
-
-  pointer-events: none;
-}
-
-
-.memory-kicker {
-
-  margin-bottom: 3px;
-
-  font-size: 8px;
-
-  letter-spacing: 0.30em;
-
-  opacity: 0.50;
-}
-
-
-.memory-title {
-
-  font-family: "BigHeaders", Georgia, serif;
-
-  font-size: 25px;
-
-  font-weight: normal;
-
-  line-height: 1;
-}
-
-
-/* =====================================================
-   MEMORY PAGES
-   ===================================================== */
-
-.memory-pages {
-
-  position: absolute;
-
-  inset: 0;
-
-  width: 100%;
-
-  height: 100%;
-
-  overflow: hidden;
-}
-
-
-.memory-page {
-
-  position: absolute;
-
-  inset: 0;
-
-  width: 100%;
-
-  height: 100%;
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  padding:
-    75px 17px 88px;
-
-  opacity: 0;
-
-  visibility: hidden;
-
-  pointer-events: none;
-
-  transform:
-    translateX(20px)
-    scale(0.985);
-
-  transition:
-    opacity 0.35s ease,
-    transform 0.35s ease,
-    visibility 0s linear 0.35s;
-}
-
-
-.memory-page.active {
-
-  opacity: 1;
-
-  visibility: visible;
-
-  pointer-events: auto;
-
-  transform:
-    translateX(0)
-    scale(1);
-
-  transition:
-    opacity 0.35s ease,
-    transform 0.35s ease,
-    visibility 0s;
-}
-
-
-/* =====================================================
-   ZOOM AREA
-   ===================================================== */
+/* =========================================================
+   MEMORY ZOOM AREA
+   ========================================================= */
 
 .memory-zoom-area {
-
-  position: relative;
+  position: absolute;
+  inset: 0;
 
   width: 100%;
-
   height: 100%;
 
   display: flex;
-
-  justify-content: center;
-
   align-items: center;
+  justify-content: center;
 
   overflow: hidden;
 
   touch-action: none;
 
   cursor: default;
-
-  user-select: none;
-
-  -webkit-user-select: none;
-
-  background:
-    rgba(255, 252, 245, 0.20);
-
-  border-radius: 3px;
 }
 
+.memory-zoom-area.is-zoomed {
+  cursor: grab;
+}
 
 .memory-zoom-area.is-dragging {
-
   cursor: grabbing;
 }
 
 
-/* =====================================================
+/* =========================================================
    MEMORY IMAGE
-   ===================================================== */
+   ========================================================= */
 
 .memory-image {
-
   display: block;
 
-  max-width: 100%;
-
-  max-height: 100%;
-
-  width: auto;
-
-  height: auto;
+  width: 100%;
+  height: 100%;
 
   object-fit: contain;
-
-  transform:
-    translate(0, 0)
-    scale(1);
-
-  transform-origin: center center;
-
-  transition:
-    transform 0.20s ease;
 
   user-select: none;
 
   -webkit-user-drag: none;
 
-  -webkit-user-select: none;
+  transform:
+    translate3d(0, 0, 0)
+    scale(1);
+
+  transform-origin: center center;
 
   will-change: transform;
+
+  transition:
+    transform 0.18s ease;
 }
 
 
-.memory-zoom-area.is-dragging
-.memory-image {
+/*
+   While actively dragging, don't let the image
+   fight the finger/mouse movement with animation.
+*/
 
+.memory-zoom-area.is-dragging .memory-image {
   transition: none;
 }
 
 
-/* =====================================================
-   MEMORY COUNTER
-   ===================================================== */
+/* =========================================================
+   PAGE STACKING
+   ========================================================= */
 
-.memory-counter {
+.memory-page:nth-child(1) {
+  z-index: 8;
+}
 
-  position: absolute;
+.memory-page:nth-child(2) {
+  z-index: 7;
+}
 
-  bottom: 59px;
+.memory-page:nth-child(3) {
+  z-index: 6;
+}
 
-  left: 50%;
+.memory-page:nth-child(4) {
+  z-index: 5;
+}
 
-  transform:
-    translateX(-50%);
+.memory-page:nth-child(5) {
+  z-index: 4;
+}
 
-  z-index: 30;
+.memory-page:nth-child(6) {
+  z-index: 3;
+}
 
-  font-size: 10px;
+.memory-page:nth-child(7) {
+  z-index: 2;
+}
 
-  letter-spacing: 0.18em;
-
-  opacity: 0.55;
+.memory-page:nth-child(8) {
+  z-index: 1;
 }
 
 
-/* =====================================================
-   MEMORY NAVIGATION
-   ===================================================== */
+/* =========================================================
+   PAGE FLIP
+   ========================================================= */
 
-.memory-navigation {
+.memory-page.flipped {
+  transform: rotateY(-180deg);
+}
 
+
+/* =========================================================
+   MEMORY BACK BUTTON
+   ========================================================= */
+
+.memory-back-button {
   position: absolute;
 
-  left: 0;
+  top: 13px;
+  left: 13px;
 
-  right: 0;
+  z-index: 50;
 
-  bottom: 45px;
-
-  z-index: 31;
+  width: 38px;
+  height: 38px;
 
   display: flex;
-
-  justify-content: space-between;
-
   align-items: center;
+  justify-content: center;
 
-  padding:
-    0 17px;
+  border: 1px solid rgba(79, 62, 46, 0.35);
+
+  background: rgba(255, 250, 239, 0.78);
+
+  color: #4d3e31;
+
+  border-radius: 50%;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 1.3rem;
+
+  line-height: 1;
+
+  backdrop-filter: blur(4px);
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 12px rgba(70, 52, 35, 0.08);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.memory-back-button:hover {
+  transform: translateX(-2px);
+
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.memory-back-button:active {
+  transform: scale(0.92);
+}
+
+
+/* =========================================================
+   MEMORY COUNTER
+   ========================================================= */
+
+.memory-counter {
+  position: absolute;
+
+  left: 50%;
+  bottom: 14px;
+
+  transform: translateX(-50%);
+
+  z-index: 30;
+
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 250, 238, 0.72);
+
+  backdrop-filter: blur(4px);
+
+  font-family: "InternetFriends", cursive;
+
+  font-size: 0.75rem;
+
+  color: #625344;
 
   pointer-events: none;
 }
 
 
-.memory-nav-button {
-
-  width: 42px;
-
-  height: 42px;
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  border-radius: 50%;
-
-  color: #594936;
-
-  background:
-    rgba(255, 250, 239, 0.70);
-
-  font-size: 22px;
-
-  pointer-events: auto;
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease,
-    opacity 0.2s ease;
-}
-
-
-.memory-nav-button:hover {
-
-  transform:
-    scale(1.06);
-
-  background:
-    rgba(255, 252, 245, 0.95);
-}
-
-
-.memory-nav-button:active {
-
-  transform:
-    scale(0.94);
-}
-
-
-/* =====================================================
+/* =========================================================
    MEMORY HINT
-   ===================================================== */
+   ========================================================= */
 
 .memory-hint {
-
   position: absolute;
 
-  bottom: 17px;
-
   left: 50%;
+  bottom: 38px;
 
-  transform:
-    translateX(-50%);
+  transform: translateX(-50%);
 
   z-index: 30;
 
   white-space: nowrap;
 
-  font-family: "LittleLetters", cursive;
+  font-family: "InternetFriends", cursive;
 
-  font-size: 13px;
+  font-size: 0.75rem;
 
-  opacity: 0.58;
-}
+  color: #685746;
 
-
-/* =====================================================
-   MEMORY BOOK → BIRTHDAY
-   ===================================================== */
-
-.section-back-button {
-
-  position: absolute;
-
-  left: 17px;
-
-  bottom: 17px;
-
-  z-index: 40;
-
-  padding:
-    5px 8px;
-
-  color: #594936;
-
-  font-family: "LittleLetters", cursive;
-
-  font-size: 15px;
-
-  opacity: 0.68;
-
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
-}
-
-
-.section-back-button:hover {
-
-  opacity: 1;
-
-  transform:
-    translateX(-3px);
-}
-
-
-/* =====================================================
-   MEMORY → LETTER BUTTON
-   ===================================================== */
-
-.memory-letter-button {
-
-  position: absolute;
-
-  right: 17px;
-
-  bottom: 17px;
-
-  z-index: 40;
-
-  padding:
-    5px 8px;
-
-  color: #594936;
-
-  font-family: "LittleLetters", cursive;
-
-  font-size: 15px;
-
-  opacity: 0;
+  opacity: 0.85;
 
   pointer-events: none;
 
-  transform:
-    translateX(8px);
+  animation: hintFloat 2s ease-in-out infinite;
+}
 
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;
+@keyframes hintFloat {
+
+  0%,
+  100% {
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateX(-50%)
+      translateY(-4px);
+  }
+
 }
 
 
-.memory-letter-button.visible {
+/* =========================================================
+   MEMORY NEXT BUTTON
+   ========================================================= */
 
-  opacity: 0.80;
-
-  pointer-events: auto;
-
-  transform:
-    translateX(0);
-}
-
-
-.memory-letter-button:hover {
-
-  opacity: 1;
-
-  transform:
-    translateX(3px);
-}
-
-
-/* =====================================================
-   PAGE 4 — LETTER
-   ===================================================== */
-
-.letter-screen {
-
-  background:
-    #e9ddc9;
-
-  z-index: 7;
-
-  justify-content: center;
-
-  align-items: center;
-}
-
-
-.letter-page {
-
-  position: relative;
-
-  width: 100%;
-
-  height: 100%;
-
-  overflow: hidden;
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-}
-
-
-/* =====================================================
-   CLOSED LETTER
-   ===================================================== */
-
-.closed-letter {
-
+.memory-next-button {
   position: absolute;
 
-  inset: 0;
+  right: 13px;
+  bottom: 13px;
 
-  z-index: 10;
+  z-index: 40;
+
+  border: 1px solid rgba(79, 62, 46, 0.35);
+
+  background: rgba(255, 250, 239, 0.78);
+
+  color: #4d3e31;
+
+  border-radius: 999px;
+
+  padding: 8px 13px;
+
+  font-family: "InternetFriends", cursive;
+
+  font-size: 0.75rem;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(4px);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.memory-next-button:hover {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.memory-next-button:active {
+  transform: scale(0.95);
+}
+
+
+/* =========================================================
+   TEMPORARY PAGE AFTER MEMORY 8
+   ========================================================= */
+
+#after-memories {
+  background: #f8efdf;
 
   display: flex;
-
-  flex-direction: column;
-
+  align-items: center;
   justify-content: center;
 
-  align-items: center;
+  text-align: center;
+}
+
+.after-content {
+  width: 82%;
+}
+
+.after-content h2 {
+  margin: 0;
+
+  font-family: "IceCream", cursive;
+
+  font-size: 3rem;
+
+  color: #49392d;
+}
+
+.after-content p {
+  font-family: "InternetFriends", cursive;
+
+  font-size: 1.15rem;
+
+  color: #5c4b3b;
+}
+
+
+/* =========================================================
+   AFTER MEMORIES BACK BUTTON
+   ========================================================= */
+
+.after-back-button {
+  margin-top: 24px;
+
+  border: 1px solid rgba(79, 62, 46, 0.35);
+
+  background: rgba(255, 250, 239, 0.78);
+
+  color: #4d3e31;
+
+  border-radius: 999px;
+
+  padding: 9px 15px;
+
+  font-family: "InternetFriends", cursive;
+
+  font-size: 0.8rem;
+
+  backdrop-filter: blur(4px);
 
   cursor: pointer;
 
   transition:
-    opacity 0.35s ease;
-}
-
-
-.letter-envelope {
-
-  position: relative;
-
-  width: 285px;
-
-  height: 195px;
-
-  filter:
-    drop-shadow(
-      0 15px 18px rgba(68, 51, 33, 0.15)
-    );
-}
-
-
-.envelope-back {
-
-  position: absolute;
-
-  inset: 0;
-
-  background:
-    #d7c19e;
-
-  border-radius: 3px;
-
-  border:
-    1px solid rgba(91, 69, 44, 0.16);
-}
-
-
-.envelope-paper {
-
-  position: absolute;
-
-  left: 15px;
-
-  right: 15px;
-
-  bottom: 15px;
-
-  height: 155px;
-
-  background:
-    #f3e8d2;
-
-  border-radius: 2px;
-
-  z-index: 2;
-}
-
-
-.envelope-flap {
-
-  position: absolute;
-
-  left: 0;
-
-  top: 0;
-
-  width: 0;
-
-  height: 0;
-
-  border-left:
-    142px solid transparent;
-
-  border-right:
-    142px solid transparent;
-
-  border-top:
-    95px solid #cdb58d;
-
-  z-index: 5;
-
-  transform-origin: top center;
-
-  transition:
-    transform 0.75s ease;
-}
-
-
-.envelope-heart {
-
-  position: absolute;
-
-  left: 50%;
-
-  top: 52%;
-
-  transform:
-    translate(-50%, -50%);
-
-  z-index: 8;
-
-  font-size: 28px;
-
-  color: #a8895f;
-}
-
-
-.letter-open-hint {
-
-  margin-top: 20px;
-
-  font-family: "LittleLetters", cursive;
-
-  font-size: 17px;
-
-  opacity: 0.65;
-}
-
-
-/* =====================================================
-   LETTER OPENING
-   ===================================================== */
-
-.closed-letter.letter-opening {
-
-  animation:
-    letterOpen 0.9s ease forwards;
-}
-
-
-.closed-letter.letter-opening
-.envelope-flap {
-
-  transform:
-    rotateX(180deg);
-}
-
-
-@keyframes letterOpen {
-
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  60% {
-    opacity: 1;
-    transform: scale(1.015);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-
-}
-
-
-/* =====================================================
-   OPEN LETTER
-   ===================================================== */
-
-.open-letter {
-
-  position: absolute;
-
-  inset: 0;
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  opacity: 0;
-
-  pointer-events: none;
-
-  transform:
-    translateY(10px);
-
-  transition:
-    opacity 0.45s ease,
-    transform 0.45s ease;
-}
-
-
-.open-letter.letter-visible {
-
-  opacity: 1;
-
-  pointer-events: auto;
-
-  transform:
-    translateY(0);
-}
-
-
-/* =====================================================
-   LETTER SCROLL AREA
-   ===================================================== */
-
-.letter-scroll-area {
-
-  position: absolute;
-
-  top: 48px;
-
-  left: 18px;
-
-  right: 18px;
-
-  bottom: 72px;
-
-  overflow-y: auto;
-
-  overflow-x: hidden;
-
-  overscroll-behavior: contain;
-
-  -webkit-overflow-scrolling: touch;
-
-  scrollbar-width: thin;
-
-  scrollbar-color:
-    rgba(108, 82, 52, 0.30)
-    transparent;
-}
-
-
-.letter-scroll-area::-webkit-scrollbar {
-
-  width: 4px;
-}
-
-
-.letter-scroll-area::-webkit-scrollbar-track {
-
-  background: transparent;
-}
-
-
-.letter-scroll-area::-webkit-scrollbar-thumb {
-
-  background:
-    rgba(108, 82, 52, 0.30);
-
-  border-radius: 999px;
-}
-
-
-/* =====================================================
-   LETTER PAPER
-   ===================================================== */
-
-.letter-paper {
-
-  position: relative;
-
-  width: 100%;
-
-  min-height: 100%;
-
-  padding:
-    36px 25px 55px;
-
-  background:
-    #d9c7a9;
-
-  box-shadow:
-    0 12px 30px rgba(73, 55, 36, 0.13);
-
-  border:
-    1px solid rgba(92, 70, 44, 0.12);
-}
-
-
-/* Writing lines */
-
-.letter-paper::before {
-
-  content: "";
-
-  position: absolute;
-
-  inset: 25px 20px;
-
-  pointer-events: none;
-
-  background-image:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 31px,
-      rgba(112, 89, 61, 0.16) 32px
-    );
-}
-
-
-/* =====================================================
-   LETTER TEXT
-   ===================================================== */
-
-.letter-writing {
-
-  position: relative;
-
-  z-index: 2;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 16px;
-
-  line-height: 2;
-
-  color: #4f4335;
-}
-
-
-.letter-line {
-
-  margin-bottom: 26px;
-
-  min-height: 32px;
-}
-
-
-/* =====================================================
-   LETTER IMAGES
-   ===================================================== */
-
-.letter-image {
-
-  position: relative;
-
-  margin:
-    25px auto 30px;
-
-  width: 82%;
-
-  padding: 7px;
-
-  background:
-    #fffaf0;
-
-  box-shadow:
-    0 8px 18px rgba(68, 51, 33, 0.13);
-
-  transform:
-    rotate(-1deg);
-}
-
-
-.letter-image img {
-
-  display: block;
-
-  width: 100%;
-
-  height: auto;
-}
-
-
-/* =====================================================
-   LETTER BUTTONS
-   ===================================================== */
-
-.letter-back-button {
-
-  bottom: 18px;
-}
-
-
-.letter-video-button {
-
-  position: absolute;
-
-  right: 17px;
-
-  bottom: 18px;
-
-  z-index: 30;
-
-  padding:
-    5px 8px;
-
-  color: #594936;
-
-  font-family: "LittleLetters", cursive;
-
-  font-size: 15px;
-
-  opacity: 0.75;
-
-  transition:
     transform 0.2s ease,
-    opacity 0.2s ease;
+    background 0.2s ease;
+}
+
+.after-back-button:hover {
+  transform: translateY(-2px);
+
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.after-back-button:active {
+  transform: scale(0.95);
 }
 
 
-.letter-video-button:hover {
-
-  opacity: 1;
-
-  transform:
-    translateX(3px);
-}
-
-
-/* =====================================================
-   PAGE 5 — VIDEO / CINEMA
-   ===================================================== */
-
-.video-screen {
-
-  background:
-    #090807;
-
-  color: #f8f1e4;
-
-  z-index: 6;
-
-  justify-content: center;
-
-  align-items: center;
-}
-
-
-/* =====================================================
-   CINEMA DARKNESS
-   ===================================================== */
-
-.cinema-darkness {
-
-  position: absolute;
-
-  inset: 0;
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      rgba(57, 48, 38, 0.35),
-      rgba(5, 5, 5, 0.98) 78%
-    );
-
-  pointer-events: none;
-}
-
-
-/* subtle film-like texture */
-
-.video-screen::after {
-
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  pointer-events: none;
-
-  opacity: 0.08;
-
-  background-image:
-    radial-gradient(
-      rgba(255,255,255,0.7)
-      0.5px,
-      transparent 0.5px
-    );
-
-  background-size:
-    5px 5px;
-}
-
-
-/* =====================================================
-   CINEMA CONTENT
-   ===================================================== */
-
-.cinema-content {
-
-  position: relative;
-
-  z-index: 5;
-
-  width: 100%;
-
-  height: 100%;
-
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: center;
-
-  align-items: center;
-
-  padding:
-    45px 20px 65px;
-}
-
-
-.cinema-kicker {
-
-  position: absolute;
-
-  top: 28px;
-
-  left: 0;
-
-  width: 100%;
-
-  text-align: center;
-
-  font-size: 8px;
-
-  letter-spacing: 0.30em;
-
-  opacity: 0.55;
-}
-
-
-/* =====================================================
-   VIDEO FRAME
-   ===================================================== */
-
-.cinema-screen {
-
-  position: relative;
-
-  width: min(86%, 360px);
-
-  max-height: 68%;
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  background:
-    #000;
-
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.08),
-    0 18px 45px rgba(0,0,0,0.65);
-
-  overflow: hidden;
-}
-
-
-/*
-   When the actual video is added,
-   it will stay completely above the
-   dark cinema background.
-*/
-
-.cinema-screen video {
-
-  display: block;
-
-  width: 100%;
-
-  max-height: 100%;
-
-  object-fit: contain;
-
-  background:
-    #000;
-}
-
-
-/* =====================================================
-   VIDEO PLACEHOLDER
-   ===================================================== */
-
-.video-placeholder {
-
-  width: 100%;
-
-  min-height: 300px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: center;
-
-  align-items: center;
-
-  text-align: center;
-
-  color: rgba(255, 248, 235, 0.68);
-
-  font-family: "LittleLetters", cursive;
-
-  font-size: 17px;
-}
-
-
-.video-placeholder-icon {
-
-  margin-bottom: 12px;
-
-  font-family: Georgia, serif;
-
-  font-size: 34px;
-
-  opacity: 0.75;
-}
-
-
-.cinema-caption {
-
-  margin-top: 20px;
-
-  font-family: "LittleLetters", cursive;
-
-  font-size: 17px;
-
-  opacity: 0.70;
-}
-
-
-/* =====================================================
-   VIDEO BACK BUTTON
-   ===================================================== */
-
-.video-back-button {
-
-  left: 17px;
-
-  bottom: 18px;
-
-  color: #eee3d3;
-
-  opacity: 0.65;
-}
-
-
-/* =====================================================
-   FUTURE FINAL PAGE
-   ===================================================== */
-
-.final-screen {
-
-  background:
-    #f1d87a;
-
-  justify-content: center;
-
-  align-items: center;
-
-  text-align: center;
-
-  z-index: 5;
-}
-
-
-.final-content {
-
-  font-family: "LittleLetters", cursive;
-
-  font-size: 22px;
-}
-
-
-/* =====================================================
-   MOBILE SAFETY
-   ===================================================== */
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
 
 @media (max-width: 360px) {
 
-  .cover-title {
-
-    font-size: 58px;
-
+  .birthday-photo-wrap {
+    width: 62%;
   }
-
-
-  .birthday-paper {
-
-    padding-left: 18px;
-
-    padding-right: 18px;
-
-  }
-
-
-  .childhood-photo-card {
-
-    width: 62vw;
-
-  }
-
 
   .birthday-message {
-
-    font-size: 17px;
-
+    font-size: 0.95rem;
   }
 
-
-  .memory-title {
-
-    font-size: 22px;
-
+  .memory-next-button {
+    right: 8px;
+    bottom: 8px;
   }
 
+  .memory-counter {
+    bottom: 9px;
+  }
 
-  .letter-paper {
+  .memory-hint {
+    bottom: 31px;
+  }
 
-    padding-left: 20px;
+  .memory-back-button {
+    top: 9px;
+    left: 9px;
 
-    padding-right: 20px;
+    width: 35px;
+    height: 35px;
+  }
 
+  .page-back-button {
+    top: 10px;
+    left: 10px;
+
+    width: 35px;
+    height: 35px;
   }
 
 }
 
 
-/* =====================================================
-   REDUCED MOTION
-   ===================================================== */
+/* =========================================================
+   LAPTOP / DESKTOP
+   ========================================================= */
 
-@media (prefers-reduced-motion: reduce) {
+@media (min-width: 700px) {
 
-  *,
-  *::before,
-  *::after {
+  body {
+    background:
+      radial-gradient(
+        circle at center,
+        #fffaf0 0%,
+        #eadfca 100%
+      );
+  }
 
-    animation-duration: 0.01ms !important;
+  #site {
+    width: 430px;
 
-    animation-iteration-count: 1 !important;
+    height: min(100svh, 645px);
 
-    transition-duration: 0.01ms !important;
+    box-shadow:
+      0 20px 60px rgba(70, 52, 35, 0.18);
 
-    scroll-behavior: auto !important;
-
+    border-radius: 2px;
   }
 
 }
