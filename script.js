@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const memoryCounter = document.getElementById("memory-counter");
   const memoryImage = document.getElementById("memory-image");
   const scrapbookPage = document.getElementById("scrapbook-page");
+  const flipCard = document.getElementById("flip-card");
 
   const tempBackBtn = document.getElementById("temp-back-btn");
 
@@ -25,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentPageState = "page1"; // 'page1', 'page2', 'memory', 'temp'
   let currentMemoryIndex = 1;
   const totalMemories = 8;
+  let isFlipping = false;
 
   // Zoom / Drag State
   let scale = 1;
@@ -50,15 +52,32 @@ document.addEventListener("DOMContentLoaded", () => {
     pageToShow.classList.add("active");
   }
 
-  // --- MEMORY IMAGE UPDATER & RESET ---
-  function updateMemoryPage(index) {
+  // --- MEMORY PAGE TURN WITH FLIP ANIMATION ---
+  function changeMemoryWithFlip(newIndex, direction = "next") {
+    if (isFlipping) return;
+    isFlipping = true;
+
     resetZoom();
-    memoryImage.src = `assets/memory-${index}.png`;
-    memoryImage.alt = `Memory ${index}`;
-    memoryCounter.textContent = `${index} / ${totalMemories}`;
+
+    // Add page-turn flip class
+    const flipClass = direction === "next" ? "flipping-next" : "flipping-prev";
+    flipCard.classList.add(flipClass);
+
+    // Swap the image halfway through the flip rotation
+    setTimeout(() => {
+      currentMemoryIndex = newIndex;
+      memoryImage.src = `assets/memory-${newIndex}.png`;
+      memoryImage.alt = `Memory ${newIndex}`;
+      memoryCounter.textContent = `${newIndex} / ${totalMemories}`;
+    }, 250);
+
+    // Remove flip animation class when done
+    setTimeout(() => {
+      flipCard.classList.remove(flipClass);
+      isFlipping = false;
+    }, 500);
   }
 
-  // Reset zoom & panning offset
   function resetZoom() {
     scale = 1;
     pointX = 0;
@@ -67,10 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function applyTransform() {
-    // Keep scale between 1x and 4x
     scale = Math.min(Math.max(1, scale), 4);
 
-    // If completely zoomed out, snap back to center
     if (scale === 1) {
       pointX = 0;
       pointY = 0;
@@ -81,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- NAVIGATION ACTIONS ---
   function startExperience() {
-    // Start background music
     if (bgMusic) {
       bgMusic.play().catch((err) => console.log("Audio play deferred:", err));
     }
@@ -97,18 +113,18 @@ document.addEventListener("DOMContentLoaded", () => {
   function goToMemoryBook() {
     currentPageState = "memory";
     currentMemoryIndex = 1;
-    updateMemoryPage(currentMemoryIndex);
+    memoryImage.src = `assets/memory-1.png`;
+    memoryImage.alt = `Memory 1`;
+    memoryCounter.textContent = `1 / ${totalMemories}`;
+    resetZoom();
     showPage(pageMemory);
   }
 
   function nextMemoryOrPage() {
-    if (scale > 1) {
-      resetZoom();
-    }
+    if (isFlipping) return;
 
     if (currentMemoryIndex < totalMemories) {
-      currentMemoryIndex++;
-      updateMemoryPage(currentMemoryIndex);
+      changeMemoryWithFlip(currentMemoryIndex + 1, "next");
     } else {
       currentPageState = "temp";
       showPage(pageTemp);
@@ -116,13 +132,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function previousMemoryOrPage() {
-    if (scale > 1) {
-      resetZoom();
-    }
+    if (isFlipping) return;
 
     if (currentMemoryIndex > 1) {
-      currentMemoryIndex--;
-      updateMemoryPage(currentMemoryIndex);
+      changeMemoryWithFlip(currentMemoryIndex - 1, "prev");
     } else {
       currentPageState = "page2";
       showPage(page2);
@@ -132,7 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function goBackFromTemp() {
     currentPageState = "memory";
     currentMemoryIndex = totalMemories;
-    updateMemoryPage(currentMemoryIndex);
+    memoryImage.src = `assets/memory-${totalMemories}.png`;
+    memoryImage.alt = `Memory ${totalMemories}`;
+    memoryCounter.textContent = `${totalMemories} / ${totalMemories}`;
+    resetZoom();
     showPage(pageMemory);
   }
 
@@ -140,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
   btnStart.addEventListener("click", startExperience);
 
   p2BackBtn.addEventListener("click", (e) => {
-    e.stopPropagation(); // Stop click from triggering p2MainContent
+    e.stopPropagation();
     goBackFromPage2();
   });
 
@@ -156,9 +172,8 @@ document.addEventListener("DOMContentLoaded", () => {
     previousMemoryOrPage();
   });
 
-  // Clicking on scrapbook frame advances page only when not zoomed in
   scrapbookPage.addEventListener("click", (e) => {
-    if (scale === 1) {
+    if (scale === 1 && !isFlipping) {
       nextMemoryOrPage();
     }
   });
@@ -188,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- ZOOM & DRAG IMPLEMENTATION (IMAGE ONLY) ---
 
-  // 1. Mouse Wheel Zoom (Desktop)
+  // 1. Mouse Wheel Zoom
   memoryImage.addEventListener(
     "wheel",
     (e) => {
@@ -202,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { passive: false }
   );
 
-  // 2. Double Click Zoom (Desktop)
+  // 2. Double Click Zoom
   memoryImage.addEventListener("dblclick", (e) => {
     e.stopPropagation();
     if (scale > 1) {
@@ -213,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 3. Mouse Dragging (Desktop)
+  // 3. Mouse Dragging
   memoryImage.addEventListener("mousedown", (e) => {
     if (scale > 1) {
       e.stopPropagation();
@@ -236,7 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
     isDragging = false;
   });
 
-  // 4. Touch Interactions (Mobile: Pinch, Double-Tap, Drag)
+  // 4. Touch Interactions (Pinch, Double-Tap, Drag)
   function getPinchDistance(touches) {
     const dx = touches[0].clientX - touches[1].clientX;
     const dy = touches[0].clientY - touches[1].clientY;
@@ -247,7 +262,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "touchstart",
     (e) => {
       if (e.touches.length === 1) {
-        // Handle Double-Tap
         const now = Date.now();
         if (now - lastTapTime < 300) {
           e.preventDefault();
@@ -260,14 +274,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         lastTapTime = now;
 
-        // Prepare Dragging if Zoomed
         if (scale > 1) {
           isDragging = true;
           startX = e.touches[0].clientX - pointX;
           startY = e.touches[0].clientY - pointY;
         }
       } else if (e.touches.length === 2) {
-        // Prepare Pinch Zoom
         e.preventDefault();
         isDragging = false;
         initialPinchDistance = getPinchDistance(e.touches);
