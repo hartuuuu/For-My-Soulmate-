@@ -6,9 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const page1 = document.getElementById("page-1");
   const page2 = document.getElementById("page-2");
   const pageMemory = document.getElementById("page-memory-book");
+  const pageLetter = document.getElementById("page-letter");
   const pageTemp = document.getElementById("page-temp");
 
-  // Buttons & Click Areas
+  // Buttons & Navigation
   const btnStart = document.getElementById("btn-start");
   const p2BackBtn = document.getElementById("p2-back-btn");
   const p2MainContent = document.getElementById("p2-main-content");
@@ -21,13 +22,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const scrapbookPage = document.getElementById("scrapbook-page");
   const flipCard = document.getElementById("flip-card");
 
+  const letterBackBtn = document.getElementById("letter-back-btn");
+  const letterNextBtn = document.getElementById("letter-next-btn");
+
   const tempBackBtn = document.getElementById("temp-back-btn");
 
+  // Envelope Elements
+  const envelope = document.getElementById("envelope");
+  const envelopeFlap = document.getElementById("envelope-flap");
+  const envelopeHint = document.getElementById("envelope-hint");
+  const letterScrollArea = document.getElementById("letter-scroll-area");
+
   // --- STATE ---
-  let currentPageState = "page1"; // 'page1', 'page2', 'memory', 'temp'
+  let currentPageState = "page1"; // 'page1', 'page2', 'memory', 'letter', 'temp'
   let currentMemoryIndex = 1;
   const totalMemories = 8;
   let isFlipping = false;
+  let isEnvelopeOpen = false;
 
   // Zoom / Drag State
   let scale = 1;
@@ -44,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- PAGE NAVIGATION ---
   function showPage(pageToShow) {
-    [page1, page2, pageMemory, pageTemp].forEach((p) => {
+    [page1, page2, pageMemory, pageLetter, pageTemp].forEach((p) => {
       p.classList.add("hidden");
       p.classList.remove("active");
     });
@@ -60,20 +71,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     resetZoom();
 
-    // Set underlay image to destination page
     memoryImageUnder.src = `assets/memory-${newIndex}.png`;
 
     const flipClass = direction === "next" ? "turn-next" : "turn-prev";
     flipCard.classList.add(flipClass);
 
-    // Complete the page turn and snap active element to the new image
     setTimeout(() => {
       currentMemoryIndex = newIndex;
       memoryImage.src = `assets/memory-${newIndex}.png`;
       memoryImage.alt = `Memory ${newIndex}`;
       memoryCounter.textContent = `${newIndex} / ${totalMemories}`;
 
-      // Reset underlay for next turn
       const nextUnder = newIndex < totalMemories ? newIndex + 1 : totalMemories;
       memoryImageUnder.src = `assets/memory-${nextUnder}.png`;
 
@@ -99,6 +107,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
     memoryImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
   }
+
+  // --- ENVELOPE TOGGLE & SCROLL BEHAVIOR ---
+  function toggleEnvelope(open) {
+    if (open) {
+      envelope.classList.add("open");
+      isEnvelopeOpen = true;
+      envelopeHint.textContent = "scroll down to read ♡";
+    } else {
+      envelope.classList.remove("open");
+      isEnvelopeOpen = false;
+      envelopeHint.textContent = "tap the envelope flap to open ✉";
+    }
+  }
+
+  // Open/close on flap click
+  envelopeFlap.addEventListener("click", () => {
+    toggleEnvelope(!isEnvelopeOpen);
+  });
+
+  // Handle auto open/close on scroll bottom / top
+  letterScrollArea.addEventListener("scroll", () => {
+    if (!isEnvelopeOpen) return;
+
+    const scrollTop = letterScrollArea.scrollTop;
+    const scrollHeight = letterScrollArea.scrollHeight;
+    const clientHeight = letterScrollArea.clientHeight;
+
+    // If scrolled to bottom, close flap
+    if (scrollTop + clientHeight >= scrollHeight - 5) {
+      envelope.classList.remove("open-flap");
+    } else {
+      // Re-open flap when scrolling back up
+      envelope.classList.add("open-flap");
+    }
+  });
 
   // --- NAVIGATION ACTIONS ---
   function startExperience() {
@@ -131,8 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentMemoryIndex < totalMemories) {
       changeMemoryWithFlip(currentMemoryIndex + 1, "next");
     } else {
-      currentPageState = "temp";
-      showPage(pageTemp);
+      goToLetterPage();
     }
   }
 
@@ -147,7 +189,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function goBackFromTemp() {
+  function goToLetterPage() {
+    currentPageState = "letter";
+    showPage(pageLetter);
+    // Reset envelope state
+    toggleEnvelope(false);
+    if (letterScrollArea) letterScrollArea.scrollTop = 0;
+  }
+
+  function goBackFromLetter() {
     currentPageState = "memory";
     currentMemoryIndex = totalMemories;
     memoryImage.src = `assets/memory-${totalMemories}.png`;
@@ -156,6 +206,16 @@ document.addEventListener("DOMContentLoaded", () => {
     memoryCounter.textContent = `${totalMemories} / ${totalMemories}`;
     resetZoom();
     showPage(pageMemory);
+  }
+
+  function goToTempPage() {
+    currentPageState = "temp";
+    showPage(pageTemp);
+  }
+
+  function goBackFromTemp() {
+    currentPageState = "letter";
+    showPage(pageLetter);
   }
 
   // --- EVENT LISTENERS ---
@@ -184,6 +244,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  letterBackBtn.addEventListener("click", goBackFromLetter);
+  letterNextBtn.addEventListener("click", goToTempPage);
+
   tempBackBtn.addEventListener("click", goBackFromTemp);
 
   // --- KEYBOARD SUPPORT ---
@@ -195,12 +258,16 @@ document.addEventListener("DOMContentLoaded", () => {
         goToMemoryBook();
       } else if (currentPageState === "memory") {
         nextMemoryOrPage();
+      } else if (currentPageState === "letter") {
+        goToTempPage();
       }
     } else if (e.key === "ArrowLeft") {
       if (currentPageState === "page2") {
         goBackFromPage2();
       } else if (currentPageState === "memory") {
         previousMemoryOrPage();
+      } else if (currentPageState === "letter") {
+        goBackFromLetter();
       } else if (currentPageState === "temp") {
         goBackFromTemp();
       }
