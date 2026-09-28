@@ -418,7 +418,7 @@ html, body {
   position: relative;
   width: 100%;
   height: 100%;
-  background-image: url('assets/letter-bg.jpg');
+  background-image: url('assets/letter-bg.png');
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -443,13 +443,13 @@ html, body {
 
 .card-top {
   top: 0;
-  background-image: url('assets/front-card-top.jpg');
+  background-image: url('assets/front-card-top.png');
   background-position: bottom center;
 }
 
 .card-bottom {
   bottom: 0;
-  background-image: url('assets/front-card-bottom.jpg');
+  background-image: url('assets/front-card-bottom.png');
   background-position: top center;
 }
 
