@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pageToShow.classList.add("active");
   }
 
-  // --- MEMORY PAGE TURN WITH FLIP ANIMATION ---
+  // --- MEMORY PAGE TURN WITH FAST FLIP ANIMATION ---
   function changeMemoryWithFlip(newIndex, direction = "next") {
     if (isFlipping) return;
     isFlipping = true;
@@ -63,19 +63,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const flipClass = direction === "next" ? "flipping-next" : "flipping-prev";
     flipCard.classList.add(flipClass);
 
-    // Swap the image halfway through the flip rotation
+    // Swap image halfway through the fast 150ms animation (at 75ms)
     setTimeout(() => {
       currentMemoryIndex = newIndex;
       memoryImage.src = `assets/memory-${newIndex}.png`;
       memoryImage.alt = `Memory ${newIndex}`;
       memoryCounter.textContent = `${newIndex} / ${totalMemories}`;
-    }, 250);
+    }, 75);
 
-    // Remove flip animation class when done
+    // Remove flip animation class when done (at 150ms)
     setTimeout(() => {
       flipCard.classList.remove(flipClass);
       isFlipping = false;
-    }, 500);
+    }, 150);
   }
 
   function resetZoom() {
