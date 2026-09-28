@@ -59,8 +59,14 @@
       <div class="memory-container">
         <p class="turn-hint">click to turn the page ♡</p>
 
-        <!-- Memory Page Wrapper / Scrapbook Frame with Page Flip 3D Stage -->
+        <!-- Memory Scrapbook Stage with Spine -->
         <div class="scrapbook-page" id="scrapbook-page">
+          <!-- Background layer: shows next page under the turn -->
+          <div class="page-underlay">
+            <img id="memory-image-under" src="assets/memory-2.png" alt="Next Memory" />
+          </div>
+
+          <!-- Flipping Card Layer -->
           <div class="flip-card" id="flip-card">
             <div class="image-zoom-viewport" id="zoom-viewport">
               <img 
@@ -70,6 +76,7 @@
                 draggable="false"
               />
             </div>
+            <div class="page-shadow"></div>
           </div>
         </div>
 
