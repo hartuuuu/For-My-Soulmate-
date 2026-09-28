@@ -1,1368 +1,915 @@
-document.addEventListener("DOMContentLoaded", () => {
+/* =========================================================
+   A LITTLE SOMETHING FOR YOU
+   SCRIPT.JS
+   ========================================================= */
 
-  // =====================================================
-  // ELEMENTS
-  // =====================================================
+/* ---------------------------------------------------------
+   SCREEN ELEMENTS
+--------------------------------------------------------- */
 
-  const cover = document.getElementById("cover");
-  const page2 = document.getElementById("page2");
-  const memoryBook = document.getElementById("memoryBook");
-  const letterSection = document.getElementById("letterSection");
-  const videoSection = document.getElementById("videoSection");
-  const finalSection = document.getElementById("finalSection");
+const cover = document.getElementById("cover");
+const birthday = document.getElementById("birthday");
+const memories = document.getElementById("memories");
+const afterMemories = document.getElementById("after-memories");
 
-  const music = document.getElementById("birthdayMusic");
+const openButton = document.getElementById("openButton");
+const birthdayInner = document.querySelector(".birthday-inner");
 
+const birthdayMusic = document.getElementById("birthdayMusic");
 
-  // =====================================================
-  // BUTTONS
-  // =====================================================
+const birthdayBack = document.getElementById("birthdayBack");
+const memoryBack = document.getElementById("memoryBack");
+const afterBack = document.getElementById("afterBack");
 
-  const openButton = document.getElementById("openButton");
+const memoryBook = document.getElementById("memoryBook");
+const memoryPages = Array.from(
+  document.querySelectorAll(".memory-page")
+);
 
-  const continueButton = document.getElementById("continueButton");
+const memoryCounter = document.getElementById("memoryCounter");
+const memoryHint = document.getElementById("memoryHint");
+const memoryNext = document.getElementById("memoryNext");
 
-  const birthdayBackButton =
-    document.getElementById("birthdayBackButton");
-
-  const memoryBackButton =
-    document.getElementById("memoryBackButton");
-
-  const memoryNextButton =
-    document.getElementById("memoryNextButton");
-
-  const memorySectionBackButton =
-    document.getElementById("memorySectionBackButton");
-
-  const memoryLetterButton =
-    document.getElementById("memoryLetterButton");
-
-  const letterBackButton =
-    document.getElementById("letterBackButton");
-
-  const letterVideoButton =
-    document.getElementById("letterVideoButton");
-
-  const videoBackButton =
-    document.getElementById("videoBackButton");
+const zoomAreas = Array.from(
+  document.querySelectorAll(".memory-zoom-area")
+);
 
 
-  // =====================================================
-  // MEMORY ELEMENTS
-  // =====================================================
+/* ---------------------------------------------------------
+   SCREEN STATE
+--------------------------------------------------------- */
 
-  const memoryPages =
-    document.querySelectorAll(".memory-page");
-
-  const memoryCounter =
-    document.getElementById("memoryCounter");
-
-  const memoryHint =
-    document.getElementById("memoryHint");
-
-  const zoomAreas =
-    document.querySelectorAll(".memory-zoom-area");
+let currentScreen = "cover";
+let currentMemory = 0;
 
 
-  // =====================================================
-  // STATE
-  // =====================================================
+/* ---------------------------------------------------------
+   SHOW SCREEN
+--------------------------------------------------------- */
 
-  let currentMemoryPage = 0;
+function showScreen(screen) {
+  [cover, birthday, memories, afterMemories].forEach((section) => {
+    if (section) {
+      section.classList.remove("active");
+    }
+  });
 
-  let currentScreen = "cover";
-
-
-  // =====================================================
-  // STARTING STATE
-  // =====================================================
-
-  function hideAllScreens() {
-
-    const screens = [
-      cover,
-      page2,
-      memoryBook,
-      letterSection,
-      videoSection,
-      finalSection
-    ];
-
-    screens.forEach((screen) => {
-
-      if (!screen) return;
-
-      screen.classList.remove("show");
-
-      screen.setAttribute(
-        "aria-hidden",
-        "true"
-      );
-
-      screen.style.display = "none";
-
-    });
-
+  if (screen) {
+    screen.classList.add("active");
   }
 
-
-  function showScreen(screen, screenName) {
-
-    if (!screen) return;
-
-    hideAllScreens();
-
-    screen.style.display = "flex";
-
-    screen.setAttribute(
-      "aria-hidden",
-      "false"
-    );
-
-    requestAnimationFrame(() => {
-
-      screen.classList.add("show");
-
-    });
-
-    currentScreen = screenName;
-
+  if (screen === cover) {
+    currentScreen = "cover";
+  } else if (screen === birthday) {
+    currentScreen = "birthday";
+  } else if (screen === memories) {
+    currentScreen = "memories";
+  } else if (screen === afterMemories) {
+    currentScreen = "after";
   }
+}
 
 
-  // Start on Page 1
+/* =========================================================
+   PAGE 1 → PAGE 2
+========================================================= */
 
-  hideAllScreens();
+if (openButton) {
+  openButton.addEventListener("click", (event) => {
+    event.stopPropagation();
 
-  if (cover) {
+    if (birthdayMusic) {
+      birthdayMusic.volume = 0.7;
 
-    cover.style.display = "flex";
+      const playPromise = birthdayMusic.play();
 
-    cover.classList.add("show");
-
-    cover.setAttribute(
-      "aria-hidden",
-      "false"
-    );
-
-  }
-
-
-  // =====================================================
-  // MUSIC
-  // =====================================================
-
-  async function startMusic() {
-
-    if (!music) return;
-
-    try {
-
-      music.volume = 0.65;
-
-      await music.play();
-
-    } catch (error) {
-
-      console.log(
-        "Music playback was blocked until another interaction."
-      );
-
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Browser may block autoplay until another interaction.
+        });
+      }
     }
 
-  }
-
-
-  function stopMusic() {
-
-    if (!music) return;
-
-    music.pause();
-
-  }
-
-
-  // =====================================================
-  // PAGE 1 → PAGE 2
-  // =====================================================
-
-  if (openButton) {
-
-    openButton.addEventListener(
-      "click",
-      async () => {
-
-        await startMusic();
-
-        if (cover) {
-
-          cover.classList.add("leaving");
-
-        }
-
-        setTimeout(() => {
-
-          showScreen(
-            page2,
-            "page2"
-          );
-
-        }, 650);
-
-      }
-    );
-
-  }
-
-
-  // =====================================================
-  // PAGE 2 → MEMORY BOOK
-  // =====================================================
-
-  if (continueButton) {
-
-    continueButton.addEventListener(
-      "click",
-      () => {
-
-        resetMemoryBook();
-
-        showScreen(
-          memoryBook,
-          "memoryBook"
-        );
-
-      }
-    );
-
-  }
-
-
-  // =====================================================
-  // PAGE 2 → PAGE 1
-  // =====================================================
-
-  if (birthdayBackButton) {
-
-    birthdayBackButton.addEventListener(
-      "click",
-      () => {
-
-        showScreen(
-          cover,
-          "cover"
-        );
-
-      }
-    );
-
-  }
-
-
-  // =====================================================
-  // MEMORY BOOK
-  // =====================================================
-
-  function showMemoryPage(index) {
-
-    if (!memoryPages.length) return;
-
-
-    // Keep the number within the available pages
-
-    if (index < 0) {
-
-      index = 0;
-
-    }
-
-    if (index >= memoryPages.length) {
-
-      index = memoryPages.length - 1;
-
-    }
-
-
-    currentMemoryPage = index;
-
-
-    memoryPages.forEach(
-      (page, pageIndex) => {
-
-        if (pageIndex === currentMemoryPage) {
-
-          page.classList.add("active");
-
-        } else {
-
-          page.classList.remove("active");
-
-        }
-
-      }
-    );
-
-
-    // Every time we change memory,
-    // return the image to normal zoom.
-
-    resetAllMemoryZoom();
-
-
-    updateMemoryControls();
-
-  }
-
-
-  // =====================================================
-  // MEMORY NEXT
-  // =====================================================
-
-  if (memoryNextButton) {
-
-    memoryNextButton.addEventListener(
-      "click",
-      () => {
-
-        if (
-          currentMemoryPage <
-          memoryPages.length - 1
-        ) {
-
-          showMemoryPage(
-            currentMemoryPage + 1
-          );
-
-        } else {
-
-          // At Memory 8:
-          // the next button becomes the way
-          // to continue to the letter.
-
-          openLetterPage();
-
-        }
-
-      }
-    );
-
-  }
-
-
-  // =====================================================
-  // MEMORY BACK
-  // =====================================================
-
-  if (memoryBackButton) {
-
-    memoryBackButton.addEventListener(
-      "click",
-      () => {
-
-        if (currentMemoryPage > 0) {
-
-          showMemoryPage(
-            currentMemoryPage - 1
-          );
-
-        }
-
-      }
-    );
-
-  }
-
-
-  // =====================================================
-  // MEMORY BOOK → PAGE 2
-  // =====================================================
-
-  if (memorySectionBackButton) {
-
-    memorySectionBackButton.addEventListener(
-      "click",
-      () => {
-
-        showScreen(
-          page2,
-          "page2"
-        );
-
-      }
-    );
-
-  }
-
-
-  // =====================================================
-  // MEMORY BOOK → LETTER
-  // =====================================================
-
-  if (memoryLetterButton) {
-
-    memoryLetterButton.addEventListener(
-      "click",
-      () => {
-
-        openLetterPage();
-
-      }
-    );
-
-  }
-
-
-  function openLetterPage() {
-
-    if (!letterSection) return;
-
-
-    // Only allow this naturally after Memory 8
-
-    if (
-      currentMemoryPage <
-      memoryPages.length - 1
-    ) {
-
+    showScreen(birthday);
+  });
+}
+
+
+/* =========================================================
+   PAGE 2 → MEMORY BOOK
+========================================================= */
+
+if (birthdayInner) {
+  birthdayInner.addEventListener("click", (event) => {
+    /*
+      The back button lives inside .birthday-inner,
+      so don't let clicking it open the memory book.
+    */
+    if (event.target.closest("#birthdayBack")) {
       return;
-
     }
 
-
-    showScreen(
-      letterSection,
-      "letter"
-    );
+    showScreen(memories);
+  });
+}
 
 
-    prepareLetterPage();
+/* =========================================================
+   PAGE 2 ← PAGE 1
+========================================================= */
 
+if (birthdayBack) {
+  birthdayBack.addEventListener("click", (event) => {
+    event.stopPropagation();
+
+    showScreen(cover);
+  });
+}
+
+
+/* =========================================================
+   MEMORY BOOK UI
+========================================================= */
+
+function updateMemoryUI() {
+  if (!memoryCounter || !memoryHint) {
+    return;
   }
 
+  const total = memoryPages.length;
 
-  // =====================================================
-  // MEMORY CONTROLS
-  // =====================================================
+  memoryCounter.textContent =
+    `${currentMemory + 1} / ${total}`;
 
-  function updateMemoryControls() {
-
-    if (memoryCounter) {
-
-      memoryCounter.textContent =
-        `${currentMemoryPage + 1} / ${memoryPages.length}`;
-
-    }
-
-
-    // Previous button
-
-    if (memoryBackButton) {
-
-      if (currentMemoryPage === 0) {
-
-        memoryBackButton.style.visibility =
-          "hidden";
-
-      } else {
-
-        memoryBackButton.style.visibility =
-          "visible";
-
-      }
-
-    }
+  if (currentMemory === total - 1) {
+    memoryHint.textContent =
+      "one more thing... ♡";
+  } else {
+    memoryHint.textContent =
+      "click to turn the page →";
+  }
+}
 
 
-    // Next button
+/* =========================================================
+   MEMORY PAGE TURNING
+========================================================= */
 
-    if (memoryNextButton) {
+function turnNextPage() {
+  const total = memoryPages.length;
 
-      if (
-        currentMemoryPage ===
-        memoryPages.length - 1
-      ) {
+  if (currentMemory < total - 1) {
+    /*
+      Flip the current page away,
+      then move to the next one.
+    */
+    memoryPages[currentMemory].classList.add("flipped");
 
-        memoryNextButton.innerHTML =
-          "→";
+    currentMemory++;
 
-      } else {
+    resetAllZoom();
 
-        memoryNextButton.innerHTML =
-          "→";
+    updateMemoryUI();
 
-      }
-
-    }
-
-
-    // Memory hint
-
-    if (memoryHint) {
-
-      if (
-        currentMemoryPage ===
-        memoryPages.length - 1
-      ) {
-
-        memoryHint.textContent =
-          "one more thing...";
-
-      } else {
-
-        memoryHint.textContent =
-          "click to turn the page";
-
-      }
-
-    }
-
-
-    // Continue-to-letter button
-
-    if (memoryLetterButton) {
-
-      if (
-        currentMemoryPage ===
-        memoryPages.length - 1
-      ) {
-
-        memoryLetterButton.classList.add(
-          "visible"
-        );
-
-      } else {
-
-        memoryLetterButton.classList.remove(
-          "visible"
-        );
-
-      }
-
-    }
-
+    return;
   }
 
+  /*
+    We have reached the end of the memory book.
+  */
+  resetAllZoom();
+  showScreen(afterMemories);
+}
 
-  // =====================================================
-  // RESET MEMORY BOOK
-  // =====================================================
 
-  function resetMemoryBook() {
+/* =========================================================
+   MEMORY BOOK → BACK
+========================================================= */
 
-    currentMemoryPage = 0;
-
-    memoryPages.forEach(
-      (page, index) => {
-
-        page.classList.toggle(
-          "active",
-          index === 0
-        );
-
-      }
-    );
-
-    resetAllMemoryZoom();
-
-    updateMemoryControls();
-
+function goBackMemory() {
+  /*
+    If we're on the first memory page,
+    go back to the birthday page.
+  */
+  if (currentMemory === 0) {
+    resetAllZoom();
+    showScreen(birthday);
+    return;
   }
 
+  /*
+    Move one memory page backward.
+  */
+  memoryPages[currentMemory - 1].classList.remove("flipped");
 
-  // =====================================================
-  // MEMORY IMAGE ZOOM
-  //
-  // Supports:
-  //
-  // - double tap
-  // - pinch zoom
-  // - mouse wheel on desktop
-  //
-  // The zoom only affects the memory image.
-  // It does NOT zoom the entire website.
-  // =====================================================
+  currentMemory--;
 
-  const zoomState = new Map();
+  resetAllZoom();
+  updateMemoryUI();
+}
 
 
-  function createZoomState(area) {
+if (memoryBack) {
+  memoryBack.addEventListener("click", (event) => {
+    event.stopPropagation();
 
-    if (!zoomState.has(area)) {
+    goBackMemory();
+  });
+}
 
-      zoomState.set(
-        area,
-        {
-          scale: 1,
-          x: 0,
-          y: 0,
-          startDistance: 0,
-          startScale: 1,
-          lastTap: 0,
-          dragging: false,
-          startX: 0,
-          startY: 0,
-          startPanX: 0,
-          startPanY: 0
-        }
-      );
 
+/* =========================================================
+   MEMORY NEXT BUTTON
+========================================================= */
+
+if (memoryNext) {
+  memoryNext.addEventListener("click", (event) => {
+    event.stopPropagation();
+
+    turnNextPage();
+  });
+}
+
+
+/* =========================================================
+   MEMORY BOOK CLICK → NEXT
+========================================================= */
+
+/*
+  Clicking the memory book turns the page.
+
+  The zoom area gets special handling below so that
+  zooming / dragging doesn't accidentally turn the page.
+*/
+
+let pendingMemoryClick = null;
+
+if (memoryBook) {
+  memoryBook.addEventListener("click", (event) => {
+    /*
+      Don't treat buttons as page-turn clicks.
+    */
+    if (
+      event.target.closest("#memoryNext") ||
+      event.target.closest("#memoryBack")
+    ) {
+      return;
     }
 
-    return zoomState.get(area);
+    const zoomArea = event.target.closest(".memory-zoom-area");
 
+    /*
+      If the user clicked inside a zoomed image,
+      don't turn the page.
+    */
+    if (zoomArea) {
+      const state = zoomStates.get(zoomArea);
+
+      if (state && state.scale > 1) {
+        return;
+      }
+    }
+
+    /*
+      Slight delay allows double-click / double-tap
+      zoom gestures to cancel the page turn.
+    */
+    clearTimeout(pendingMemoryClick);
+
+    pendingMemoryClick = setTimeout(() => {
+      turnNextPage();
+    }, 220);
+  });
+}
+
+
+/* =========================================================
+   ZOOM SYSTEM
+========================================================= */
+
+const zoomStates = new Map();
+
+
+function createZoomState() {
+  return {
+    scale: 1,
+
+    x: 0,
+    y: 0,
+
+    startX: 0,
+    startY: 0,
+
+    dragStartX: 0,
+    dragStartY: 0,
+
+    startDistance: 0,
+    startScale: 1,
+
+    dragging: false,
+
+    lastTap: 0,
+
+    movedDuringTouch: false
+  };
+}
+
+
+zoomAreas.forEach((area) => {
+  zoomStates.set(area, createZoomState());
+
+  setupZoom(area);
+});
+
+
+/* ---------------------------------------------------------
+   GET IMAGE
+--------------------------------------------------------- */
+
+function getZoomImage(area) {
+  return area.querySelector(".memory-image");
+}
+
+
+/* ---------------------------------------------------------
+   CLAMP
+--------------------------------------------------------- */
+
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+
+/* ---------------------------------------------------------
+   LIMIT IMAGE DRAG
+--------------------------------------------------------- */
+
+function clampPan(area, state) {
+  const image = getZoomImage(area);
+
+  if (!image) {
+    return;
   }
 
+  const baseWidth = image.offsetWidth;
+  const baseHeight = image.offsetHeight;
 
-  function clamp(value, min, max) {
+  /*
+    How far the image can move while zoomed.
+  */
+  const maxX =
+    Math.max(0, (baseWidth * state.scale - baseWidth) / 2);
 
-    return Math.max(
-      min,
-      Math.min(max, value)
-    );
+  const maxY =
+    Math.max(0, (baseHeight * state.scale - baseHeight) / 2);
 
+  state.x = clamp(state.x, -maxX, maxX);
+  state.y = clamp(state.y, -maxY, maxY);
+}
+
+
+/* ---------------------------------------------------------
+   APPLY ZOOM
+--------------------------------------------------------- */
+
+function applyZoom(area) {
+  const image = getZoomImage(area);
+  const state = zoomStates.get(area);
+
+  if (!image || !state) {
+    return;
   }
 
+  clampPan(area, state);
 
-  function applyZoom(area) {
+  image.style.transform =
+    `translate3d(${state.x}px, ${state.y}px, 0) scale(${state.scale})`;
 
-    const state =
-      createZoomState(area);
+  if (state.scale > 1) {
+    area.classList.add("is-zoomed");
+  } else {
+    area.classList.remove("is-zoomed");
+  }
+}
 
-    const image =
-      area.querySelector(".memory-image");
 
-    if (!image) return;
+/* ---------------------------------------------------------
+   RESET ONE IMAGE
+--------------------------------------------------------- */
+
+function resetZoom(area) {
+  const state = zoomStates.get(area);
+
+  if (!state) {
+    return;
+  }
+
+  state.scale = 1;
+  state.x = 0;
+  state.y = 0;
+
+  state.dragging = false;
+  state.movedDuringTouch = false;
+
+  applyZoom(area);
+}
 
 
-    const scale =
-      clamp(
-        state.scale,
+/* ---------------------------------------------------------
+   RESET ALL IMAGES
+--------------------------------------------------------- */
+
+function resetAllZoom() {
+  zoomAreas.forEach((area) => {
+    resetZoom(area);
+  });
+}
+
+
+/* ---------------------------------------------------------
+   DOUBLE TAP / DOUBLE CLICK
+--------------------------------------------------------- */
+
+function toggleZoom(area) {
+  const state = zoomStates.get(area);
+
+  if (!state) {
+    return;
+  }
+
+  if (state.scale > 1) {
+    state.scale = 1;
+    state.x = 0;
+    state.y = 0;
+  } else {
+    state.scale = 2;
+  }
+
+  applyZoom(area);
+}
+
+
+/* ---------------------------------------------------------
+   TOUCH DISTANCE
+--------------------------------------------------------- */
+
+function getTouchDistance(touch1, touch2) {
+  const dx = touch2.clientX - touch1.clientX;
+  const dy = touch2.clientY - touch1.clientY;
+
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+
+/* ---------------------------------------------------------
+   SETUP ZOOM
+--------------------------------------------------------- */
+
+function setupZoom(area) {
+  const image = getZoomImage(area);
+
+  if (!image) {
+    return;
+  }
+
+  const state = zoomStates.get(area);
+
+  /* -------------------------------------------------------
+     DOUBLE CLICK — DESKTOP
+  ------------------------------------------------------- */
+
+  area.addEventListener("dblclick", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    clearTimeout(pendingMemoryClick);
+
+    toggleZoom(area);
+  });
+
+
+  /* -------------------------------------------------------
+     CTRL / CMD + MOUSE WHEEL
+  ------------------------------------------------------- */
+
+  area.addEventListener(
+    "wheel",
+    (event) => {
+      /*
+        Only zoom when Ctrl / Cmd is held.
+        Normal scrolling isn't used by the site anyway,
+        but this keeps the zoom gesture intentional.
+      */
+      if (!event.ctrlKey && !event.metaKey) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      clearTimeout(pendingMemoryClick);
+
+      const zoomAmount = event.deltaY < 0 ? 0.25 : -0.25;
+
+      state.scale = clamp(
+        state.scale + zoomAmount,
         1,
         3
       );
 
+      if (state.scale === 1) {
+        state.x = 0;
+        state.y = 0;
+      }
 
-    state.scale = scale;
+      applyZoom(area);
+    },
+    { passive: false }
+  );
 
 
-    // When completely zoomed out,
-    // return the image to its natural position.
+  /* -------------------------------------------------------
+     MOUSE DRAG
+  ------------------------------------------------------- */
 
-    if (scale === 1) {
-
-      state.x = 0;
-      state.y = 0;
-
+  area.addEventListener("mousedown", (event) => {
+    /*
+      Only allow dragging while zoomed.
+    */
+    if (state.scale <= 1) {
+      return;
     }
 
+    /*
+      Left mouse button only.
+    */
+    if (event.button !== 0) {
+      return;
+    }
 
-    image.style.transform =
-      `translate(${state.x}px, ${state.y}px) scale(${scale})`;
+    event.preventDefault();
+    event.stopPropagation();
 
-  }
+    state.dragging = true;
+
+    state.dragStartX = event.clientX - state.x;
+    state.dragStartY = event.clientY - state.y;
+
+    area.classList.add("is-dragging");
+  });
 
 
-  function resetMemoryZoom(area) {
+  window.addEventListener("mousemove", (event) => {
+    if (!state.dragging) {
+      return;
+    }
 
-    if (!area) return;
+    state.x = event.clientX - state.dragStartX;
+    state.y = event.clientY - state.dragStartY;
 
-    const state =
-      createZoomState(area);
+    applyZoom(area);
+  });
 
-    state.scale = 1;
 
-    state.x = 0;
-
-    state.y = 0;
-
-    state.startDistance = 0;
-
-    state.startScale = 1;
+  window.addEventListener("mouseup", () => {
+    if (!state.dragging) {
+      return;
+    }
 
     state.dragging = false;
 
-    applyZoom(area);
+    area.classList.remove("is-dragging");
+  });
 
-  }
 
+  /* -------------------------------------------------------
+     TOUCH START
+  ------------------------------------------------------- */
 
-  function resetAllMemoryZoom() {
-
-    zoomAreas.forEach(
-      (area) => {
-
-        resetMemoryZoom(area);
-
-      }
-    );
-
-  }
-
-
-  function getTouchDistance(
-    touch1,
-    touch2
-  ) {
-
-    const dx =
-      touch2.clientX -
-      touch1.clientX;
-
-    const dy =
-      touch2.clientY -
-      touch1.clientY;
-
-    return Math.sqrt(
-      dx * dx +
-      dy * dy
-    );
-
-  }
-
-
-  // =====================================================
-  // SET UP EACH MEMORY ZOOM AREA
-  // =====================================================
-
-  zoomAreas.forEach(
-    (area) => {
-
-      const image =
-        area.querySelector(".memory-image");
-
-      if (!image) return;
-
-
-      const state =
-        createZoomState(area);
-
-
-      // -----------------------------------------------
-      // DOUBLE TAP
-      // -----------------------------------------------
-
-      area.addEventListener(
-        "touchend",
-        (event) => {
-
-          if (
-            event.changedTouches.length !== 1
-          ) {
-            return;
-          }
-
-
-          const now =
-            Date.now();
-
-
-          const timeSinceLastTap =
-            now - state.lastTap;
-
-
-          if (
-            timeSinceLastTap < 300 &&
-            timeSinceLastTap > 0
-          ) {
-
-            event.preventDefault();
-
-
-            if (state.scale > 1) {
-
-              resetMemoryZoom(area);
-
-            } else {
-
-              state.scale = 2;
-
-              applyZoom(area);
-
-            }
-
-          }
-
-
-          state.lastTap = now;
-
-        },
-        {
-          passive: false
-        }
-      );
-
-
-      // -----------------------------------------------
-      // PINCH START
-      // -----------------------------------------------
-
-      area.addEventListener(
-        "touchstart",
-        (event) => {
-
-          if (
-            event.touches.length === 2
-          ) {
-
-            event.preventDefault();
-
-            state.startDistance =
-              getTouchDistance(
-                event.touches[0],
-                event.touches[1]
-              );
-
-            state.startScale =
-              state.scale;
-
-          }
-
-        },
-        {
-          passive: false
-        }
-      );
-
-
-      // -----------------------------------------------
-      // PINCH MOVE
-      // -----------------------------------------------
-
-      area.addEventListener(
-        "touchmove",
-        (event) => {
-
-          if (
-            event.touches.length === 2
-          ) {
-
-            event.preventDefault();
-
-
-            const currentDistance =
-              getTouchDistance(
-                event.touches[0],
-                event.touches[1]
-              );
-
-
-            if (
-              state.startDistance <= 0
-            ) {
-              return;
-            }
-
-
-            const ratio =
-              currentDistance /
-              state.startDistance;
-
-
-            state.scale =
-              clamp(
-                state.startScale * ratio,
-                1,
-                3
-              );
-
-
-            applyZoom(area);
-
-          }
-
-        },
-        {
-          passive: false
-        }
-      );
-
-
-      // -----------------------------------------------
-      // MOUSE WHEEL ZOOM
-      // Desktop / laptop
-      // -----------------------------------------------
-
-      area.addEventListener(
-        "wheel",
-        (event) => {
-
-          if (
-            !event.ctrlKey &&
-            !event.metaKey
-          ) {
-
-            return;
-
-          }
-
-
-          event.preventDefault();
-
-
-          const amount =
-            event.deltaY < 0
-              ? 0.2
-              : -0.2;
-
-
-          state.scale =
-            clamp(
-              state.scale + amount,
-              1,
-              3
-            );
-
-
-          applyZoom(area);
-
-        },
-        {
-          passive: false
-        }
-      );
-
-
-      // -----------------------------------------------
-      // DOUBLE CLICK DESKTOP
-      // -----------------------------------------------
-
-      area.addEventListener(
-        "dblclick",
-        (event) => {
-
-          event.preventDefault();
-
-
-          if (state.scale > 1) {
-
-            resetMemoryZoom(area);
-
-          } else {
-
-            state.scale = 2;
-
-            applyZoom(area);
-
-          }
-
-        }
-      );
-
-
-      // -----------------------------------------------
-      // MOUSE DRAG WHEN ZOOMED
-      // -----------------------------------------------
-
-      area.addEventListener(
-        "mousedown",
-        (event) => {
-
-          if (
-            state.scale <= 1
-          ) {
-            return;
-          }
-
-
-          state.dragging = true;
-
-          state.startX =
-            event.clientX;
-
-          state.startY =
-            event.clientY;
-
-          state.startPanX =
-            state.x;
-
-          state.startPanY =
-            state.y;
-
-
-          area.classList.add(
-            "is-dragging"
-          );
-
-        }
-      );
-
-
-      window.addEventListener(
-        "mousemove",
-        (event) => {
-
-          if (
-            !state.dragging
-          ) {
-            return;
-          }
-
-
-          const dx =
-            event.clientX -
-            state.startX;
-
-          const dy =
-            event.clientY -
-            state.startY;
-
-
-          state.x =
-            state.startPanX + dx;
-
-          state.y =
-            state.startPanY + dy;
-
-
-          applyZoom(area);
-
-        }
-      );
-
-
-      window.addEventListener(
-        "mouseup",
-        () => {
-
-          state.dragging = false;
-
-          area.classList.remove(
-            "is-dragging"
-          );
-
-        }
-      );
-
-
-    }
-  );
-
-
-  // =====================================================
-  // LETTER
-  // =====================================================
-
-  const closedLetter =
-    document.getElementById("closedLetter");
-
-  const openLetter =
-    document.getElementById("openLetter");
-
-  const letterScrollArea =
-    document.getElementById("letterScrollArea");
-
-
-  function prepareLetterPage() {
-
-    if (!closedLetter) return;
-
-    if (openLetter) {
-
-      openLetter.classList.remove(
-        "letter-visible"
-      );
-
-    }
-
-    closedLetter.classList.remove(
-      "letter-opening"
-    );
-
-    if (letterScrollArea) {
-
-      letterScrollArea.scrollTop = 0;
-
-    }
-
-  }
-
-
-  // -----------------------------------------------
-  // OPEN FOLDED LETTER
-  // -----------------------------------------------
-
-  if (closedLetter) {
-
-    closedLetter.addEventListener(
-      "click",
-      () => {
-
-        closedLetter.classList.add(
-          "letter-opening"
-        );
-
-
-        setTimeout(
-          () => {
-
-            closedLetter.style.display =
-              "none";
-
-
-            if (openLetter) {
-
-              openLetter.classList.add(
-                "letter-visible"
-              );
-
-            }
-
-          },
-          850
-        );
-
-      }
-    );
-
-  }
-
-
-  // =====================================================
-  // LETTER → MEMORY BOOK
-  // =====================================================
-
-  if (letterBackButton) {
-
-    letterBackButton.addEventListener(
-      "click",
-      () => {
-
-        showScreen(
-          memoryBook,
-          "memoryBook"
-        );
-
-
-        // Return to Memory 8
-
-        showMemoryPage(
-          memoryPages.length - 1
-        );
-
-      }
-    );
-
-  }
-
-
-  // =====================================================
-  // LETTER → VIDEO
-  // =====================================================
-
-  if (letterVideoButton) {
-
-    letterVideoButton.addEventListener(
-      "click",
-      () => {
-
-        openVideoPage();
-
-      }
-    );
-
-  }
-
-
-  function openVideoPage() {
-
-    // Letter music stops when entering video.
-
-    stopMusic();
-
-
-    showScreen(
-      videoSection,
-      "video"
-    );
-
-
-    // If a video exists later,
-    // we'll start it here.
-
-    const memoryVideo =
-      document.getElementById(
-        "memoryVideo"
-      );
-
-
-    if (memoryVideo) {
-
-      memoryVideo.currentTime = 0;
-
-      memoryVideo.play().catch(
-        () => {
-          console.log(
-            "Video requires user interaction."
-          );
-        }
-      );
-
-    }
-
-  }
-
-
-  // =====================================================
-  // VIDEO → LETTER
-  // =====================================================
-
-  if (videoBackButton) {
-
-    videoBackButton.addEventListener(
-      "click",
-      () => {
-
-        showScreen(
-          letterSection,
-          "letter"
-        );
-
-      }
-    );
-
-  }
-
-
-  // =====================================================
-  // KEYBOARD NAVIGATION
-  // =====================================================
-
-  document.addEventListener(
-    "keydown",
+  area.addEventListener(
+    "touchstart",
     (event) => {
+      clearTimeout(pendingMemoryClick);
 
-      // -----------------------------------------------
-      // MEMORY BOOK
-      // -----------------------------------------------
-
-      if (
-        currentScreen === "memoryBook"
-      ) {
-
-
-        if (
-          event.key === "ArrowRight"
-        ) {
-
-          if (
-            currentMemoryPage <
-            memoryPages.length - 1
-          ) {
-
-            showMemoryPage(
-              currentMemoryPage + 1
-            );
-
-          } else {
-
-            openLetterPage();
-
-          }
-
-        }
-
-
-        if (
-          event.key === "ArrowLeft"
-        ) {
-
-          if (
-            currentMemoryPage > 0
-          ) {
-
-            showMemoryPage(
-              currentMemoryPage - 1
-            );
-
-          } else {
-
-            showScreen(
-              page2,
-              "page2"
-            );
-
-          }
-
-        }
-
-      }
-
-
-      // -----------------------------------------------
-      // PAGE 2
-      // -----------------------------------------------
-
-      if (
-        currentScreen === "page2" &&
-        event.key === "ArrowLeft"
-      ) {
-
-        showScreen(
-          cover,
-          "cover"
-        );
-
-      }
-
-    }
-  );
-
-
-  // =====================================================
-  // PREVENT ACCIDENTAL BODY SCROLLING
-  // =====================================================
-
-  document.addEventListener(
-    "touchmove",
-    (event) => {
-
-      // Allow scrolling only inside the letter.
-
-      if (
-        currentScreen === "letter" &&
-        letterScrollArea &&
-        letterScrollArea.contains(
-          event.target
-        )
-      ) {
-
-        return;
-
-      }
-
-
-      // Everything else stays fixed.
-
-      if (
-        !(
-          currentScreen === "letter" &&
-          letterScrollArea &&
-          letterScrollArea.contains(
-            event.target
-          )
-        )
-      ) {
-
+      /*
+        PINCH
+      */
+      if (event.touches.length === 2) {
         event.preventDefault();
 
+        state.startDistance = getTouchDistance(
+          event.touches[0],
+          event.touches[1]
+        );
+
+        state.startScale = state.scale;
+
+        state.dragging = false;
+
+        return;
       }
 
+
+      /*
+        SINGLE TOUCH
+      */
+      if (event.touches.length === 1) {
+        const touch = event.touches[0];
+
+        state.startX = touch.clientX;
+        state.startY = touch.clientY;
+
+        state.dragStartX =
+          touch.clientX - state.x;
+
+        state.dragStartY =
+          touch.clientY - state.y;
+
+        state.movedDuringTouch = false;
+
+        /*
+          If already zoomed, this starts a drag.
+        */
+        if (state.scale > 1) {
+          state.dragging = true;
+          area.classList.add("is-dragging");
+        }
+      }
     },
-    {
-      passive: false
-    }
+    { passive: false }
   );
 
 
-  // =====================================================
-  // INITIAL MEMORY STATE
-  // =====================================================
+  /* -------------------------------------------------------
+     TOUCH MOVE
+  ------------------------------------------------------- */
 
-  resetMemoryBook();
+  area.addEventListener(
+    "touchmove",
+    (event) => {
+      /*
+        PINCH ZOOM
+      */
+      if (event.touches.length === 2) {
+        event.preventDefault();
+
+        const currentDistance = getTouchDistance(
+          event.touches[0],
+          event.touches[1]
+        );
+
+        if (state.startDistance > 0) {
+          const ratio =
+            currentDistance / state.startDistance;
+
+          state.scale = clamp(
+            state.startScale * ratio,
+            1,
+            3
+          );
+
+          if (state.scale === 1) {
+            state.x = 0;
+            state.y = 0;
+          }
+
+          applyZoom(area);
+        }
+
+        return;
+      }
 
 
-  // =====================================================
-  // END
-  // =====================================================
+      /*
+        DRAG WHILE ZOOMED
+      */
+      if (
+        event.touches.length === 1 &&
+        state.scale > 1 &&
+        state.dragging
+      ) {
+        event.preventDefault();
 
+        const touch = event.touches[0];
+
+        const dx =
+          touch.clientX - state.startX;
+
+        const dy =
+          touch.clientY - state.startY;
+
+        if (
+          Math.abs(dx) > 5 ||
+          Math.abs(dy) > 5
+        ) {
+          state.movedDuringTouch = true;
+        }
+
+        state.x =
+          touch.clientX - state.dragStartX;
+
+        state.y =
+          touch.clientY - state.dragStartY;
+
+        applyZoom(area);
+      }
+    },
+    { passive: false }
+  );
+
+
+  /* -------------------------------------------------------
+     TOUCH END
+  ------------------------------------------------------- */
+
+  area.addEventListener(
+    "touchend",
+    (event) => {
+      area.classList.remove("is-dragging");
+
+      state.dragging = false;
+
+
+      /*
+        If this was the end of a pinch,
+        don't interpret it as a tap.
+      */
+      if (event.touches.length > 0) {
+        return;
+      }
+
+
+      /*
+        If the image was dragged,
+        don't trigger double tap / page turn.
+      */
+      if (state.movedDuringTouch) {
+        state.movedDuringTouch = false;
+        return;
+      }
+
+
+      /*
+        DOUBLE TAP
+      */
+      const now = Date.now();
+      const timeSinceLastTap =
+        now - state.lastTap;
+
+      if (timeSinceLastTap < 300) {
+        clearTimeout(pendingMemoryClick);
+
+        toggleZoom(area);
+
+        state.lastTap = 0;
+
+        return;
+      }
+
+
+      state.lastTap = now;
+
+      /*
+        Delay slightly so a second tap can cancel
+        the normal page-turn click.
+      */
+      pendingMemoryClick = setTimeout(() => {
+        /*
+          If zoomed, tapping shouldn't turn the page.
+        */
+        if (state.scale > 1) {
+          return;
+        }
+
+        turnNextPage();
+      }, 220);
+    },
+    { passive: false }
+  );
+}
+
+
+/* =========================================================
+   AFTER MEMORIES → BACK
+========================================================= */
+
+if (afterBack) {
+  afterBack.addEventListener("click", (event) => {
+    event.stopPropagation();
+
+    /*
+      Restore the memory book to its final page.
+    */
+    currentMemory = memoryPages.length - 1;
+
+    memoryPages.forEach((page, index) => {
+      if (index < currentMemory) {
+        page.classList.add("flipped");
+      } else {
+        page.classList.remove("flipped");
+      }
+    });
+
+    resetAllZoom();
+    updateMemoryUI();
+
+    showScreen(memories);
+  });
+}
+
+
+/* =========================================================
+   KEYBOARD CONTROLS
+========================================================= */
+
+document.addEventListener("keydown", (event) => {
+  /*
+    Don't interfere while typing into an input,
+    textarea, etc.
+  */
+  const tag = event.target.tagName;
+
+  if (
+    tag === "INPUT" ||
+    tag === "TEXTAREA" ||
+    tag === "SELECT"
+  ) {
+    return;
+  }
+
+
+  /* -------------------------------------------------------
+     RIGHT / ENTER / SPACE
+  ------------------------------------------------------- */
+
+  if (
+    event.key === "ArrowRight" ||
+    event.key === "Enter" ||
+    event.key === " "
+  ) {
+    event.preventDefault();
+
+    if (currentScreen === "cover") {
+      if (openButton) {
+        openButton.click();
+      }
+
+      return;
+    }
+
+    if (currentScreen === "birthday") {
+      showScreen(memories);
+      return;
+    }
+
+    if (currentScreen === "memories") {
+      turnNextPage();
+      return;
+    }
+
+    return;
+  }
+
+
+  /* -------------------------------------------------------
+     LEFT
+  ------------------------------------------------------- */
+
+  if (event.key === "ArrowLeft") {
+    event.preventDefault();
+
+    if (currentScreen === "birthday") {
+      showScreen(cover);
+      return;
+    }
+
+    if (currentScreen === "memories") {
+      goBackMemory();
+      return;
+    }
+
+    if (currentScreen === "after") {
+      if (afterBack) {
+        afterBack.click();
+      }
+
+      return;
+    }
+  }
 });
+
+
+/* =========================================================
+   INITIAL STATE
+========================================================= */
+
+memoryPages.forEach((page) => {
+  page.classList.remove("flipped");
+});
+
+currentMemory = 0;
+
+resetAllZoom();
+updateMemoryUI();
+
+showScreen(cover);
