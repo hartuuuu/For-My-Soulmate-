@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const memNextBtn = document.getElementById("mem-next-btn");
   const memoryCounter = document.getElementById("memory-counter");
   const memoryImage = document.getElementById("memory-image");
+  const memoryImageUnder = document.getElementById("memory-image-under");
   const scrapbookPage = document.getElementById("scrapbook-page");
   const flipCard = document.getElementById("flip-card");
 
@@ -52,30 +53,33 @@ document.addEventListener("DOMContentLoaded", () => {
     pageToShow.classList.add("active");
   }
 
-  // --- MEMORY PAGE TURN WITH FAST FLIP ANIMATION ---
+  // --- TURN.JS STYLE PAGE TURN ANIMATION ---
   function changeMemoryWithFlip(newIndex, direction = "next") {
     if (isFlipping) return;
     isFlipping = true;
 
     resetZoom();
 
-    // Add page-turn flip class
-    const flipClass = direction === "next" ? "flipping-next" : "flipping-prev";
+    // Set underlay image to destination page
+    memoryImageUnder.src = `assets/memory-${newIndex}.png`;
+
+    const flipClass = direction === "next" ? "turn-next" : "turn-prev";
     flipCard.classList.add(flipClass);
 
-    // Swap image halfway through the fast 150ms animation (at 75ms)
+    // Complete the page turn and snap active element to the new image
     setTimeout(() => {
       currentMemoryIndex = newIndex;
       memoryImage.src = `assets/memory-${newIndex}.png`;
       memoryImage.alt = `Memory ${newIndex}`;
       memoryCounter.textContent = `${newIndex} / ${totalMemories}`;
-    }, 75);
 
-    // Remove flip animation class when done (at 150ms)
-    setTimeout(() => {
+      // Reset underlay for next turn
+      const nextUnder = newIndex < totalMemories ? newIndex + 1 : totalMemories;
+      memoryImageUnder.src = `assets/memory-${nextUnder}.png`;
+
       flipCard.classList.remove(flipClass);
       isFlipping = false;
-    }, 150);
+    }, 400);
   }
 
   function resetZoom() {
@@ -114,6 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
     currentPageState = "memory";
     currentMemoryIndex = 1;
     memoryImage.src = `assets/memory-1.png`;
+    memoryImageUnder.src = `assets/memory-2.png`;
     memoryImage.alt = `Memory 1`;
     memoryCounter.textContent = `1 / ${totalMemories}`;
     resetZoom();
@@ -146,13 +151,14 @@ document.addEventListener("DOMContentLoaded", () => {
     currentPageState = "memory";
     currentMemoryIndex = totalMemories;
     memoryImage.src = `assets/memory-${totalMemories}.png`;
+    memoryImageUnder.src = `assets/memory-${totalMemories}.png`;
     memoryImage.alt = `Memory ${totalMemories}`;
     memoryCounter.textContent = `${totalMemories} / ${totalMemories}`;
     resetZoom();
     showPage(pageMemory);
   }
 
-  // --- EVENT LISTENERS: BUTTONS & CLICKS ---
+  // --- EVENT LISTENERS ---
   btnStart.addEventListener("click", startExperience);
 
   p2BackBtn.addEventListener("click", (e) => {
@@ -201,9 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // --- ZOOM & DRAG IMPLEMENTATION (IMAGE ONLY) ---
-
-  // 1. Mouse Wheel Zoom
+  // --- ZOOM & DRAG IMPLEMENTATION ---
   memoryImage.addEventListener(
     "wheel",
     (e) => {
@@ -217,7 +221,6 @@ document.addEventListener("DOMContentLoaded", () => {
     { passive: false }
   );
 
-  // 2. Double Click Zoom
   memoryImage.addEventListener("dblclick", (e) => {
     e.stopPropagation();
     if (scale > 1) {
@@ -228,7 +231,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 3. Mouse Dragging
   memoryImage.addEventListener("mousedown", (e) => {
     if (scale > 1) {
       e.stopPropagation();
@@ -251,7 +253,6 @@ document.addEventListener("DOMContentLoaded", () => {
     isDragging = false;
   });
 
-  // 4. Touch Interactions (Pinch, Double-Tap, Drag)
   function getPinchDistance(touches) {
     const dx = touches[0].clientX - touches[1].clientX;
     const dy = touches[0].clientY - touches[1].clientY;
