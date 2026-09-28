@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let isDragging = false;
   let initialPinchDistance = 0;
   let initialPinchScale = 1;
+  let pinchCenter = { x: 0, y: 0 };
 
   // Touch State
   let lastTapTime = 0;
@@ -116,6 +117,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     memoryImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+  }
+
+  // Zoom around focal point (cursor or fingers center)
+  function zoomAtPoint(newScale, focalX, focalY) {
+    newScale = Math.min(Math.max(1, newScale), 4);
+    if (newScale === scale) return;
+
+    const rect = memoryImage.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const offsetX = focalX - centerX;
+    const offsetY = focalY - centerY;
+
+    const scaleRatio = newScale / scale;
+    pointX -= offsetX * (scaleRatio - 1);
+    pointY -= offsetY * (scaleRatio - 1);
+    scale = newScale;
+
+    applyTransform();
   }
 
   // --- SPLIT CARD COVER TOGGLE ---
@@ -371,15 +392,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================================================================
-  // FULL ZOOM & DRAG & PINCH IMPLEMENTATION FOR MEMORY IMAGE
+  // PINCH & CURSOR FOCUSED ZOOM IMPLEMENTATION
   // ==========================================================================
   memoryImage.addEventListener(
     "wheel",
     (e) => {
       e.preventDefault();
       const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85;
-      scale *= zoomFactor;
-      applyTransform();
+      zoomAtPoint(scale * zoomFactor, e.clientX, e.clientY);
     },
     { passive: false }
   );
@@ -389,8 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (scale > 1) {
       resetZoom();
     } else {
-      scale = 2.5;
-      applyTransform();
+      zoomAtPoint(2.5, e.clientX, e.clientY);
     }
   });
 
@@ -416,12 +435,19 @@ document.addEventListener("DOMContentLoaded", () => {
     isDragging = false;
   });
 
-  // Touch: Pinch-to-zoom and Double Tap
+  // Touch Pinch-to-Zoom centered between fingers
   function getPinchDistance(touches) {
     return Math.hypot(
       touches[0].clientX - touches[1].clientX,
       touches[0].clientY - touches[1].clientY
     );
+  }
+
+  function getPinchCenter(touches) {
+    return {
+      x: (touches[0].clientX + touches[1].clientX) / 2,
+      y: (touches[0].clientY + touches[1].clientY) / 2
+    };
   }
 
   memoryImage.addEventListener(
@@ -434,8 +460,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (scale > 1) {
             resetZoom();
           } else {
-            scale = 2.5;
-            applyTransform();
+            zoomAtPoint(2.5, e.touches[0].clientX, e.touches[0].clientY);
           }
         }
         lastTapTime = now;
@@ -449,6 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
         isDragging = false;
         initialPinchDistance = getPinchDistance(e.touches);
         initialPinchScale = scale;
+        pinchCenter = getPinchCenter(e.touches);
       }
     },
     { passive: false }
@@ -461,8 +487,9 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         const currentDistance = getPinchDistance(e.touches);
         if (initialPinchDistance > 0) {
-          scale = initialPinchScale * (currentDistance / initialPinchDistance);
-          applyTransform();
+          const targetScale = initialPinchScale * (currentDistance / initialPinchDistance);
+          const currentCenter = getPinchCenter(e.touches);
+          zoomAtPoint(targetScale, currentCenter.x, currentCenter.y);
         }
       } else if (isDragging && scale > 1 && e.touches.length === 1) {
         e.preventDefault();
