@@ -1,153 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>A Little Something for You</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Wish</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    /* 1. TURN PAGE SECTION BACKGROUND */
+    .turn-page-section {
+      width: 100%;
+      height: 100vh;
+      background-image: url('assets/turnpage-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 2. LETTER SECTION & FRONT CARD CONTAINER */
+    .letter-section {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      background-image: url('assets/letter-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Split Cover Styling */
+    .card-cover {
+      position: absolute;
+      width: 100%;
+      height: 50%;
+      left: 0;
+      background-size: cover;
+      background-position: center;
+      z-index: 10;
+      transition: transform 1.2s ease-in-out;
+      cursor: pointer;
+    }
+
+    .card-top {
+      top: 0;
+      background-image: url('assets/front-card-top.jpg');
+      background-position: bottom center;
+    }
+
+    .card-bottom {
+      bottom: 0;
+      background-image: url('assets/front-card-bottom.jpg');
+      background-position: top center;
+    }
+
+    /* Slide Animations */
+    .letter-section.open .card-top {
+      transform: translateY(-100%);
+    }
+
+    .letter-section.open .card-bottom {
+      transform: translateY(100%);
+    }
+
+    /* Prompt Text to click cover */
+    .click-prompt {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 11;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: #4a4a4a;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .letter-section.open .click-prompt {
+      opacity: 0;
+    }
+
+    /* 3. SCROLLABLE LETTER CONTAINER */
+    .letter-scroll-container {
+      width: 85%;
+      max-width: 500px;
+      height: 70vh;
+      overflow-y: auto;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(3px);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      z-index: 5;
+      /* Custom Scrollbar for clean look */
+      scrollbar-width: thin;
+      scrollbar-color: #e0a9af transparent;
+    }
+
+    .letter-content {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #333;
+      white-space: pre-line;
+    }
+
+    /* 4. NEXT PAGE BUTTON */
+    .next-page-btn {
+      position: absolute;
+      bottom: 20px;
+      padding: 12px 24px;
+      background-color: #e0a9af;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 15px;
+      cursor: pointer;
+      z-index: 6;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .next-page-btn.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Audio Element -->
-  <audio id="bg-music" src="assets/take-our-time.mp3" preload="auto" loop></audio>
+  <!-- LETTER SECTION -->
+  <div class="letter-section" id="letterSection">
+    
+    <!-- Front Card Splitting Covers -->
+    <div class="card-cover card-top" id="cardTop" onclick="openLetter()"></div>
+    <div class="card-cover card-bottom" id="cardBottom" onclick="openLetter()"></div>
+    <div class="click-prompt">Tap to open letter ✨</div>
 
-  <!-- Mobile Viewport Container -->
-  <div class="app-viewport">
+    <!-- Scrollable Letter Text -->
+    <div class="letter-scroll-container" id="letterContainer">
+      <div class="letter-content">
+Hayooooooooo, Happy Birthday!!! 🥳💖
 
-    <!-- PAGE 1: COVER -->
-    <section id="page-1" class="page active">
-      <div class="page-content cover-content">
-        <span class="date-stamp">09.28.26</span>
-        <h1 class="whisper-title">psst... hey, you. ♥</h1>
-        <p class="sub-text">there's something waiting for you inside.</p>
-        <button id="btn-start" class="cute-btn">CLICK ME ♡</button>
+Hindi ko alam paano sisimulan 'tong letter na 'to HAHAHA!
+
+Gusto ko lang sabihin na sobrang thankful ako na naging part ka ng buhay ko. Thank you sa lahat ng tawa, sa mga usapan, at sa pagiging nandiyan lagi. 
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+(Mag-scroll ka pa pababa para lumabas ang susunod na button!)
+
+---
+End of Letter 💕
       </div>
-    </section>
+    </div>
 
-    <!-- PAGE 2: HAPPY BIRTHDAY REVEAL -->
-    <section id="page-2" class="page hidden">
-      <button class="back-btn" id="p2-back-btn" aria-label="Go back">←</button>
-      
-      <div class="page-content click-area" id="p2-main-content">
-        <p class="teaser-text">look who's getting older... 😭</p>
-        <h2 class="section-heading">TODAY IS ALL ABOUT YOU</h2>
-        
-        <div class="bday-title-wrap">
-          <span class="bday-sub">HAPPY</span>
-          <span class="bday-main">BIRTHDAY,</span>
-          <h1 class="name-title">NICOLE ♥</h1>
-        </div>
-
-        <div class="polaroid-frame">
-          <img src="assets/childhood-photo.png" alt="Childhood photo of Nicole" class="childhood-img" />
-          <p class="polaroid-caption">look at us 🥹</p>
-        </div>
-
-        <div class="sweet-message">
-          <p>another year of you.</p>
-          <p>and i'm really glad i get to be here for it. ♡</p>
-        </div>
-
-        <p class="continue-hint">click anywhere to keep going ↓</p>
-      </div>
-    </section>
-
-    <!-- MEMORY BOOK SECTION -->
-    <section id="page-memory-book" class="page hidden">
-      <button class="back-btn" id="mem-back-btn" aria-label="Go back">← back</button>
-      
-      <div class="memory-container">
-        <p class="turn-hint">click to turn the page ♡</p>
-
-        <div class="scrapbook-page" id="scrapbook-page">
-          <div class="page-underlay">
-            <img id="memory-image-under" src="assets/memory-2.png" alt="Next Memory" />
-          </div>
-
-          <div class="flip-card" id="flip-card">
-            <div class="image-zoom-viewport" id="zoom-viewport">
-              <img 
-                id="memory-image" 
-                src="assets/memory-1.png" 
-                alt="Memory 1" 
-                draggable="false"
-              />
-            </div>
-            <div class="page-shadow"></div>
-          </div>
-        </div>
-
-        <div class="memory-controls">
-          <span id="memory-counter" class="counter-badge">1 / 8</span>
-          <button id="mem-next-btn" class="cute-btn next-btn">NEXT →</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- PAGE 4: INTERACTIVE ENVELOPE & LETTER SECTION -->
-    <section id="page-letter" class="page hidden">
-      <button class="back-btn" id="letter-back-btn" aria-label="Go back">← back</button>
-
-      <div class="envelope-wrapper">
-        <p class="envelope-hint" id="envelope-hint">tap the envelope flap to open ✉</p>
-
-        <!-- Interactive Envelope -->
-        <div class="envelope" id="envelope">
-          <div class="envelope-flap" id="envelope-flap"></div>
-          <div class="envelope-pocket"></div>
-
-          <!-- Letter Sheet inside Envelope -->
-          <div class="letter-sheet" id="letter-sheet">
-            <!-- Doodle overlay decorations (50% opacity) -->
-            <div class="doodle-overlay" aria-hidden="true">
-              <span class="doodle d-star1">⭐</span>
-              <span class="doodle d-heart1">💛</span>
-              <span class="doodle d-cake">🎂</span>
-              <span class="doodle d-balloon">🎈</span>
-              <span class="doodle d-sparkle1">✨</span>
-              <span class="doodle d-squiggle1">〰️</span>
-              <span class="doodle d-confetti">🎉</span>
-              <span class="doodle d-star2">✨</span>
-              <span class="doodle d-heart2">💛</span>
-            </div>
-
-            <!-- Scrollable Letter Content -->
-            <div class="letter-scroll-area" id="letter-scroll-area">
-              <div class="letter-text">
-                <p>Hayoooooooooo, happy birthday!!! 😭💗</p>
-                <p>Hindi ko alam paano sisimulan ’tong letter na ’to HAHAHAHA, like idk what to say. Ang dami ko na ring nasabi sa past letters ko eh nyahahaha. Pero happy 20th birthdayyyyy! 🥹</p>
-                <p>Wala man tayong tatlo na celebration sa birthday mo today—wala eh, paano, broke college students tayo HAHAHAHA. Ito lang muna kaya kong i-offer sa’yo. It’s not much, pero I hope you know na I made this because I wanted to give you something, kahit simple lang.</p>
-                <p>I just want you to know na kahit hindi ako nakaka-reply agad, kahit days pa yung tagal na wala tayong chats, kahit months pa tayong hindi nag-uusap, ikaw pa rin ang best friend ko. Medyo cringe sabihin ’yan HAHAHAHA kasi parang pang-bata, pero ewan ko ba. 20 na tayo, are we supposed to feel like adults na ba? AHAHAHA. Kasi ako personally, I don’t feel like an adult at all 😭. Okay lang naman siguro na hindi pa natin feel ’yun, diba? We’re literally just starting our 20s. Hindi naman kailangan na bigla tayong maging super adult just because 20 na tayo HAHAHAHA.</p>
-                <p>And honestly, I hope hindi mo kailangang maging “adult na adult” agad. You deserve to still be carefree sometimes, to laugh over stupid things, to enjoy the little things, and to just exist without feeling like you have to figure everything out right away. You’re only 20. First step pa lang ’yan sa 20s mo HAHAHAHA.</p>
-                <p>I hope wala munang masyadong hinanakit at problema na dumating sa’yo ngayong first day mo as a 20-year-old. I know you’ve been carrying a lot of things and dealing with a lot of feelings lately, and honestly, wala talaga akong perfect words for that. I don’t know how to lessen the burden in your chest, and sometimes I don’t even know how to comfort you properly. You probably already know the answers yourself anyway.</p>
-                <p>But I hope kahit papaano, this reminds you na hindi mo kailangang dalhin lahat mag-isa. Kahit parang wala ako minsan, nandito lang ako. Hindi man ako laging present, hindi man ako mabilis mag-reply, at kahit minsan ilang buwan tayong walang matinong usapan, hindi ibig sabihin na nawala na yung friendship natin. Andito pa rin ako. Andito pa rin kami ni Keira. We love you naman eh. 🥹</p>
-                <p>I hope this year is a little kinder to you. I hope you get more reasons to smile, more moments that make you feel genuinely happy, and more days where your chest doesn’t feel so heavy. I hope you get to experience things that remind you that life isn’t just about all the problems you’re dealing with right now.</p>
-                <p>And please, don’t pressure yourself too much. Hindi mo kailangang malaman agad kung ano gagawin mo sa buhay. Hindi mo kailangang have everything figured out just because you’re 20 now. We’re all just figuring things out as we go HAHAHAHA. Ako nga rin hindi ko alam ginagawa ko minsan 😭.</p>
-                <p>Anyway, wala na talaga akong masabi HAHAHAHA. I just really want you to have a happy birthday. I hope you know how much I appreciate having you in my life, even if I don’t always say it. Thank you for all the memories, the random gala, the hallway talks, the kwentuhan, the stupid moments, and even the times na wala tayong ginagawa pero somehow masaya pa rin.</p>
-                <p>Here’s to another year of you, and hopefully, another year of us being stupid together HAHAHAHA.</p>
-                <p>Happy 20th birthday, my best friend. I love youuuuu. Please take care of yourself, okay? And remember, kahit gaano pa tayo katagal hindi mag-usap, ikaw pa rin ’yan. Best friend pa rin kita. No expiration date HAHAHAHA. 💗</p>
-                <p>Now go enjoy being 20, you old hag. 😭</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <button id="letter-next-btn" class="cute-btn next-btn">NEXT →</button>
-      </div>
-    </section>
-
-    <!-- TEMPORARY AFTER-LETTER PAGE -->
-    <section id="page-temp" class="page hidden">
-      <button class="back-btn" id="temp-back-btn" aria-label="Go back">← back</button>
-      
-      <div class="page-content temp-content">
-        <h1 class="temp-title">and there's more ♡</h1>
-        <p class="temp-sub">next section coming soon...</p>
-      </div>
-    </section>
+    <!-- Next Page Trigger -->
+    <button class="next-page-btn" id="nextBtn" onclick="goToNextPage()">Proceed to Next Page ➔</button>
 
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const letterSection = document.getElementById('letterSection');
+    const letterContainer = document.getElementById('letterContainer');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // Slide open animation trigger
+    function openLetter() {
+      letterSection.classList.add('open');
+    }
+
+    // Scroll detection to reveal the next page button
+    letterContainer.addEventListener('scroll', () => {
+      const scrollPosition = letterContainer.scrollTop + letterContainer.clientHeight;
+      const totalHeight = letterContainer.scrollHeight;
+
+      // Kapag nakarating sa pinaka-ibaba (may 5px threshold)
+      if (scrollPosition >= totalHeight - 5) {
+        nextBtn.classList.add('visible');
+      }
+    });
+
+    function goToNextPage() {
+      alert("Proceeding to the next page...");
+      // Ilagay dito ang navigation logic patungo sa susunod mong pahina
+    }
+  </script>
 </body>
 </html>
