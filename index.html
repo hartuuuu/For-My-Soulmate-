@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -13,18 +11,11 @@
   <title>A Little Something for You</title>
 
   <link rel="stylesheet" href="style.css">
-
 </head>
-
 
 <body>
 
-
-  <!-- =====================================================
-       BACKGROUND MUSIC
-       Starts when Page 1 is opened.
-       ===================================================== -->
-
+  <!-- MUSIC -->
   <audio
     id="birthdayMusic"
     src="assets/take-our-time.mp3"
@@ -33,129 +24,87 @@
   ></audio>
 
 
-
-  <!-- =====================================================
+  <!-- =========================================================
        PAGE 1 — COVER
-       ===================================================== -->
+  ========================================================== -->
 
-  <section
-    id="cover"
-    class="screen cover-screen"
-    aria-hidden="false"
-  >
-
-    <div class="cover-overlay"></div>
-
-
-    <!-- subtle handmade squiggles -->
-
-    <div class="cover-squiggle squiggle-one"></div>
-
-    <div class="cover-squiggle squiggle-two"></div>
-
-    <div class="cover-squiggle squiggle-three"></div>
-
-
+  <section id="cover" class="screen cover-screen">
 
     <div class="cover-content">
 
-
-      <p class="cover-date">
-        09.28.26
-      </p>
-
+      <p class="cover-date">09.28.26</p>
 
       <p class="cover-psst">
         psst... hey, you. <span>💛</span>
       </p>
 
-
       <h1 class="cover-title">
         Nicole
       </h1>
-
 
       <p class="cover-message">
         there's something waiting for you inside.
       </p>
 
-
       <button
         id="openButton"
-        class="primary-button cover-button"
+        class="primary-button"
         type="button"
       >
         CLICK ME <span>♡</span>
       </button>
 
-
     </div>
+
+    <!-- little handmade doodles -->
+    <div class="doodle doodle-one"></div>
+    <div class="doodle doodle-two"></div>
+    <div class="doodle doodle-three"></div>
 
   </section>
 
 
-
-  <!-- =====================================================
+  <!-- =========================================================
        PAGE 2 — HAPPY BIRTHDAY
-       ===================================================== -->
+  ========================================================== -->
 
-  <section
-    id="page2"
-    class="screen birthday-screen"
-    aria-hidden="true"
-  >
+  <section id="page2" class="screen birthday-screen">
 
-    <div class="birthday-paper">
-
+    <div class="birthday-page">
 
       <p class="birthday-intro">
         look who's getting older... 😭
       </p>
 
-
-      <p class="birthday-label">
+      <p class="birthday-small-label">
         TODAY IS ALL ABOUT YOU
       </p>
 
-
       <h2 class="birthday-title">
-
         HAPPY BIRTHDAY,
-
-        <span>
-          NICOLE
-        </span>
-
-        <span class="birthday-heart">
-          ♥
-        </span>
-
+        <span>NICOLE</span>
+        <span class="birthday-heart">♥</span>
       </h2>
 
 
-
-      <!-- Childhood photo -->
+      <!-- childhood polaroid -->
 
       <div class="childhood-photo-card">
 
         <div class="photo-tape photo-tape-left"></div>
-
         <div class="photo-tape photo-tape-right"></div>
-
 
         <img
           src="assets/childhood-photo.png"
-          alt="A childhood photo of Nicole and me"
+          alt="Childhood photo"
           class="childhood-photo"
         >
-
 
         <p class="photo-caption">
           look at us 🥹
         </p>
 
       </div>
-
 
 
       <div class="birthday-message">
@@ -171,11 +120,9 @@
       </div>
 
 
-
       <p class="birthday-hint">
         there's more waiting... ↓
       </p>
-
 
 
       <button
@@ -183,46 +130,33 @@
         class="text-button"
         type="button"
       >
-        keep going
-        <span>→</span>
+        keep going <span>→</span>
       </button>
 
-
-
-      <!-- BACK TO PAGE 1 -->
 
       <button
         id="birthdayBackButton"
-        class="back-button"
+        class="round-back-button"
         type="button"
-        aria-label="Go back to the cover"
+        aria-label="Back to cover"
       >
         ←
       </button>
-
 
     </div>
 
   </section>
 
 
-
-  <!-- =====================================================
+  <!-- =========================================================
        PAGE 3 — MEMORY BOOK
-       ===================================================== -->
+  ========================================================== -->
 
-  <section
-    id="memoryBook"
-    class="screen memory-screen"
-    aria-hidden="true"
-  >
+  <section id="memoryBook" class="screen memory-screen">
 
     <div class="memory-book">
 
-
-      <!-- Memory title -->
-
-      <div class="memory-header">
+      <header class="memory-header">
 
         <p class="memory-kicker">
           MEMORY LANE
@@ -232,34 +166,20 @@
           things i never want to forget
         </h2>
 
-      </div>
+      </header>
 
 
-
-      <!-- =================================================
-           MEMORY PAGES
-           ================================================= -->
-
-      <div
-        id="memoryPages"
-        class="memory-pages"
-      >
+      <div id="memoryPages" class="memory-pages">
 
 
-
-        <!-- =================================================
-             MEMORY 1
-             ================================================= -->
+        <!-- MEMORY 1 -->
 
         <div
           class="memory-page active"
           data-memory-page="1"
         >
 
-          <div
-            class="memory-zoom-area"
-            data-zoom-level="1"
-          >
+          <div class="memory-zoom-area">
 
             <img
               src="assets/memory-1.png"
@@ -273,20 +193,14 @@
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 2
-             ================================================= -->
+        <!-- MEMORY 2 -->
 
         <div
           class="memory-page"
           data-memory-page="2"
         >
 
-          <div
-            class="memory-zoom-area"
-            data-zoom-level="1"
-          >
+          <div class="memory-zoom-area">
 
             <img
               src="assets/memory-2.png"
@@ -300,20 +214,14 @@
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 3
-             ================================================= -->
+        <!-- MEMORY 3 -->
 
         <div
           class="memory-page"
           data-memory-page="3"
         >
 
-          <div
-            class="memory-zoom-area"
-            data-zoom-level="1"
-          >
+          <div class="memory-zoom-area">
 
             <img
               src="assets/memory-3.png"
@@ -327,20 +235,14 @@
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 4
-             ================================================= -->
+        <!-- MEMORY 4 -->
 
         <div
           class="memory-page"
           data-memory-page="4"
         >
 
-          <div
-            class="memory-zoom-area"
-            data-zoom-level="1"
-          >
+          <div class="memory-zoom-area">
 
             <img
               src="assets/memory-4.png"
@@ -354,20 +256,14 @@
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 5
-             ================================================= -->
+        <!-- MEMORY 5 -->
 
         <div
           class="memory-page"
           data-memory-page="5"
         >
 
-          <div
-            class="memory-zoom-area"
-            data-zoom-level="1"
-          >
+          <div class="memory-zoom-area">
 
             <img
               src="assets/memory-5.png"
@@ -381,20 +277,14 @@
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 6
-             ================================================= -->
+        <!-- MEMORY 6 -->
 
         <div
           class="memory-page"
           data-memory-page="6"
         >
 
-          <div
-            class="memory-zoom-area"
-            data-zoom-level="1"
-          >
+          <div class="memory-zoom-area">
 
             <img
               src="assets/memory-6.png"
@@ -408,20 +298,14 @@
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 7
-             ================================================= -->
+        <!-- MEMORY 7 -->
 
         <div
           class="memory-page"
           data-memory-page="7"
         >
 
-          <div
-            class="memory-zoom-area"
-            data-zoom-level="1"
-          >
+          <div class="memory-zoom-area">
 
             <img
               src="assets/memory-7.png"
@@ -435,20 +319,14 @@
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 8
-             ================================================= -->
+        <!-- MEMORY 8 -->
 
         <div
           class="memory-page"
           data-memory-page="8"
         >
 
-          <div
-            class="memory-zoom-area"
-            data-zoom-level="1"
-          >
+          <div class="memory-zoom-area">
 
             <img
               src="assets/memory-8.png"
@@ -461,212 +339,126 @@
 
         </div>
 
-
       </div>
 
 
-
-      <!-- =================================================
-           MEMORY PAGE COUNTER
-           ================================================= -->
-
-      <p
-        id="memoryCounter"
-        class="memory-counter"
-      >
+      <p id="memoryCounter" class="memory-counter">
         1 / 8
       </p>
 
 
-
-      <!-- =================================================
-           MEMORY NAVIGATION
-           ================================================= -->
-
       <div class="memory-navigation">
-
-
-        <!-- Previous memory -->
 
         <button
           id="memoryBackButton"
-          class="memory-nav-button memory-back"
+          class="memory-nav-button"
           type="button"
           aria-label="Previous memory"
         >
           ←
         </button>
 
-
-        <!-- Next memory -->
-
         <button
           id="memoryNextButton"
-          class="memory-nav-button memory-next"
+          class="memory-nav-button"
           type="button"
           aria-label="Next memory"
         >
           →
         </button>
 
-
       </div>
 
 
-
-      <p
-        id="memoryHint"
-        class="memory-hint"
-      >
+      <p id="memoryHint" class="memory-hint">
         click to turn the page
       </p>
 
-
-
-      <!-- =================================================
-           BACK OUT OF MEMORY BOOK
-           Goes to Page 2.
-           ================================================= -->
 
       <button
         id="memorySectionBackButton"
         class="section-back-button"
         type="button"
-        aria-label="Go back to birthday page"
       >
         back
       </button>
 
-
-
-      <!-- =================================================
-           GO TO LETTER
-           Only used after Memory 8.
-           ================================================= -->
 
       <button
         id="memoryLetterButton"
         class="memory-letter-button"
         type="button"
       >
-        continue
-        <span>→</span>
+        continue <span>→</span>
       </button>
-
 
     </div>
 
   </section>
 
 
-
-  <!-- =====================================================
+  <!-- =========================================================
        PAGE 4 — LETTER
-       ===================================================== -->
+  ========================================================== -->
 
-  <section
-    id="letterSection"
-    class="screen letter-screen"
-    aria-hidden="true"
-  >
+  <section id="letterSection" class="screen letter-screen">
 
     <div class="letter-page">
 
 
-
-      <!-- =================================================
-           CLOSED / FOLDED LETTER
-           ================================================= -->
+      <!-- CLOSED LETTER -->
 
       <div
         id="closedLetter"
         class="closed-letter"
       >
 
-
         <div class="letter-envelope">
 
+          <div class="envelope-back"></div>
 
-          <div class="envelope-back">
-          </div>
+          <div class="envelope-paper"></div>
 
-
-          <div class="envelope-paper">
-          </div>
-
-
-          <div class="envelope-flap">
-          </div>
-
+          <div class="envelope-flap"></div>
 
           <div class="envelope-heart">
             ♡
           </div>
 
-
         </div>
-
 
         <p class="letter-open-hint">
           open this ♡
         </p>
 
-
       </div>
 
 
-
-      <!-- =================================================
-           OPEN LETTER
-           ================================================= -->
+      <!-- OPEN LETTER -->
 
       <div
         id="openLetter"
         class="open-letter"
       >
 
-
-        <!--
-
-          IMPORTANT:
-
-          Only this area will scroll.
-
-          The rest of the website remains fixed.
-
-          Later, the JavaScript will use the scroll position
-          to create the simple fold/unfold effect.
-
-        -->
-
         <div
           id="letterScrollArea"
           class="letter-scroll-area"
         >
 
-
           <article class="letter-paper">
-
 
             <div class="letter-writing">
 
+              <p>dear Nicole,</p>
 
-              <p class="letter-line">
-                dear Nicole,
-              </p>
-
-
-              <p class="letter-line">
+              <p>
                 [your letter starts here...]
               </p>
 
 
-
               <!--
-
-                IMAGE PLACEHOLDER
-
-                You can put a picture between sentences.
+                You can insert pictures here later.
 
                 Example:
 
@@ -676,123 +468,75 @@
                     alt="A memory of us"
                   >
                 </div>
-
               -->
 
 
-
-              <p class="letter-line">
+              <p>
                 [you can continue writing here...]
               </p>
 
-
-
-              <p class="letter-line">
+              <p>
                 [and keep going...]
               </p>
 
-
-
-              <p class="letter-line">
+              <p>
                 love,
               </p>
 
-
-              <p class="letter-line">
+              <p>
                 [your name ♡]
               </p>
 
-
             </div>
 
-
           </article>
-
 
         </div>
 
 
-
-        <!-- BACK TO MEMORY BOOK -->
-
         <button
           id="letterBackButton"
-          class="section-back-button letter-back-button"
+          class="section-back-button"
           type="button"
         >
           back
         </button>
 
 
-
-        <!-- GO TO VIDEO PAGE -->
-
         <button
           id="letterVideoButton"
           class="letter-video-button"
           type="button"
         >
-          one last thing...
-          <span>→</span>
+          one last thing... <span>→</span>
         </button>
 
-
       </div>
-
 
     </div>
 
   </section>
 
 
+  <!-- =========================================================
+       PAGE 5 — VIDEO
+  ========================================================== -->
 
-  <!-- =====================================================
-       PAGE 5 — VIDEO MEMORY LANE
-       
-       SEPARATE PAGE FROM THE LETTER.
-       ===================================================== -->
-
-  <section
-    id="videoSection"
-    class="screen video-screen"
-    aria-hidden="true"
-  >
-
-
-    <!--
-
-      This is the dark cinema atmosphere.
-
-      The video itself will sit above this layer,
-      so the darkness will NOT cover the video.
-
-    -->
-
-    <div class="cinema-darkness"></div>
-
-
+  <section id="videoSection" class="screen video-screen">
 
     <div class="cinema-content">
-
 
       <p class="cinema-kicker">
         ONE LAST MEMORY LANE
       </p>
 
 
-
-      <!-- =================================================
-           VIDEO AREA
-           ================================================= -->
-
       <div
         id="cinemaScreen"
         class="cinema-screen"
       >
 
-
         <!--
-
           YOUR VIDEO WILL GO HERE LATER.
 
           Example:
@@ -803,44 +547,32 @@
             playsinline
             preload="metadata"
           >
-
             <source
               src="assets/memory-video.mp4"
               type="video/mp4"
             >
-
           </video>
-
         -->
-
 
         <div class="video-placeholder">
 
-
-          <span class="video-placeholder-icon">
+          <div class="video-placeholder-icon">
             ♡
-          </span>
-
+          </div>
 
           <p>
             your videos will live here
           </p>
 
-
         </div>
 
-
       </div>
-
 
 
       <p class="cinema-caption">
         just a little more of us.
       </p>
 
-
-
-      <!-- BACK TO LETTER -->
 
       <button
         id="videoBackButton"
@@ -850,45 +582,25 @@
         back
       </button>
 
-
     </div>
 
   </section>
 
 
+  <!-- =========================================================
+       PAGE 6 — FINAL
+  ========================================================== -->
 
-  <!-- =====================================================
-       FUTURE FINAL PAGE
-       
-       Leaving this here so the navigation structure is
-       already ready for it, but we will design it later.
-       ===================================================== -->
-
-  <section
-    id="finalSection"
-    class="screen final-screen"
-    aria-hidden="true"
-  >
+  <section id="finalSection" class="screen final-screen">
 
     <div class="final-content">
-
-      <p>
-        last page coming soon ♡
-      </p>
-
+      last page coming soon ♡
     </div>
 
   </section>
 
-
-
-  <!-- =====================================================
-       JAVASCRIPT
-       ===================================================== -->
 
   <script src="script.js"></script>
 
-
 </body>
-
 </html>
