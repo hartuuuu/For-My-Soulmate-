@@ -277,7 +277,7 @@ html, body {
 }
 
 /* ==========================================================================
-   8. SCRAPBOOK / MEMORY BOOK
+   8. SCRAPBOOK / MEMORY BOOK (WITH ZOOM CONTAINER)
    ========================================================================== */
 .memory-container {
   width: 100%;
@@ -378,6 +378,7 @@ html, body {
   overflow: hidden;
   touch-action: none;
   border-radius: 12px;
+  position: relative;
 }
 
 #memory-image {
@@ -385,8 +386,9 @@ html, body {
   max-height: 100%;
   object-fit: contain;
   transform-origin: center center;
-  transition: transform 0.05s linear;
+  transition: transform 0.05s ease-out;
   cursor: grab;
+  touch-action: none;
 }
 
 #memory-image:active {
@@ -428,7 +430,6 @@ html, body {
   padding: 0;
 }
 
-/* Split Card Front Covers */
 .card-cover {
   position: absolute;
   width: 100%;
@@ -453,7 +454,6 @@ html, body {
   background-position: top center;
 }
 
-/* Sliding animation when clicked */
 .page.open .card-top,
 .card-top.slide-up {
   transform: translateY(-100%);
@@ -464,12 +464,10 @@ html, body {
   transform: translateY(100%);
 }
 
-/* Hide tap prompt badge */
 .click-prompt {
   display: none !important;
 }
 
-/* Scrollable Area for Letter Sheet */
 .letter-scroll-container {
   position: relative;
   width: 85%;
@@ -484,7 +482,6 @@ html, body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Doodles Layer */
 .doodle-overlay {
   position: absolute;
   top: 0;
@@ -523,7 +520,6 @@ html, body {
   text-align: left;
 }
 
-/* Custom Scrollbar */
 .letter-scroll-container::-webkit-scrollbar {
   width: 4px;
 }
@@ -538,7 +534,6 @@ html, body {
   border-radius: 10px;
 }
 
-/* Next Page Button Reveal */
 .next-page-btn {
   position: absolute;
   bottom: 25px;
