@@ -1,159 +1,138 @@
 /* =========================================================
-   NICOLE'S BIRTHDAY WEBSITE
-   PHONE-FIRST / PORTRAIT LAYOUT
+   FONTS
    ========================================================= */
+
+@font-face {
+  font-family: "InternetFriends";
+  src: url("assets/Internet Friends.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IceCream";
+  src: url("assets/Ice Cream.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 
 /* =========================================================
-   1. RESET
+   RESET
    ========================================================= */
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
 body {
   width: 100%;
   height: 100%;
-  min-height: 100%;
-}
+  margin: 0;
+  padding: 0;
 
-html {
   overflow: hidden;
-}
 
-body {
-  overflow: hidden;
-  background: #f7eddc;
-  color: #33271f;
+  background: #f7efdf;
+
   font-family: Georgia, "Times New Roman", serif;
 }
 
-
-/* =========================================================
-   2. DESKTOP BACKGROUND
-   ========================================================= */
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -10;
-  background:
-    radial-gradient(
-      circle at 20% 20%,
-      rgba(255, 244, 196, 0.55),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 80% 70%,
-      rgba(255, 232, 177, 0.4),
-      transparent 35%
-    ),
-    #f7eddc;
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 
 /* =========================================================
-   3. MAIN PORTRAIT FRAME
+   PORTRAIT SITE
    ========================================================= */
 
-/*
-   IMPORTANT:
-
-   On a PHONE:
-   → the website fills the screen.
-
-   On a LAPTOP:
-   → the website becomes a phone-sized portrait
-   → centered horizontally
-   → no giant stretched website
-*/
-
-.cover,
-.birthday-page,
-.memory-book {
-  position: fixed;
-
-  top: 50%;
-  left: 50%;
+#site {
+  position: relative;
 
   width: min(100vw, 430px);
   height: 100svh;
 
-  transform: translate(-50%, -50%);
+  max-height: 100svh;
 
   overflow: hidden;
+
+  background: #fffaf0;
+
+  isolation: isolate;
 }
 
 
 /* =========================================================
-   4. COVER / PAGE 1
+   GENERAL SCREEN SYSTEM
    ========================================================= */
 
-.cover {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.screen {
+  position: absolute;
+  inset: 0;
 
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  opacity: 0;
+  visibility: hidden;
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.65s ease,
+    visibility 0.65s ease;
+}
+
+.screen.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+
+/* =========================================================
+   PAGE 1
+   ========================================================= */
+
+#cover {
   background-image: url("assets/background.png");
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  opacity: 1;
-
-  transition:
-    opacity 0.85s ease,
-    transform 0.85s ease;
+  text-align: center;
 }
 
-
-/*
-   Slight paper overlay
-*/
-
-.cover::before {
-  content: "";
+.cover-overlay {
   position: absolute;
   inset: 0;
 
   background:
     linear-gradient(
-      rgba(255, 249, 226, 0.08),
-      rgba(255, 249, 226, 0.08)
+      rgba(255, 249, 226, 0.10),
+      rgba(255, 249, 226, 0.18)
     );
 
   pointer-events: none;
 }
 
-
-/* =========================================================
-   COVER LEAVING ANIMATION
-   ========================================================= */
-
-.cover.leaving {
-  opacity: 0;
-  transform:
-    translate(-50%, -50%)
-    scale(1.025);
-
-  pointer-events: none;
-}
-
-
-/* =========================================================
-   5. COVER CONTENT
-   ========================================================= */
-
 .cover-content {
   position: relative;
-  z-index: 5;
+  z-index: 2;
 
   width: 88%;
 
@@ -161,94 +140,75 @@ body::before {
   flex-direction: column;
   align-items: center;
 
-  text-align: center;
+  gap: 14px;
 }
-
-
-/* DATE */
 
 .date {
-  margin-bottom: 2.2rem;
+  margin: 0;
 
-  font-size: 0.72rem;
-  letter-spacing: 0.22em;
+  font-family: "InternetFriends", cursive;
 
-  color: #725d48;
+  font-size: 0.95rem;
+
+  color: #665548;
+
+  letter-spacing: 0.08em;
 }
 
+.cover-small {
+  margin: 0;
 
-/* MAIN MESSAGE */
+  font-family: "InternetFriends", cursive;
 
-.message h1 {
-  margin-bottom: 0.7rem;
+  font-size: clamp(1.35rem, 5vw, 1.75rem);
 
-  font-family: "Caveat", "Segoe Print", cursive;
-  font-size: clamp(2rem, 8vw, 3rem);
-  font-weight: 500;
-  line-height: 1.05;
-
-  color: #2d241d;
+  color: #34281f;
 }
 
-.yellow-heart {
-  color: #f3c943;
-  font-size: 0.8em;
+.cover-small .heart {
+  color: #f1c928;
 }
 
+.cover-message {
+  margin: 0;
 
-.message p {
-  max-width: 290px;
+  font-family: "InternetFriends", cursive;
 
-  font-family: "Caveat", "Segoe Print", cursive;
-  font-size: 1.1rem;
-  line-height: 1.4;
+  font-size: clamp(1.15rem, 4.5vw, 1.55rem);
 
-  color: #665444;
+  line-height: 1.25;
+
+  color: #34281f;
 }
-
-
-/* =========================================================
-   6. CLICK ME BUTTON
-   ========================================================= */
 
 .open-button {
-  margin-top: 2.4rem;
+  margin-top: 16px;
 
-  min-width: 155px;
+  border: 1.5px solid #493b30;
 
-  padding: 0.85rem 1.4rem;
+  background: rgba(255, 252, 239, 0.72);
 
-  border: 1.5px solid #47392e;
+  color: #34281f;
+
   border-radius: 999px;
 
-  background: rgba(255, 250, 237, 0.58);
+  padding: 12px 22px;
 
-  color: #30251e;
+  font-family: "InternetFriends", cursive;
 
-  font-family: "Caveat", "Segoe Print", cursive;
-  font-size: 1rem;
-  letter-spacing: 0.08em;
+  font-size: 1.1rem;
 
   cursor: pointer;
 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
-
   transition:
-    transform 0.25s ease,
-    background 0.25s ease,
-    box-shadow 0.25s ease;
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
 .open-button:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 
-  background: rgba(255, 255, 255, 0.8);
-
-  box-shadow:
-    0 8px 20px rgba(95, 68, 35, 0.12);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .open-button:active {
@@ -256,549 +216,284 @@ body::before {
 }
 
 .button-heart {
-  font-size: 1.2rem;
+  margin-left: 5px;
 }
 
-
-/* =========================================================
-   7. COVER DOODLES / SQUIGGLES
-   ========================================================= */
-
-.squiggle {
+.cover-squiggle {
   position: absolute;
 
-  z-index: 2;
+  font-family: "InternetFriends", cursive;
 
-  color: #8e735b;
+  color: #7d674e;
 
   opacity: 0.65;
 
   pointer-events: none;
-
-  font-family: cursive;
 }
 
-.squiggle-one {
-  top: 14%;
-  left: 9%;
-
-  font-size: 2rem;
-
-  transform: rotate(-12deg);
+.squiggle-1 {
+  top: 7%;
+  left: 8%;
 }
 
-.squiggle-two {
-  top: 23%;
-  right: 9%;
-
-  font-size: 1.5rem;
-
-  transform: rotate(13deg);
+.squiggle-2 {
+  top: 11%;
+  right: 8%;
 }
 
-.squiggle-three {
-  bottom: 17%;
-  left: 12%;
-
-  font-size: 1.8rem;
-
-  transform: rotate(8deg);
+.squiggle-3 {
+  bottom: 9%;
+  left: 10%;
 }
 
-.squiggle-four {
-  bottom: 12%;
-  right: 12%;
-
-  font-size: 1.5rem;
-
-  transform: rotate(-10deg);
+.squiggle-4 {
+  bottom: 13%;
+  right: 10%;
 }
 
 
 /* =========================================================
-   8. PAGE 2 — BIRTHDAY PAGE
+   PAGE 2 — HAPPY BIRTHDAY
    ========================================================= */
 
-.birthday-page {
-  display: none;
-
-  flex-direction: column;
-  align-items: center;
-
+#birthday {
   background:
     radial-gradient(
-      circle at 50% 25%,
-      rgba(255,255,255,0.65),
+      circle at 50% 30%,
+      rgba(255,255,255,0.9),
       transparent 45%
     ),
-    #f8efdf;
+    #f8f0df;
 
-  z-index: 50;
-
-  opacity: 0;
-
-  transition: opacity 0.45s ease;
-
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
-.birthday-page.show {
-  opacity: 1;
-}
-
-
-/* =========================================================
-   PAGE 2 PAPER TEXTURE
-   ========================================================= */
-
-.paper-grain {
-  position: absolute;
-  inset: 0;
-
-  pointer-events: none;
-
-  opacity: 0.18;
-
-  background-image:
-    radial-gradient(
-      rgba(100, 78, 55, 0.15) 0.7px,
-      transparent 0.7px
-    );
-
-  background-size: 7px 7px;
-}
-
-
-/* =========================================================
-   PAGE 2 DECORATIVE SCRIBBLES
-   ========================================================= */
-
-.scribble {
-  position: absolute;
-
-  color: #d6b87b;
-
-  opacity: 0.65;
-
-  pointer-events: none;
-
-  z-index: 2;
-}
-
-.top-scribble {
-  top: 2.5rem;
-  right: 1.5rem;
-
-  font-size: 1.1rem;
-}
-
-.bottom-scribble {
-  bottom: 2rem;
-  left: 1.5rem;
-
-  font-size: 1.1rem;
-}
-
-
-/* =========================================================
-   PAGE 2 INNER CONTENT
-   ========================================================= */
 
 .birthday-inner {
-  position: relative;
-
-  width: 100%;
-  height: 100%;
-
-  padding:
-    2.5rem
-    1.3rem
-    1.8rem;
+  width: 88%;
+  height: 92%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   text-align: center;
 
-  overflow: hidden;
-}
-
-
-/* =========================================================
-   PAGE 2 INTRO
-   ========================================================= */
-
-.little-intro {
-  margin-top: 0.5rem;
-  margin-bottom: 0.7rem;
-
-  font-family: "Caveat", "Segoe Print", cursive;
-
-  font-size: 1.15rem;
-
-  color: #77624f;
-}
-
-
-/* =========================================================
-   PAGE 2 HEADING
-   ========================================================= */
-
-.birthday-heading {
   position: relative;
-  z-index: 4;
+}
+
+.birthday-intro {
+  margin: 0 0 7px;
+
+  font-family: "InternetFriends", cursive;
+
+  font-size: 1.05rem;
+
+  color: #796452;
+}
+
+.birthday-label {
+  margin: 0;
+
+  font-size: 0.55rem;
+
+  letter-spacing: 0.25em;
+
+  color: #a48b70;
+}
+
+.birthday-title {
+  margin: 3px 0 0;
+
+  font-family: "IceCream", cursive;
+
+  font-size: clamp(2.6rem, 13vw, 4rem);
+
+  line-height: 0.82;
+
+  color: #49392d;
+
+  text-align: center;
+}
+
+.birthday-name {
+  margin: 7px 0 15px;
+
+  font-family: "IceCream", cursive;
+
+  font-size: clamp(2rem, 9vw, 3rem);
+
+  color: #e1ae22;
+}
+
+.birthday-photo-wrap {
+  position: relative;
+
+  width: 66%;
+
+  margin: 4px 0 15px;
+}
+
+.birthday-photo {
+  display: block;
 
   width: 100%;
 
-  text-align: center;
-}
+  background: white;
 
-.tiny-label {
-  display: block;
+  padding: 8px;
 
-  margin-bottom: 0.2rem;
-
-  font-size: 0.52rem;
-  letter-spacing: 0.28em;
-
-  color: #a18a70;
-}
-
-.birthday-heading h2 {
-  font-family: "Caveat", "Segoe Print", cursive;
-
-  font-size: clamp(2.7rem, 13vw, 4.5rem);
-
-  line-height: 0.78;
-
-  color: #46382c;
-
-  font-weight: 700;
-}
-
-.birthday-heading h2 span {
-  color: #4f3d2f;
-}
-
-.birthday-heading h3 {
-  margin-top: 0.35rem;
-
-  font-family: "Caveat", "Segoe Print", cursive;
-
-  font-size: clamp(2rem, 9vw, 3.2rem);
-
-  line-height: 1;
-
-  color: #f0b92f;
-
-  text-shadow:
-    1px 1px 0 #fff7df;
-}
-
-.birthday-heading h3 span {
-  font-size: 0.7em;
-}
-
-
-/* =========================================================
-   9. CHILDHOOD PHOTO
-   ========================================================= */
-
-.memory-photo-wrap {
-  position: relative;
-
-  width: 72%;
-
-  max-width: 285px;
-
-  margin-top: 1.3rem;
+  box-shadow:
+    0 10px 25px rgba(70, 52, 35, 0.16);
 
   transform: rotate(-2deg);
 }
 
-.photo-card {
-  position: relative;
+.birthday-caption {
+  margin: -2px 0 0;
 
-  padding: 0.55rem 0.55rem 0.8rem;
-
-  background: #fffdf7;
-
-  box-shadow:
-    0 12px 28px rgba(69, 51, 32, 0.16);
-
-  border-radius: 1px;
-}
-
-.childhood-photo {
-  display: block;
-
-  width: 100%;
-
-  aspect-ratio: 4 / 3;
-
-  object-fit: cover;
-
-  object-position: center;
-
-  background: #eee;
-}
-
-.photo-caption {
-  margin-top: 0.45rem;
-
-  font-family: "Caveat", "Segoe Print", cursive;
-
-  font-size: 1rem;
-
-  color: #665545;
-}
-
-
-/* =========================================================
-   PHOTO TAPE
-   ========================================================= */
-
-.tape {
-  position: absolute;
-
-  width: 65px;
-  height: 20px;
-
-  background: rgba(245, 207, 154, 0.65);
-
-  z-index: 5;
-}
-
-.tape-left {
-  top: -7px;
-  left: -16px;
-
-  transform: rotate(-19deg);
-}
-
-.tape-right {
-  top: -5px;
-  right: -14px;
-
-  transform: rotate(15deg);
-}
-
-
-/* =========================================================
-   10. PAGE 2 MESSAGE
-   ========================================================= */
-
-.birthday-message {
-  margin-top: 1.2rem;
-
-  width: 90%;
-
-  font-family: "Caveat", "Segoe Print", cursive;
-
-  font-size: 1.1rem;
-
-  line-height: 1.3;
-
-  color: #5c4b3d;
-}
-
-.birthday-message p + p {
-  margin-top: 0.2rem;
-}
-
-.birthday-message span {
-  color: #e8b733;
-}
-
-
-/* =========================================================
-   PAGE 2 CONTINUE HINT
-   ========================================================= */
-
-.continue-hint {
-  position: absolute;
-
-  bottom: 1.2rem;
-
-  left: 50%;
-
-  transform: translateX(-50%);
-
-  width: 100%;
-
-  font-family: "Caveat", "Segoe Print", cursive;
+  font-family: "InternetFriends", cursive;
 
   font-size: 0.9rem;
 
-  color: #8a735e;
-
-  animation: gentleBounce 1.8s ease-in-out infinite;
+  color: #55463a;
 }
 
-@keyframes gentleBounce {
+.birthday-message {
+  margin-top: 4px;
 
-  0%,
-  100% {
-    transform: translate(-50%, 0);
-  }
+  font-family: "InternetFriends", cursive;
 
-  50% {
-    transform: translate(-50%, 5px);
-  }
+  font-size: 1.05rem;
+
+  line-height: 1.45;
+
+  color: #403329;
+}
+
+.birthday-message p {
+  margin: 3px 0;
+}
+
+.birthday-heart {
+  color: #d7ae25;
+}
+
+.birthday-next {
+  margin-top: 15px;
+
+  font-family: "InternetFriends", cursive;
+
+  font-size: 0.85rem;
+
+  color: #907b67;
+
+  opacity: 0.8;
 }
 
 
 /* =========================================================
-   11. PAGE 2 CONTINUE BUTTON
+   PAGE 2 BACK BUTTON
    ========================================================= */
 
-/*
-   If your updated HTML uses a real button
-   with id="continueButton", this styles it.
-
-   It stays subtle so it doesn't ruin the scrapbook look.
-*/
-
-#continueButton {
+.page-back-button {
   position: absolute;
 
-  bottom: 2.6rem;
-  left: 50%;
+  top: 14px;
+  left: 14px;
 
-  transform: translateX(-50%);
+  z-index: 100;
 
-  border: none;
+  width: 38px;
+  height: 38px;
 
-  background: transparent;
+  border: 1px solid rgba(79, 62, 46, 0.28);
 
-  color: #7b6753;
+  border-radius: 50%;
 
-  font-family: "Caveat", "Segoe Print", cursive;
+  background: rgba(255, 250, 239, 0.78);
 
-  font-size: 1rem;
+  color: #4d3e31;
 
-  cursor: pointer;
+  font-family: Georgia, "Times New Roman", serif;
 
-  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
 
-  transition:
-    transform 0.25s ease,
-    color 0.25s ease;
-}
-
-#continueButton:hover {
-  transform:
-    translateX(-50%)
-    translateY(-3px);
-
-  color: #49392c;
-}
-
-
-/* =========================================================
-   12. MEMORY BOOK
-   ========================================================= */
-
-/*
-   THIS IS THE IMPORTANT PART.
-
-   The memory section is NOT a long scrolling page.
-
-   It is a single portrait frame.
-
-   Only one .memory-page is visible at a time.
-*/
-
-.memory-book {
-  display: none;
-
-  background: #f7eddc;
-
-  z-index: 60;
-
-  opacity: 0;
-
-  transition: opacity 0.45s ease;
-
-  overflow: hidden;
-
-  touch-action: manipulation;
-}
-
-.memory-book.show {
-  opacity: 1;
-}
-
-
-/* =========================================================
-   MEMORY PAGE
-   ========================================================= */
-
-.memory-page {
-  position: absolute;
-
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
+  line-height: 1;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  opacity: 0;
+  cursor: pointer;
 
-  visibility: hidden;
-
-  pointer-events: none;
-
-  transform:
-    translateX(15px)
-    scale(0.985);
+  backdrop-filter: blur(4px);
 
   transition:
-    opacity 0.35s ease,
-    transform 0.35s ease;
-
-  overflow: hidden;
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
+.page-back-button:hover {
+  background: rgba(255, 255, 255, 0.92);
+}
 
-/* ONLY THE ACTIVE PAGE SHOWS */
-
-.memory-page.active {
-  opacity: 1;
-
-  visibility: visible;
-
-  pointer-events: auto;
-
-  transform:
-    translateX(0)
-    scale(1);
-
-  z-index: 2;
+.page-back-button:active {
+  transform: scale(0.92);
 }
 
 
 /* =========================================================
-   MEMORY IMAGE
+   MEMORY BOOK
    ========================================================= */
 
-/*
-   Your edited memory images already contain:
-   - collage
-   - captions
-   - decorations
-   - background
-   - text
+#memories {
+  background: #f4ead7;
 
-   Therefore we DO NOT add another scrapbook layout
-   around them.
+  perspective: 1800px;
 
-   We simply display each finished image.
-*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.memory-book {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  transform-style: preserve-3d;
+}
+
+
+/* =========================================================
+   MEMORY PAGES
+   ========================================================= */
+
+.memory-page {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  background: #fff;
+
+  transform-origin: left center;
+
+  transform-style: preserve-3d;
+
+  backface-visibility: hidden;
+
+  transition:
+    transform 0.85s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.2s ease;
+}
 
 .memory-page img {
   display: block;
@@ -808,291 +503,375 @@ body::before {
 
   object-fit: contain;
 
-  object-position: center;
-
   user-select: none;
 
   -webkit-user-drag: none;
 
-  pointer-events: none;
+  /*
+    Zooming is handled by JavaScript.
+    The image itself moves/scales while the
+    memory page and controls stay fixed.
+  */
+  transform-origin: center center;
+
+  touch-action: none;
+
+  will-change: transform;
+
+  transition: transform 0.18s ease;
+
+  cursor: zoom-in;
+}
+
+.memory-page img.is-zoomed {
+  cursor: grab;
+}
+
+.memory-page img.is-dragging {
+  cursor: grabbing;
+
+  transition: none;
 }
 
 
 /* =========================================================
-   13. MEMORY BOOK BUTTONS
+   PAGE STACKING
    ========================================================= */
 
-#memoryNextButton,
-#memoryBackButton {
+.memory-page:nth-child(1) {
+  z-index: 8;
+}
+
+.memory-page:nth-child(2) {
+  z-index: 7;
+}
+
+.memory-page:nth-child(3) {
+  z-index: 6;
+}
+
+.memory-page:nth-child(4) {
+  z-index: 5;
+}
+
+.memory-page:nth-child(5) {
+  z-index: 4;
+}
+
+.memory-page:nth-child(6) {
+  z-index: 3;
+}
+
+.memory-page:nth-child(7) {
+  z-index: 2;
+}
+
+.memory-page:nth-child(8) {
+  z-index: 1;
+}
+
+.memory-page.flipped {
+  transform: rotateY(-180deg);
+}
+
+
+/* =========================================================
+   MEMORY BACK BUTTON
+   ========================================================= */
+
+.memory-back-button {
   position: absolute;
 
-  z-index: 20;
+  left: 13px;
+  bottom: 13px;
 
-  width: 42px;
-  height: 42px;
+  z-index: 50;
 
-  border: 1px solid rgba(82, 62, 43, 0.28);
+  border: 1px solid rgba(79, 62, 46, 0.35);
 
-  border-radius: 50%;
+  background: rgba(255, 250, 239, 0.78);
 
-  background: rgba(255, 250, 237, 0.82);
+  color: #4d3e31;
 
-  color: #554332;
+  border-radius: 999px;
 
-  font-family: Georgia, serif;
+  padding: 8px 13px;
 
-  font-size: 1.15rem;
+  font-family: "InternetFriends", cursive;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 0.75rem;
 
   cursor: pointer;
 
-  box-shadow:
-    0 5px 15px rgba(61, 44, 28, 0.12);
+  backdrop-filter: blur(4px);
 
   transition:
     transform 0.2s ease,
     background 0.2s ease;
 }
 
-#memoryNextButton:hover,
-#memoryBackButton:hover {
-  background: rgba(255, 255, 255, 0.95);
-
-  transform: scale(1.08);
+.memory-back-button:hover {
+  background: rgba(255, 255, 255, 0.92);
 }
 
-#memoryNextButton:active,
-#memoryBackButton:active {
-  transform: scale(0.92);
-}
-
-
-/* NEXT */
-
-#memoryNextButton {
-  right: 14px;
-  bottom: 18px;
-}
-
-
-/* BACK */
-
-#memoryBackButton {
-  left: 14px;
-  bottom: 18px;
+.memory-back-button:active {
+  transform: scale(0.95);
 }
 
 
 /* =========================================================
-   14. MEMORY PAGE NUMBER
+   MEMORY CONTROLS
    ========================================================= */
 
-.memory-page-number {
+.memory-counter {
   position: absolute;
 
-  z-index: 20;
-
-  bottom: 29px;
   left: 50%;
+  bottom: 14px;
 
   transform: translateX(-50%);
 
-  padding: 0.25rem 0.55rem;
+  z-index: 30;
+
+  padding: 5px 9px;
 
   border-radius: 999px;
 
-  background: rgba(255, 250, 237, 0.72);
+  background: rgba(255, 250, 238, 0.72);
 
-  color: #77624f;
+  backdrop-filter: blur(4px);
 
-  font-family: "Caveat", "Segoe Print", cursive;
+  font-family: "InternetFriends", cursive;
 
   font-size: 0.75rem;
+
+  color: #625344;
 
   pointer-events: none;
 }
 
+.memory-hint {
+  position: absolute;
+
+  left: 50%;
+  bottom: 38px;
+
+  transform: translateX(-50%);
+
+  z-index: 30;
+
+  white-space: nowrap;
+
+  font-family: "InternetFriends", cursive;
+
+  font-size: 0.75rem;
+
+  color: #685746;
+
+  opacity: 0.85;
+
+  pointer-events: none;
+
+  animation: hintFloat 2s ease-in-out infinite;
+}
+
+@keyframes hintFloat {
+
+  0%,
+  100% {
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateX(-50%)
+      translateY(-4px);
+  }
+
+}
+
+.memory-next-button {
+  position: absolute;
+
+  right: 13px;
+  bottom: 13px;
+
+  z-index: 40;
+
+  border: 1px solid rgba(79, 62, 46, 0.35);
+
+  background: rgba(255, 250, 239, 0.78);
+
+  color: #4d3e31;
+
+  border-radius: 999px;
+
+  padding: 8px 13px;
+
+  font-family: "InternetFriends", cursive;
+
+  font-size: 0.75rem;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(4px);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.memory-next-button:hover {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.memory-next-button:active {
+  transform: scale(0.95);
+}
+
 
 /* =========================================================
-   15. FLIP-STYLE TRANSITION
+   TEMPORARY NEXT PAGE
    ========================================================= */
 
-/*
-   This gives the memory pages a little "book"
-   feeling when changing pages.
+#after-memories {
+  background: #f8efdf;
 
-   It is still lightweight enough for phones.
-*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-.memory-page.flip-out {
-  opacity: 0;
-
-  transform:
-    rotateY(-8deg)
-    translateX(-15px)
-    scale(0.98);
+  text-align: center;
 }
 
-.memory-page.flip-in {
-  opacity: 1;
+.after-content {
+  width: 82%;
+}
 
-  transform:
-    rotateY(0)
-    translateX(0)
-    scale(1);
+.after-content h2 {
+  margin: 0;
+
+  font-family: "IceCream", cursive;
+
+  font-size: 3rem;
+
+  color: #49392d;
+}
+
+.after-content p {
+  font-family: "InternetFriends", cursive;
+
+  font-size: 1.15rem;
+
+  color: #5c4b3b;
 }
 
 
 /* =========================================================
-   16. PHONE SIZING
+   AFTER MEMORIES BACK BUTTON
    ========================================================= */
 
-@media (max-width: 430px) {
+.after-back-button {
+  position: absolute;
 
-  .cover,
-  .birthday-page,
-  .memory-book {
-    width: 100vw;
-    height: 100svh;
-  }
+  top: 14px;
+  left: 14px;
 
-  .birthday-inner {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+  z-index: 50;
 
-  .memory-page img {
-    width: 100%;
-    height: 100%;
+  border: 1px solid rgba(79, 62, 46, 0.35);
 
-    object-fit: contain;
-  }
+  background: rgba(255, 250, 239, 0.78);
 
+  color: #4d3e31;
+
+  border-radius: 999px;
+
+  padding: 8px 13px;
+
+  font-family: "InternetFriends", cursive;
+
+  font-size: 0.75rem;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(4px);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.after-back-button:hover {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.after-back-button:active {
+  transform: scale(0.95);
 }
 
 
 /* =========================================================
-   17. VERY SMALL PHONES
+   SMALL PHONES
    ========================================================= */
 
 @media (max-width: 360px) {
 
-  .message h1 {
-    font-size: 1.8rem;
+  .birthday-photo-wrap {
+    width: 62%;
   }
 
-  .message p {
+  .birthday-message {
     font-size: 0.95rem;
   }
 
-  .open-button {
-    margin-top: 1.8rem;
-
-    min-width: 140px;
-
-    padding: 0.7rem 1.2rem;
+  .memory-next-button {
+    right: 8px;
+    bottom: 8px;
   }
 
-  .birthday-heading h2 {
-    font-size: 2.6rem;
+  .memory-back-button {
+    left: 8px;
+    bottom: 8px;
   }
 
-  .birthday-heading h3 {
-    font-size: 1.9rem;
+  .memory-counter {
+    bottom: 9px;
   }
 
-  .memory-photo-wrap {
-    width: 70%;
+  .memory-hint {
+    bottom: 31px;
   }
 
 }
 
 
 /* =========================================================
-   18. LAPTOP / DESKTOP
+   LAPTOP / DESKTOP
    ========================================================= */
 
-/*
-   THIS is what fixes your laptop problem.
-
-   The page remains a portrait phone-like canvas
-   instead of becoming a huge stretched website.
-*/
-
-@media (min-width: 431px) {
+@media (min-width: 700px) {
 
   body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background:
+      radial-gradient(
+        circle at center,
+        #fffaf0 0%,
+        #eadfca 100%
+      );
   }
 
-  .cover,
-  .birthday-page,
-  .memory-book {
+  #site {
     width: 430px;
-    max-width: 430px;
 
-    /*
-       Keep the portrait frame from becoming
-       ridiculously tall on a laptop.
-    */
-
-    height: min(100svh, 932px);
-
-    border-radius: 4px;
+    height: min(100svh, 645px);
 
     box-shadow:
-      0 0 0 1px rgba(79, 57, 35, 0.08),
-      0 20px 60px rgba(65, 46, 27, 0.18);
-  }
+      0 20px 60px rgba(70, 52, 35, 0.18);
 
-}
-
-
-/* =========================================================
-   19. TALL DESKTOP / LARGE MONITORS
-   ========================================================= */
-
-@media (min-width: 431px) and (min-height: 950px) {
-
-  .cover,
-  .birthday-page,
-  .memory-book {
-    height: 932px;
-  }
-
-}
-
-
-/* =========================================================
-   20. ACCESSIBILITY
-   ========================================================= */
-
-button:focus-visible {
-  outline: 2px solid #d5a932;
-  outline-offset: 3px;
-}
-
-
-/* =========================================================
-   21. REDUCE MOTION
-   ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-
-    transition-duration: 0.01ms !important;
+    border-radius: 2px;
   }
 
 }
