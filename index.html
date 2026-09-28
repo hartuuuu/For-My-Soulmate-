@@ -2,142 +2,127 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>A Little Something for You</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Happy Birthday!</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Audio Element -->
-  <audio id="bg-music" src="assets/take-our-time.mp3" preload="auto" loop></audio>
-
-  <!-- Mobile Viewport Container -->
   <div class="app-viewport">
 
     <!-- PAGE 1: COVER -->
-    <section id="page-1" class="page active">
+    <div class="page active" id="page-1">
       <div class="page-content cover-content">
-        <span class="date-stamp">09.28.26</span>
-        <h1 class="whisper-title">psst... hey, you. ♥</h1>
-        <p class="sub-text">there's something waiting for you inside.</p>
-        <button id="btn-start" class="cute-btn">CLICK ME ♡</button>
+        <div class="date-stamp">SPECIAL DAY</div>
+        <div class="cover-text">
+          <h1 class="whisper-title">A Little Surprise</h1>
+          <p class="sub-text">Just for you on your 20th birthday</p>
+        </div>
+        <button class="cute-btn" onclick="nextPage()">Open Surprise ♡</button>
       </div>
-    </section>
+    </div>
 
     <!-- PAGE 2: HAPPY BIRTHDAY REVEAL -->
-    <section id="page-2" class="page hidden">
-      <button class="back-btn" id="p2-back-btn" aria-label="Go back">←</button>
-      
-      <div class="page-content click-area" id="p2-main-content">
-        <p class="teaser-text">look who's getting older... 😭</p>
-        <h2 class="section-heading">TODAY IS ALL ABOUT YOU</h2>
-        
+    <div class="page" id="page-2">
+      <button class="back-btn" onclick="prevPage()">← back</button>
+      <div class="page-content click-area" onclick="nextPage()">
         <div class="bday-title-wrap">
-          <span class="bday-sub">HAPPY</span>
-          <span class="bday-main">BIRTHDAY,</span>
-          <h1 class="name-title">NICOLE ♥</h1>
+          <span class="bday-sub">Wishing You A Very</span>
+          <span class="bday-main">HAPPY 20TH</span>
+          <span class="name-title">BIRTHDAY!</span>
         </div>
-
         <div class="polaroid-frame">
-          <img src="assets/childhood-photo.png" alt="Childhood photo of Nicole" class="childhood-img" />
-          <p class="polaroid-caption">look at us 🥹</p>
+          <img src="assets/childhood.jpg" alt="Memory" class="childhood-img" onerror="this.style.display='none'" />
+          <p class="polaroid-caption">Cheers to 20 years! ✨</p>
         </div>
-
-        <div class="sweet-message">
-          <p>another year of you.</p>
-          <p>and i'm really glad i get to be here for it. ♡</p>
-        </div>
-
-        <p class="continue-hint">click anywhere to keep going ↓</p>
+        <div class="continue-hint">Tap anywhere to continue →</div>
       </div>
-    </section>
+    </div>
 
-    <!-- MEMORY BOOK SECTION -->
-    <section id="page-memory-book" class="page hidden">
-      <button class="back-btn" id="mem-back-btn" aria-label="Go back">← back</button>
-      
-      <div class="memory-container">
-        <p class="turn-hint">click to turn the page ♡</p>
-
-        <div class="scrapbook-page" id="scrapbook-page">
+    <!-- PAGE 3: SCRAPBOOK MEMORIES -->
+    <div class="page" id="page-3">
+      <button class="back-btn" onclick="prevPage()">← back</button>
+      <div class="page-content memory-container">
+        <div class="turn-hint">Flip through the memories</div>
+        <div class="scrapbook-page">
           <div class="page-underlay">
-            <img id="memory-image-under" src="assets/memory-2.png" alt="Next Memory" />
-          </div>
-
-          <div class="flip-card" id="flip-card">
-            <div class="image-zoom-viewport" id="zoom-viewport">
-              <img 
-                id="memory-image" 
-                src="assets/memory-1.png" 
-                alt="Memory 1" 
-                draggable="false"
-              />
+            <div class="image-zoom-viewport">
+              <img id="memory-image" src="assets/memory1.jpg" alt="Memory" />
             </div>
+          </div>
+          <div class="flip-card" id="flip-card">
             <div class="page-shadow"></div>
           </div>
         </div>
-
         <div class="memory-controls">
-          <span id="memory-counter" class="counter-badge">1 / 8</span>
-          <button id="mem-next-btn" class="cute-btn next-btn">NEXT →</button>
+          <span class="counter-badge" id="memory-counter">1 / 5</span>
+          <button class="cute-btn next-btn" onclick="nextMemory()">Next Memory →</button>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- PAGE 4: INTERACTIVE LETTER SECTION WITH SLIDING CARD COVER -->
-    <section id="page-letter" class="page letter-section hidden">
-      <button class="back-btn" id="letter-back-btn" aria-label="Go back">← back</button>
+    <!-- PAGE 4: INTERACTIVE LETTER -->
+    <div class="page" id="page-letter">
+      <button class="back-btn" onclick="prevPage()">← back</button>
+      <div class="letter-section">
+        <!-- Split Sliding Covers -->
+        <div class="card-cover card-top" onclick="toggleLetter()"></div>
+        <div class="card-cover card-bottom" onclick="toggleLetter()"></div>
 
-      <!-- Split Card Covers -->
-      <div class="card-cover card-top" id="card-top"></div>
-      <div class="card-cover card-bottom" id="card-bottom"></div>
-      <div class="click-prompt" id="click-prompt">Tap to open letter ✨</div>
+        <!-- Scrollable Letter Area -->
+        <div class="letter-scroll-container">
+          <div class="doodle-overlay">
+            <span class="doodle d-star1">⭐</span>
+            <span class="doodle d-heart1">💖</span>
+            <span class="doodle d-cake">🎂</span>
+            <span class="doodle d-balloon">🎈</span>
+            <span class="doodle d-sparkle1">✨</span>
+            <span class="doodle d-squiggle1">〰️</span>
+            <span class="doodle d-confetti">🎉</span>
+            <span class="doodle d-star2">🌟</span>
+            <span class="doodle d-heart2">💕</span>
+          </div>
 
-      <!-- Scrollable Letter Container -->
-      <div class="letter-scroll-container" id="letter-scroll-area">
-        <!-- Doodle Overlay -->
-        <div class="doodle-overlay" aria-hidden="true">
-          <span class="doodle d-star1">⭐</span>
-          <span class="doodle d-heart1">💛</span>
-          <span class="doodle d-cake">🎂</span>
-          <span class="doodle d-balloon">🎈</span>
-          <span class="doodle d-sparkle1">✨</span>
-          <span class="doodle d-squiggle1">〰️</span>
-          <span class="doodle d-confetti">🎉</span>
-          <span class="doodle d-star2">✨</span>
-          <span class="doodle d-heart2">💛</span>
+          <div class="letter-text">
+            <p>Hayooooooooo, happy birthday!!! 😭💖</p>
+            <p>Hindi ko alam paano sisimulan 'tong letter na 'to HAHAHAHA, like idk what to say. Ang dami ko na ring nasabi sa past letters ko eh nyahaha. Pero happy 20th birthdayyyyy! 🥺</p>
+            <p>Wala man tayong tatlo na celebration sa birthday mo today—wala eh, paano, broke college students tayo HAHAHAHA. Ito lang muna kaya kong i-offer sa'yo.</p>
+          </div>
         </div>
 
-        <div class="letter-text">
-          <p>Hayoooooooooo, happy birthday!!! 😭💗</p>
-          <p>Hindi ko alam paano sisimulan ’tong letter na ’to HAHAHAHA, like idk what to say. Ang dami ko na ring nasabi sa past letters ko eh nyahahaha. Pero happy 20th birthdayyyyy! 🥹</p>
-          <p>Wala man tayong tatlo na celebration sa birthday mo today—wala eh, paano, broke college students tayo HAHAHAHA. Ito lang muna kaya kong i-offer sa’yo. It’s not much, pero I hope you know na I made this because I wanted to give you something, kahit simple lang.</p>
-          <p>I just want you to know na kahit hindi ako nakaka-reply agad, kahit days pa yung tagal na wala tayong chats, kahit months pa tayong hindi nag-uusap, ikaw pa rin ang best friend ko. Medyo cringe sabihin ’yan HAHAHAHA kasi parang pang-bata, pero ewan ko ba. 20 na tayo, are we supposed to feel like adults na ba? AHAHAHA. Kasi ako personally, I don’t feel like an adult at all 😭. Okay lang naman siguro na hindi pa natin feel ’yun, diba? We’re literally just starting our 20s. Hindi naman kailangan na bigla tayong maging super adult just because 20 na tayo HAHAHAHA.</p>
-          <p>And honestly, I hope hindi mo kailangang maging “adult na adult” agad. You deserve to still be carefree sometimes, to laugh over stupid things, to enjoy the little things, and to just exist without feeling like you have to figure everything out right away. You’re only 20. First step pa lang ’yan sa 20s mo HAHAHAHA.</p>
-          <p>I hope wala munang masyadong hinanakit at problema na dumating sa’yo ngayong first day mo as a 20-year-old. I know you’ve been carrying a lot of things and dealing with a lot of feelings lately, and honestly, wala talaga akong perfect words for that. I don’t know how to lessen the burden in your chest, and sometimes I don’t even know how to comfort you properly. You probably already know the answers yourself anyway.</p>
-          <p>But I hope kahit papaano, this reminds you na hindi mo kailangang dalhin lahat mag-isa. Kahit parang wala ako minsan, nandito lang ako. Hindi man ako laging present, hindi man ako mabilis mag-reply, at kahit minsan ilang buwan tayong walang matinong usapan, hindi ibig sabihin na nawala na yung friendship natin. Andito pa rin ako. Andito pa rin kami ni Keira. We love you naman eh. 🥹</p>
-          <p>I hope this year is a little kinder to you. I hope you get more reasons to smile, more moments that make you feel genuinely happy, and more days where your chest doesn’t feel so heavy. I hope you get to experience things that remind you that life isn’t just about all the problems you’re dealing with right now.</p>
-          <p>And please, don’t pressure yourself too much. Hindi mo kailangang malaman agad kung ano gagawin mo sa buhay. Hindi mo kailangang have everything figured out just because you’re 20 now. We’re all just figuring things out as we go HAHAHAHA. Ako nga rin hindi ko alam ginagawa ko minsan 😭.</p>
-          <p>Anyway, wala na talaga akong masabi HAHAHAHA. I just really want you to have a happy birthday. I hope you know how much I appreciate having you in my life, even if I don’t always say it. Thank you for all the memories, the random gala, the hallway talks, the kwentuhan, the stupid moments, and even the times na wala tayong ginagawa pero somehow masaya pa rin.</p>
-          <p>Here’s to another year of you, and hopefully, another year of us being stupid together HAHAHAHA.</p>
-          <p>Happy 20th birthday, my best friend. I love youuuuu. Please take care of yourself, okay? And remember, kahit gaano pa tayo katagal hindi mag-usap, ikaw pa rin ’yan. Best friend pa rin kita. No expiration date HAHAHAHA. 💗</p>
-          <p>Now go enjoy being 20, you old hag. 😭</p>
-        </div>
+        <button class="cute-btn next-page-btn" id="letter-next-btn" onclick="nextPage()">Continue →</button>
       </div>
+    </div>
 
-      <!-- Trigger Button for Next Section -->
-      <button id="letter-next-btn" class="cute-btn next-btn next-page-btn">NEXT →</button>
-    </section>
-
-    <!-- TEMPORARY AFTER-LETTER PAGE -->
-    <section id="page-temp" class="page hidden">
-      <button class="back-btn" id="temp-back-btn" aria-label="Go back">← back</button>
+    <!-- PAGE 5: VIDEO MEMORIES -->
+    <div class="page" id="page-video">
+      <button class="back-btn" onclick="prevPage()">← back</button>
       
-      <div class="page-content temp-content">
-        <h1 class="temp-title">and there's more ♡</h1>
-        <p class="temp-sub">next section coming soon...</p>
+      <div class="video-scroll-container">
+        <!-- Video 1 -->
+        <div class="video-card">
+          <video id="vid1" src="assets/Video1.mp4" autoplay loop muted playsinline></video>
+          <button class="replay-corner-btn" onclick="replayVideo('vid1')">🔄</button>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="video-card">
+          <video id="vid2" src="assets/Video2.mp4" autoplay loop muted playsinline></video>
+          <button class="replay-corner-btn" onclick="replayVideo('vid2')">🔄</button>
+        </div>
+
+        <!-- End Message -->
+        <div class="video-end-message">
+          <p>Once again, happy birthday! Happy 20th birthday! And that’s the end of the website lol. There’s nothing more HAHAHAHA.</p>
+          <button class="cute-btn" onclick="goToFinalPage()">Continue →</button>
+        </div>
       </div>
-    </section>
+    </div>
+
+    <!-- PAGE 6: FINAL ENDING PAGE -->
+    <div class="page" id="page-final" onclick="restartWebsite()">
+      <canvas id="confetti-canvas"></canvas>
+    </div>
 
   </div>
 
