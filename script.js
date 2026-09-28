@@ -50,13 +50,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let isLetterOpen = false;
   let confettiAnimationId = null;
 
-  // Zoom / Drag State
+  // Zoom / Drag / Pinch State
   let scale = 1;
   let pointX = 0;
   let pointY = 0;
   let startX = 0;
   let startY = 0;
   let isDragging = false;
+  let initialPinchDistance = 0;
+  let initialPinchScale = 1;
 
   // Touch State
   let lastTapTime = 0;
@@ -72,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pageToShow.classList.add("active");
   }
 
-  // --- TURN.JS STYLE PAGE TURN ANIMATION ---
+  // --- PAGE TURN ANIMATION ---
   function changeMemoryWithFlip(newIndex, direction = "next") {
     if (isFlipping) return;
     isFlipping = true;
@@ -128,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (cardBottom) cardBottom.addEventListener("click", openLetterCard);
   if (clickPrompt) clickPrompt.addEventListener("click", openLetterCard);
 
-  // Reveal next button when scrolled to the end of letter
+  // Reveal next button when scrolled to bottom of letter
   if (letterScrollArea) {
     letterScrollArea.addEventListener("scroll", () => {
       const scrollPosition = letterScrollArea.scrollTop + letterScrollArea.clientHeight;
@@ -218,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Scroll listener to manage video playback on scroll
+  // Auto-play videos on scroll
   if (videoScrollArea) {
     videoScrollArea.addEventListener("scroll", () => {
       const containerHeight = videoScrollArea.clientHeight;
@@ -253,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showPage(page1);
   }
 
-  // --- REPEAT VIDEO LOGIC ---
+  // Repeat Video Action
   repeatBtns.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -266,7 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- SIMPLE FALLING CONFETTI ANIMATION ---
+  // Confetti Animation
   function startConfetti() {
     if (!confettiCanvas) return;
     const ctx = confettiCanvas.getContext("2d");
@@ -343,7 +345,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   finalScreenClick.addEventListener("click", restartWebsite);
 
-  // --- KEYBOARD SUPPORT ---
+  // --- KEYBOARD CONTROLS ---
   document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowRight" || e.key === "Enter" || e.key === " ") {
       if (currentPageState === "page1") {
@@ -368,16 +370,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // --- ZOOM & DRAG IMPLEMENTATION ---
+  // ==========================================================================
+  // FULL ZOOM & DRAG & PINCH IMPLEMENTATION FOR MEMORY IMAGE
+  // ==========================================================================
   memoryImage.addEventListener(
     "wheel",
     (e) => {
-      if (e.ctrlKey || e.metaKey || scale > 1) {
-        e.preventDefault();
-        const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85;
-        scale *= zoomFactor;
-        applyTransform();
-      }
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85;
+      scale *= zoomFactor;
+      applyTransform();
     },
     { passive: false }
   );
@@ -414,6 +416,14 @@ document.addEventListener("DOMContentLoaded", () => {
     isDragging = false;
   });
 
+  // Touch: Pinch-to-zoom and Double Tap
+  function getPinchDistance(touches) {
+    return Math.hypot(
+      touches[0].clientX - touches[1].clientX,
+      touches[0].clientY - touches[1].clientY
+    );
+  }
+
   memoryImage.addEventListener(
     "touchstart",
     (e) => {
@@ -424,7 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (scale > 1) {
             resetZoom();
           } else {
-            scale = 2;
+            scale = 2.5;
             applyTransform();
           }
         }
@@ -433,22 +443,39 @@ document.addEventListener("DOMContentLoaded", () => {
         if (scale > 1) {
           isDragging = true;
           startX = e.touches[0].clientX - pointX;
-          startY = e.touches[0].clientY - pointY;
+          startY = e.touches[0].clientY - startY;
         }
+      } else if (e.touches.length === 2) {
+        isDragging = false;
+        initialPinchDistance = getPinchDistance(e.touches);
+        initialPinchScale = scale;
       }
     },
     { passive: false }
   );
 
-  window.addEventListener("touchmove", (e) => {
-    if (isDragging && scale > 1 && e.touches.length === 1) {
-      pointX = e.touches[0].clientX - startX;
-      pointY = e.touches[0].clientY - startY;
-      applyTransform();
-    }
-  });
+  memoryImage.addEventListener(
+    "touchmove",
+    (e) => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const currentDistance = getPinchDistance(e.touches);
+        if (initialPinchDistance > 0) {
+          scale = initialPinchScale * (currentDistance / initialPinchDistance);
+          applyTransform();
+        }
+      } else if (isDragging && scale > 1 && e.touches.length === 1) {
+        e.preventDefault();
+        pointX = e.touches[0].clientX - startX;
+        pointY = e.touches[0].clientY - startY;
+        applyTransform();
+      }
+    },
+    { passive: false }
+  );
 
-  window.addEventListener("touchend", () => {
+  memoryImage.addEventListener("touchend", () => {
     isDragging = false;
+    initialPinchDistance = 0;
   });
 });
