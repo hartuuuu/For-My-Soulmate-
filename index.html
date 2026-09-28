@@ -2,418 +2,94 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  />
-
-  <title>A Little Something for You ♡</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>A Little Something for You</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-  <div id="site">
+  <!-- Audio Element -->
+  <audio id="bg-music" src="assets/take-our-time.mp3" preload="auto" loop></audio>
 
+  <!-- Mobile Viewport Container (Centered Portrait Layout) -->
+  <div class="app-viewport">
 
-    <!-- =====================================================
-         PAGE 1 — COVER
-         ===================================================== -->
-
-    <section
-      class="screen active"
-      id="cover"
-      aria-label="Birthday introduction"
-    >
-
-      <div class="cover-overlay"></div>
-
-      <div class="cover-squiggle squiggle-1">
-        〰 ♡
+    <!-- PAGE 1: COVER -->
+    <section id="page-1" class="page active">
+      <div class="page-content cover-content">
+        <span class="date-stamp">09.28.26</span>
+        <h1 class="whisper-title">psst... hey, you. ♥</h1>
+        <p class="sub-text">there's something waiting for you inside.</p>
+        <button id="btn-start" class="cute-btn">CLICK ME ♡</button>
       </div>
-
-      <div class="cover-squiggle squiggle-2">
-        ✦ 〰
-      </div>
-
-      <div class="cover-squiggle squiggle-3">
-        ♡ 〰
-      </div>
-
-      <div class="cover-squiggle squiggle-4">
-        ✦ ♡
-      </div>
-
-
-      <div class="cover-content">
-
-        <p class="date">
-          09.28.26
-        </p>
-
-        <p class="cover-small">
-          psst... hey, you.
-          <span class="heart">♥</span>
-        </p>
-
-        <p class="cover-message">
-          there's something waiting for you inside.
-        </p>
-
-        <button
-          class="open-button"
-          id="openButton"
-          type="button"
-        >
-          CLICK ME
-          <span class="button-heart">♡</span>
-        </button>
-
-      </div>
-
     </section>
 
-
-    <!-- =====================================================
-         PAGE 2 — HAPPY BIRTHDAY
-         ===================================================== -->
-
-    <section
-      class="screen"
-      id="birthday"
-      aria-label="Happy Birthday Nicole"
-    >
-
-      <div class="birthday-inner">
-
-        <!-- BACK TO COVER -->
-
-        <button
-          class="page-back-button"
-          id="birthdayBack"
-          type="button"
-          aria-label="Go back to the cover"
-        >
-          ←
-        </button>
-
-
-        <p class="birthday-intro">
-          look who's getting older... 😭
-        </p>
-
-        <p class="birthday-label">
-          TODAY IS ALL ABOUT YOU
-        </p>
-
-        <h1 class="birthday-title">
-          HAPPY<br>
-          BIRTHDAY,
-        </h1>
-
-        <h2 class="birthday-name">
-          NICOLE <span>♥</span>
-        </h2>
-
-
-        <div class="birthday-photo-wrap">
-
-          <img
-            class="birthday-photo"
-            src="assets/childhood-photo.png"
-            alt="Nicole and her friend as children"
-          >
-
-          <p class="birthday-caption">
-            look at us 🥹
-          </p>
-
+    <!-- PAGE 2: HAPPY BIRTHDAY REVEAL -->
+    <section id="page-2" class="page hidden">
+      <button class="back-btn" id="p2-back-btn" aria-label="Go back">←</button>
+      
+      <div class="page-content click-area" id="p2-main-content">
+        <p class="teaser-text">look who's getting older... 😭</p>
+        <h2 class="section-heading">TODAY IS ALL ABOUT YOU</h2>
+        
+        <div class="bday-title-wrap">
+          <span class="bday-sub">HAPPY</span>
+          <span class="bday-main">BIRTHDAY,</span>
+          <h1 class="name-title">NICOLE ♥</h1>
         </div>
 
-
-        <div class="birthday-message">
-
-          <p>
-            another year of you.
-          </p>
-
-          <p>
-            and i'm really glad i get to be here for it.
-            <span class="birthday-heart">♡</span>
-          </p>
-
+        <div class="polaroid-frame">
+          <img src="assets/childhood-photo.png" alt="Childhood photo of Nicole" class="childhood-img" />
+          <p class="polaroid-caption">look at us 🥹</p>
         </div>
 
+        <div class="sweet-message">
+          <p>another year of you.</p>
+          <p>and i'm really glad i get to be here for it. ♡</p>
+        </div>
 
-        <p class="birthday-next">
-          click anywhere to keep going ↓
-        </p>
-
+        <p class="continue-hint">click anywhere to keep going ↓</p>
       </div>
-
     </section>
 
+    <!-- MEMORY BOOK SECTION -->
+    <section id="page-memory-book" class="page hidden">
+      <button class="back-btn" id="mem-back-btn" aria-label="Go back">← back</button>
+      
+      <div class="memory-container">
+        <p class="turn-hint">click to turn the page ♡</p>
 
-    <!-- =====================================================
-         PAGE 3 — MEMORY BOOK
-         ===================================================== -->
-
-    <section
-      class="screen"
-      id="memories"
-      aria-label="Our memories"
-    >
-
-      <div
-        class="memory-book"
-        id="memoryBook"
-      >
-
-
-        <!-- =================================================
-             MEMORY 1
-             ================================================= -->
-
-        <div class="memory-page">
-
-          <img
-            class="memory-image"
-            src="assets/memory-1.png"
-            alt="Memory page 1"
-            draggable="false"
-          >
-
+        <!-- Memory Page Wrapper / Scrapbook Frame -->
+        <div class="scrapbook-page" id="scrapbook-page">
+          <div class="image-zoom-viewport" id="zoom-viewport">
+            <img 
+              id="memory-image" 
+              src="assets/memory-1.png" 
+              alt="Memory 1" 
+              draggable="false"
+            />
+          </div>
         </div>
 
-
-        <!-- =================================================
-             MEMORY 2
-             ================================================= -->
-
-        <div class="memory-page">
-
-          <img
-            class="memory-image"
-            src="assets/memory-2.png"
-            alt="Memory page 2"
-            draggable="false"
-          >
-
+        <div class="memory-controls">
+          <span id="memory-counter" class="counter-badge">1 / 8</span>
+          <button id="mem-next-btn" class="cute-btn next-btn">NEXT →</button>
         </div>
-
-
-        <!-- =================================================
-             MEMORY 3
-             ================================================= -->
-
-        <div class="memory-page">
-
-          <img
-            class="memory-image"
-            src="assets/memory-3.png"
-            alt="Memory page 3"
-            draggable="false"
-          >
-
-        </div>
-
-
-        <!-- =================================================
-             MEMORY 4
-             ================================================= -->
-
-        <div class="memory-page">
-
-          <img
-            class="memory-image"
-            src="assets/memory-4.png"
-            alt="Memory page 4"
-            draggable="false"
-          >
-
-        </div>
-
-
-        <!-- =================================================
-             MEMORY 5
-             ================================================= -->
-
-        <div class="memory-page">
-
-          <img
-            class="memory-image"
-            src="assets/memory-5.png"
-            alt="Memory page 5"
-            draggable="false"
-          >
-
-        </div>
-
-
-        <!-- =================================================
-             MEMORY 6
-             ================================================= -->
-
-        <div class="memory-page">
-
-          <img
-            class="memory-image"
-            src="assets/memory-6.png"
-            alt="Memory page 6"
-            draggable="false"
-          >
-
-        </div>
-
-
-        <!-- =================================================
-             MEMORY 7
-             ================================================= -->
-
-        <div class="memory-page">
-
-          <img
-            class="memory-image"
-            src="assets/memory-7.png"
-            alt="Memory page 7"
-            draggable="false"
-          >
-
-        </div>
-
-
-        <!-- =================================================
-             MEMORY 8
-             ================================================= -->
-
-        <div class="memory-page">
-
-          <img
-            class="memory-image"
-            src="assets/memory-8.png"
-            alt="Memory page 8"
-            draggable="false"
-          >
-
-        </div>
-
       </div>
-
-
-      <!-- ===================================================
-           MEMORY BACK BUTTON
-           =================================================== -->
-
-      <button
-        class="memory-back-button"
-        id="memoryBack"
-        type="button"
-        aria-label="Go back"
-      >
-        ←
-      </button>
-
-
-      <!-- ===================================================
-           MEMORY COUNTER
-           =================================================== -->
-
-      <div
-        class="memory-counter"
-        id="memoryCounter"
-      >
-        1 / 8
-      </div>
-
-
-      <!-- ===================================================
-           MEMORY HINT
-           =================================================== -->
-
-      <div
-        class="memory-hint"
-        id="memoryHint"
-      >
-        click to turn the page ♡
-      </div>
-
-
-      <!-- ===================================================
-           NEXT BUTTON
-           =================================================== -->
-
-      <button
-        class="memory-next-button"
-        id="memoryNext"
-        type="button"
-      >
-        NEXT →
-      </button>
-
     </section>
 
-
-    <!-- =====================================================
-         TEMPORARY PAGE AFTER MEMORY 8
-         ===================================================== -->
-
-    <section
-      class="screen"
-      id="after-memories"
-      aria-label="More coming soon"
-    >
-
-      <div class="after-content">
-
-        <button
-          class="after-back-button"
-          id="afterBack"
-          type="button"
-        >
-          ← back
-        </button>
-
-        <h2>
-          and there's more ♡
-        </h2>
-
-        <p>
-          next section coming soon...
-        </p>
-
+    <!-- TEMPORARY AFTER-MEMORIES PAGE -->
+    <section id="page-temp" class="page hidden">
+      <button class="back-btn" id="temp-back-btn" aria-label="Go back">← back</button>
+      
+      <div class="page-content temp-content">
+        <h1 class="temp-title">and there's more ♡</h1>
+        <p class="temp-sub">next section coming soon...</p>
       </div>
-
     </section>
-
-
-    <!-- =====================================================
-         MUSIC
-         ===================================================== -->
-
-    <audio
-      id="birthdayMusic"
-      preload="auto"
-      loop
-    >
-
-      <source
-        src="assets/take-our-time.mp3"
-        type="audio/mpeg"
-      >
-
-    </audio>
-
 
   </div>
 
-
-  <!-- =======================================================
-       JAVASCRIPT
-       ======================================================= -->
-
   <script src="script.js"></script>
-
 </body>
 </html>
