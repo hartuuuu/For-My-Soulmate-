@@ -27,10 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const tempBackBtn = document.getElementById("temp-back-btn");
 
-  // Envelope Elements
-  const envelope = document.getElementById("envelope");
-  const envelopeFlap = document.getElementById("envelope-flap");
-  const envelopeHint = document.getElementById("envelope-hint");
+  // Letter & Split Cover Elements
+  const cardTop = document.getElementById("card-top");
+  const cardBottom = document.getElementById("card-bottom");
   const letterScrollArea = document.getElementById("letter-scroll-area");
 
   // --- STATE ---
@@ -38,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentMemoryIndex = 1;
   const totalMemories = 8;
   let isFlipping = false;
-  let isEnvelopeOpen = false;
+  let isLetterOpen = false;
 
   // Zoom / Drag State
   let scale = 1;
@@ -108,40 +107,26 @@ document.addEventListener("DOMContentLoaded", () => {
     memoryImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
   }
 
-  // --- ENVELOPE TOGGLE & SCROLL BEHAVIOR ---
-  function toggleEnvelope(open) {
-    if (open) {
-      envelope.classList.add("open");
-      isEnvelopeOpen = true;
-      envelopeHint.textContent = "scroll down to read ♡";
-    } else {
-      envelope.classList.remove("open");
-      isEnvelopeOpen = false;
-      envelopeHint.textContent = "tap the envelope flap to open ✉";
-    }
+  // --- SPLIT CARD COVER TOGGLE & SCROLL REVEAL ---
+  function openLetterCard() {
+    pageLetter.classList.add("open");
+    isLetterOpen = true;
   }
 
-  // Open/close on flap click
-  envelopeFlap.addEventListener("click", () => {
-    toggleEnvelope(!isEnvelopeOpen);
-  });
+  cardTop.addEventListener("click", openLetterCard);
+  cardBottom.addEventListener("click", openLetterCard);
 
-  // Handle auto open/close on scroll bottom / top
-  letterScrollArea.addEventListener("scroll", () => {
-    if (!isEnvelopeOpen) return;
+  // Reveal next button when scrolled to the end of letter
+  if (letterScrollArea) {
+    letterScrollArea.addEventListener("scroll", () => {
+      const scrollPosition = letterScrollArea.scrollTop + letterScrollArea.clientHeight;
+      const totalHeight = letterScrollArea.scrollHeight;
 
-    const scrollTop = letterScrollArea.scrollTop;
-    const scrollHeight = letterScrollArea.scrollHeight;
-    const clientHeight = letterScrollArea.clientHeight;
-
-    // If scrolled to bottom, close flap
-    if (scrollTop + clientHeight >= scrollHeight - 5) {
-      envelope.classList.remove("open-flap");
-    } else {
-      // Re-open flap when scrolling back up
-      envelope.classList.add("open-flap");
-    }
-  });
+      if (scrollPosition >= totalHeight - 15) {
+        letterNextBtn.classList.add("visible");
+      }
+    });
+  }
 
   // --- NAVIGATION ACTIONS ---
   function startExperience() {
@@ -192,8 +177,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function goToLetterPage() {
     currentPageState = "letter";
     showPage(pageLetter);
-    // Reset envelope state
-    toggleEnvelope(false);
+    pageLetter.classList.remove("open");
+    isLetterOpen = false;
+    letterNextBtn.classList.remove("visible");
     if (letterScrollArea) letterScrollArea.scrollTop = 0;
   }
 
@@ -238,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
     previousMemoryOrPage();
   });
 
-  scrapbookPage.addEventListener("click", (e) => {
+  scrapbookPage.addEventListener("click", () => {
     if (scale === 1 && !isFlipping) {
       nextMemoryOrPage();
     }
@@ -258,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
         goToMemoryBook();
       } else if (currentPageState === "memory") {
         nextMemoryOrPage();
-      } else if (currentPageState === "letter") {
+      } else if (currentPageState === "letter" && letterNextBtn.classList.contains("visible")) {
         goToTempPage();
       }
     } else if (e.key === "ArrowLeft") {
