@@ -1,877 +1,365 @@
-/* =========================================================
-   FONTS
-   ========================================================= */
-
+/* ==========================================================================
+   1. FONT DECLARATIONS
+   ========================================================================== */
 @font-face {
-  font-family: "InternetFriends";
-  src: url("assets/Internet Friends.ttf") format("truetype");
+  font-family: 'Internet Friends';
+  src: url('assets/Internet Friends.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
 }
 
 @font-face {
-  font-family: "IceCream";
-  src: url("assets/Ice Cream.otf") format("opentype");
+  font-family: 'Ice Cream';
+  src: url('assets/Ice Cream.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
 }
 
+/* ==========================================================================
+   2. GLOBAL RESETS & COLOR PALETTE
+   ========================================================================== */
+:root {
+  --bg-cream: #fbf7f0;
+  --bg-beige: #f3ece0;
+  --card-white: #ffffff;
+  --text-brown: #5a4638;
+  --text-muted: #8c7667;
+  --soft-yellow: #fef5d5;
+  --accent-pink: #eab4b4;
+  --shadow-soft: rgba(90, 70, 56, 0.08);
+  --shadow-medium: rgba(90, 70, 56, 0.15);
 
-/* =========================================================
-   RESET
-   ========================================================= */
+  --font-primary: 'Internet Friends', 'Courier New', cursive, sans-serif;
+  --font-display: 'Ice Cream', 'Georgia', serif;
+}
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-html,
-body {
+html, body {
   width: 100%;
   height: 100%;
-  margin: 0;
-  padding: 0;
-
   overflow: hidden;
-
-  background: #f7efdf;
-
-  font-family: Georgia, "Times New Roman", serif;
-}
-
-body {
+  background-color: #3b322c; /* Surrounding frame backdrop on desktop */
+  font-family: var(--font-primary);
+  color: var(--text-brown);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
-
-/* =========================================================
-   PORTRAIT SITE
-   ========================================================= */
-
-#site {
+/* ==========================================================================
+   3. DESKTOP PORTRAIT VIEWPORT FRAME
+   ========================================================================== */
+.app-viewport {
+  width: 100%;
+  height: 100%;
+  max-width: 430px; /* Standard phone width */
+  max-height: 932px; /* Standard phone height */
+  background-color: var(--bg-cream);
   position: relative;
-
-  width: min(100vw, 430px);
-  height: 100svh;
-
-  max-height: 100svh;
-
   overflow: hidden;
-
-  background: #fffaf0;
-
-  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
+@media (min-width: 480px) {
+  .app-viewport {
+    border-radius: 24px;
+    height: 95vh;
+  }
+}
 
-/* =========================================================
-   GENERAL SCREEN SYSTEM
-   ========================================================= */
-
-.screen {
+/* ==========================================================================
+   4. PAGE STRUCTURE & TRANSITIONS
+   ========================================================================== */
+.page {
   position: absolute;
-  inset: 0;
-
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-
-  overflow: hidden;
-
-  opacity: 0;
-  visibility: hidden;
-
-  pointer-events: none;
-
-  transition:
-    opacity 0.65s ease,
-    visibility 0.65s ease;
-}
-
-.screen.active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-
-/* =========================================================
-   PAGE 1
-   ========================================================= */
-
-#cover {
-  background-image: url("assets/background.png");
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
+  padding: 24px 20px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  background-color: var(--bg-cream);
+}
+
+.page.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.page.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.98);
+}
+
+.page-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-
   text-align: center;
 }
 
-.cover-overlay {
+/* ==========================================================================
+   5. BUTTONS & BACK BUTTONS
+   ========================================================================== */
+.cute-btn {
+  font-family: var(--font-primary);
+  font-size: 1.1rem;
+  background-color: var(--soft-yellow);
+  color: var(--text-brown);
+  border: 2px solid var(--text-brown);
+  border-radius: 20px;
+  padding: 10px 24px;
+  cursor: pointer;
+  box-shadow: 2px 3px 0px var(--text-brown);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.cute-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px var(--text-brown);
+}
+
+.back-btn {
   position: absolute;
-  inset: 0;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  background: transparent;
+  border: none;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 8px 12px;
+}
 
-  background:
-    linear-gradient(
-      rgba(255, 249, 226, 0.10),
-      rgba(255, 249, 226, 0.18)
-    );
+.back-btn:active {
+  color: var(--text-brown);
+}
 
-  pointer-events: none;
+/* ==========================================================================
+   6. PAGE 1: COVER
+   ========================================================================== */
+#page-1 {
+  background-image: url('assets/background.png');
+  background-size: cover;
+  background-position: center;
 }
 
 .cover-content {
-  position: relative;
-  z-index: 2;
-
-  width: 88%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  gap: 14px;
+  justify-content: space-between;
+  padding: 60px 0 40px;
 }
 
-.date {
-  margin: 0;
-
-  font-family: "InternetFriends", cursive;
-
+.date-stamp {
   font-size: 0.95rem;
-
-  color: #665548;
-
-  letter-spacing: 0.08em;
+  letter-spacing: 2px;
+  color: var(--text-muted);
 }
 
-.cover-small {
-  margin: 0;
-
-  font-family: "InternetFriends", cursive;
-
-  font-size: clamp(1.35rem, 5vw, 1.75rem);
-
-  color: #34281f;
+.whisper-title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+  font-weight: normal;
 }
 
-.cover-small .heart {
-  color: #f1c928;
+.sub-text {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
 }
 
-.cover-message {
-  margin: 0;
-
-  font-family: "InternetFriends", cursive;
-
-  font-size: clamp(1.15rem, 4.5vw, 1.55rem);
-
-  line-height: 1.25;
-
-  color: #34281f;
-}
-
-.open-button {
-  margin-top: 16px;
-
-  border: 1.5px solid #493b30;
-
-  background: rgba(255, 252, 239, 0.72);
-
-  color: #34281f;
-
-  border-radius: 999px;
-
-  padding: 12px 22px;
-
-  font-family: "InternetFriends", cursive;
-
-  font-size: 1.1rem;
-
+/* ==========================================================================
+   7. PAGE 2: HAPPY BIRTHDAY REVEAL
+   ========================================================================== */
+.click-area {
   cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
+  justify-content: space-around;
+  padding-top: 30px;
 }
 
-.open-button:hover {
-  transform: translateY(-2px);
-
-  background: rgba(255, 255, 255, 0.9);
+.teaser-text {
+  font-size: 1rem;
+  color: var(--text-muted);
 }
 
-.open-button:active {
-  transform: scale(0.96);
+.section-heading {
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
 }
 
-.button-heart {
-  margin-left: 5px;
-}
-
-.cover-squiggle {
-  position: absolute;
-
-  font-family: "InternetFriends", cursive;
-
-  color: #7d674e;
-
-  opacity: 0.65;
-
-  pointer-events: none;
-}
-
-.squiggle-1 {
-  top: 7%;
-  left: 8%;
-}
-
-.squiggle-2 {
-  top: 11%;
-  right: 8%;
-}
-
-.squiggle-3 {
-  bottom: 9%;
-  left: 10%;
-}
-
-.squiggle-4 {
-  bottom: 13%;
-  right: 10%;
-}
-
-
-/* =========================================================
-   PAGE 2 — HAPPY BIRTHDAY
-   ========================================================= */
-
-#birthday {
-  background:
-    radial-gradient(
-      circle at 50% 30%,
-      rgba(255,255,255,0.9),
-      transparent 45%
-    ),
-    #f8f0df;
-
+.bday-title-wrap {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  line-height: 1.1;
 }
 
-.birthday-inner {
-  width: 88%;
-  height: 92%;
+.bday-sub {
+  font-size: 1.1rem;
+}
 
+.bday-main {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+}
+
+.name-title {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  color: var(--text-brown);
+}
+
+.polaroid-frame {
+  background: var(--card-white);
+  padding: 12px 12px 20px 12px;
+  border-radius: 4px;
+  box-shadow: 0 4px 15px var(--shadow-medium);
+  transform: rotate(-1.5deg);
+  max-width: 80%;
+}
+
+.childhood-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.polaroid-caption {
+  font-size: 0.95rem;
+  margin-top: 10px;
+  color: var(--text-brown);
+}
+
+.sweet-message p {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.continue-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  animation: float 2s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+/* ==========================================================================
+   8. MEMORY BOOK SECTION
+   ========================================================================== */
+.memory-container {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-
-  text-align: center;
-
-  position: relative;
+  justify-content: space-between;
+  padding: 40px 0 10px;
 }
 
-.birthday-intro {
-  margin: 0 0 7px;
-
-  font-family: "InternetFriends", cursive;
-
-  font-size: 1.05rem;
-
-  color: #796452;
-}
-
-.birthday-label {
-  margin: 0;
-
-  font-size: 0.55rem;
-
-  letter-spacing: 0.25em;
-
-  color: #a48b70;
-}
-
-.birthday-title {
-  margin: 3px 0 0;
-
-  font-family: "IceCream", cursive;
-
-  font-size: clamp(2.6rem, 13vw, 4rem);
-
-  line-height: 0.82;
-
-  color: #49392d;
-
-  text-align: center;
-}
-
-.birthday-name {
-  margin: 7px 0 15px;
-
-  font-family: "IceCream", cursive;
-
-  font-size: clamp(2rem, 9vw, 3rem);
-
-  color: #e1ae22;
-}
-
-.birthday-photo-wrap {
-  position: relative;
-
-  width: 66%;
-
-  margin: 4px 0 15px;
-}
-
-.birthday-photo {
-  display: block;
-
-  width: 100%;
-
-  background: white;
-
-  padding: 8px;
-
-  box-shadow:
-    0 10px 25px rgba(70, 52, 35, 0.16);
-
-  transform: rotate(-2deg);
-}
-
-.birthday-caption {
-  margin: -2px 0 0;
-
-  font-family: "InternetFriends", cursive;
-
-  font-size: 0.9rem;
-
-  color: #55463a;
-}
-
-.birthday-message {
-  margin-top: 4px;
-
-  font-family: "InternetFriends", cursive;
-
-  font-size: 1.05rem;
-
-  line-height: 1.45;
-
-  color: #403329;
-}
-
-.birthday-message p {
-  margin: 3px 0;
-}
-
-.birthday-heart {
-  color: #d7ae25;
-}
-
-.birthday-next {
-  margin-top: 15px;
-
-  font-family: "InternetFriends", cursive;
-
+.turn-hint {
   font-size: 0.85rem;
-
-  color: #907b67;
-
-  opacity: 0.8;
+  color: var(--text-muted);
 }
 
-
-/* =========================================================
-   PAGE 2 BACK BUTTON
-   ========================================================= */
-
-.page-back-button {
-  position: absolute;
-
-  top: 14px;
-  left: 14px;
-
-  z-index: 100;
-
-  width: 38px;
-  height: 38px;
-
-  border: 1px solid rgba(79, 62, 46, 0.28);
-
-  border-radius: 50%;
-
-  background: rgba(255, 250, 239, 0.78);
-
-  color: #4d3e31;
-
-  font-family: Georgia, "Times New Roman", serif;
-
-  font-size: 1.25rem;
-
-  line-height: 1;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-
-  backdrop-filter: blur(4px);
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
-}
-
-.page-back-button:hover {
-  background: rgba(255, 255, 255, 0.92);
-}
-
-.page-back-button:active {
-  transform: scale(0.92);
-}
-
-
-/* =========================================================
-   MEMORY BOOK
-   ========================================================= */
-
-#memories {
-  background: #f4ead7;
-
-  perspective: 1800px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.memory-book {
-  position: relative;
-
+.scrapbook-page {
   width: 100%;
-  height: 100%;
-
-  transform-style: preserve-3d;
-}
-
-
-/* =========================================================
-   MEMORY PAGES
-   ========================================================= */
-
-.memory-page {
-  position: absolute;
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
+  flex: 1;
+  max-height: 72vh;
+  margin: 10px 0;
+  background: var(--card-white);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow-soft);
   overflow: hidden;
-
-  background: #fff;
-
-  transform-origin: left center;
-
-  transform-style: preserve-3d;
-
-  backface-visibility: hidden;
-
-  transition:
-    transform 0.85s cubic-bezier(0.65, 0, 0.35, 1),
-    opacity 0.2s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--bg-beige);
 }
 
-.memory-page img {
-  display: block;
-
+.image-zoom-viewport {
   width: 100%;
   height: 100%;
-
-  object-fit: contain;
-
-  user-select: none;
-
-  -webkit-user-drag: none;
-
-  /*
-    Zooming is handled by JavaScript.
-    The image itself moves/scales while the
-    memory page and controls stay fixed.
-  */
-  transform-origin: center center;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   touch-action: none;
-
-  will-change: transform;
-
-  transition: transform 0.18s ease;
-
-  cursor: zoom-in;
 }
 
-.memory-page img.is-zoomed {
+#memory-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transform-origin: center center;
+  transition: transform 0.05s linear;
   cursor: grab;
 }
 
-.memory-page img.is-dragging {
+#memory-image:active {
   cursor: grabbing;
-
-  transition: none;
 }
 
-
-/* =========================================================
-   PAGE STACKING
-   ========================================================= */
-
-.memory-page:nth-child(1) {
-  z-index: 8;
-}
-
-.memory-page:nth-child(2) {
-  z-index: 7;
-}
-
-.memory-page:nth-child(3) {
-  z-index: 6;
-}
-
-.memory-page:nth-child(4) {
-  z-index: 5;
-}
-
-.memory-page:nth-child(5) {
-  z-index: 4;
-}
-
-.memory-page:nth-child(6) {
-  z-index: 3;
-}
-
-.memory-page:nth-child(7) {
-  z-index: 2;
-}
-
-.memory-page:nth-child(8) {
-  z-index: 1;
-}
-
-.memory-page.flipped {
-  transform: rotateY(-180deg);
-}
-
-
-/* =========================================================
-   MEMORY BACK BUTTON
-   ========================================================= */
-
-.memory-back-button {
-  position: absolute;
-
-  left: 13px;
-  bottom: 13px;
-
-  z-index: 50;
-
-  border: 1px solid rgba(79, 62, 46, 0.35);
-
-  background: rgba(255, 250, 239, 0.78);
-
-  color: #4d3e31;
-
-  border-radius: 999px;
-
-  padding: 8px 13px;
-
-  font-family: "InternetFriends", cursive;
-
-  font-size: 0.75rem;
-
-  cursor: pointer;
-
-  backdrop-filter: blur(4px);
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
-}
-
-.memory-back-button:hover {
-  background: rgba(255, 255, 255, 0.92);
-}
-
-.memory-back-button:active {
-  transform: scale(0.95);
-}
-
-
-/* =========================================================
-   MEMORY CONTROLS
-   ========================================================= */
-
-.memory-counter {
-  position: absolute;
-
-  left: 50%;
-  bottom: 14px;
-
-  transform: translateX(-50%);
-
-  z-index: 30;
-
-  padding: 5px 9px;
-
-  border-radius: 999px;
-
-  background: rgba(255, 250, 238, 0.72);
-
-  backdrop-filter: blur(4px);
-
-  font-family: "InternetFriends", cursive;
-
-  font-size: 0.75rem;
-
-  color: #625344;
-
-  pointer-events: none;
-}
-
-.memory-hint {
-  position: absolute;
-
-  left: 50%;
-  bottom: 38px;
-
-  transform: translateX(-50%);
-
-  z-index: 30;
-
-  white-space: nowrap;
-
-  font-family: "InternetFriends", cursive;
-
-  font-size: 0.75rem;
-
-  color: #685746;
-
-  opacity: 0.85;
-
-  pointer-events: none;
-
-  animation: hintFloat 2s ease-in-out infinite;
-}
-
-@keyframes hintFloat {
-
-  0%,
-  100% {
-    transform:
-      translateX(-50%)
-      translateY(0);
-  }
-
-  50% {
-    transform:
-      translateX(-50%)
-      translateY(-4px);
-  }
-
-}
-
-.memory-next-button {
-  position: absolute;
-
-  right: 13px;
-  bottom: 13px;
-
-  z-index: 40;
-
-  border: 1px solid rgba(79, 62, 46, 0.35);
-
-  background: rgba(255, 250, 239, 0.78);
-
-  color: #4d3e31;
-
-  border-radius: 999px;
-
-  padding: 8px 13px;
-
-  font-family: "InternetFriends", cursive;
-
-  font-size: 0.75rem;
-
-  cursor: pointer;
-
-  backdrop-filter: blur(4px);
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
-}
-
-.memory-next-button:hover {
-  background: rgba(255, 255, 255, 0.92);
-}
-
-.memory-next-button:active {
-  transform: scale(0.95);
-}
-
-
-/* =========================================================
-   TEMPORARY NEXT PAGE
-   ========================================================= */
-
-#after-memories {
-  background: #f8efdf;
-
+.memory-controls {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  text-align: center;
+  justify-content: space-between;
+  padding: 0 10px;
 }
 
-.after-content {
-  width: 82%;
+.counter-badge {
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
-.after-content h2 {
-  margin: 0;
-
-  font-family: "IceCream", cursive;
-
-  font-size: 3rem;
-
-  color: #49392d;
+.next-btn {
+  padding: 8px 18px;
+  font-size: 0.95rem;
 }
 
-.after-content p {
-  font-family: "InternetFriends", cursive;
-
-  font-size: 1.15rem;
-
-  color: #5c4b3b;
+/* ==========================================================================
+   9. TEMPORARY AFTER-MEMORIES PAGE
+   ========================================================================== */
+.temp-content {
+  gap: 12px;
 }
 
-
-/* =========================================================
-   AFTER MEMORIES BACK BUTTON
-   ========================================================= */
-
-.after-back-button {
-  position: absolute;
-
-  top: 14px;
-  left: 14px;
-
-  z-index: 50;
-
-  border: 1px solid rgba(79, 62, 46, 0.35);
-
-  background: rgba(255, 250, 239, 0.78);
-
-  color: #4d3e31;
-
-  border-radius: 999px;
-
-  padding: 8px 13px;
-
-  font-family: "InternetFriends", cursive;
-
-  font-size: 0.75rem;
-
-  cursor: pointer;
-
-  backdrop-filter: blur(4px);
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
+.temp-title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: normal;
 }
 
-.after-back-button:hover {
-  background: rgba(255, 255, 255, 0.92);
-}
-
-.after-back-button:active {
-  transform: scale(0.95);
-}
-
-
-/* =========================================================
-   SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 360px) {
-
-  .birthday-photo-wrap {
-    width: 62%;
-  }
-
-  .birthday-message {
-    font-size: 0.95rem;
-  }
-
-  .memory-next-button {
-    right: 8px;
-    bottom: 8px;
-  }
-
-  .memory-back-button {
-    left: 8px;
-    bottom: 8px;
-  }
-
-  .memory-counter {
-    bottom: 9px;
-  }
-
-  .memory-hint {
-    bottom: 31px;
-  }
-
-}
-
-
-/* =========================================================
-   LAPTOP / DESKTOP
-   ========================================================= */
-
-@media (min-width: 700px) {
-
-  body {
-    background:
-      radial-gradient(
-        circle at center,
-        #fffaf0 0%,
-        #eadfca 100%
-      );
-  }
-
-  #site {
-    width: 430px;
-
-    height: min(100svh, 645px);
-
-    box-shadow:
-      0 20px 60px rgba(70, 52, 35, 0.18);
-
-    border-radius: 2px;
-  }
-
+.temp-sub {
+  font-size: 1.05rem;
+  color: var(--text-muted);
 }
