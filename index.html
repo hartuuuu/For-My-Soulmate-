@@ -129,39 +129,40 @@
       <button id="letter-next-btn" class="cute-btn next-btn next-page-btn">NEXT →</button>
     </section>
 
-    <!-- PAGE 5: VIDEO SCROLL PAGE (BLACK BACKGROUND) -->
-    <section id="page-video" class="page hidden dark-window">
-      <button class="back-btn light-back" id="video-back-btn" aria-label="Go back">← back</button>
+    <!-- PAGE 5: SCROLLABLE DUAL VIDEO WINDOW -->
+    <section id="page-videos" class="page hidden">
+      <button class="back-btn" id="videos-back-btn" aria-label="Go back">← back</button>
       
       <div class="video-scroll-container" id="video-scroll-area">
-        <!-- Video 1 Wrapper -->
-        <div class="video-item">
-          <div class="video-frame">
-            <video id="video-1" src="assets/Video1.mp4" playsinline loop muted autoplay></video>
-            <button class="replay-btn" id="replay-v1" title="Replay Video">🔄</button>
+        <!-- Video 1 -->
+        <div class="video-card">
+          <div class="video-wrapper">
+            <video id="video-1" src="assets/Video1.mp4" playsinline muted loop></video>
+            <button class="repeat-btn" data-video="video-1" aria-label="Replay Video 1">🔄</button>
           </div>
         </div>
 
-        <!-- Video 2 Wrapper -->
-        <div class="video-item">
-          <div class="video-frame">
-            <video id="video-2" src="assets/Video2.mp4" playsinline loop muted autoplay></video>
-            <button class="replay-btn" id="replay-v2" title="Replay Video">🔄</button>
+        <!-- Video 2 -->
+        <div class="video-card">
+          <div class="video-wrapper">
+            <video id="video-2" src="assets/Video2.mp4" playsinline muted loop></video>
+            <button class="repeat-btn" data-video="video-2" aria-label="Replay Video 2">🔄</button>
           </div>
         </div>
 
-        <!-- End Message Footer -->
-        <div class="video-footer" id="video-footer-trigger">
+        <!-- Scrollable Ending Message -->
+        <div class="video-end-text" id="video-end-trigger">
           <p>Once again, happy birthday! Happy 20th birthday! And that’s the end of the website lol. There’s nothing more HAHAHAHA.</p>
-          <span class="tap-hint-light">tap anywhere to continue →</span>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 6: FINAL PAGE WITH BACKGROUND & CONFETTI -->
+    <!-- PAGE 6: FINAL PHOTO & CONFETTI -->
     <section id="page-final" class="page hidden">
       <canvas id="confetti-canvas"></canvas>
-      <div class="final-overlay-click" id="final-click-area"></div>
+      <div class="final-click-area" id="final-screen-click">
+        <!-- Content background image styled via CSS or background file -->
+      </div>
     </section>
 
   </div>
