@@ -97,6 +97,11 @@ html, body {
   transform: scale(1);
 }
 
+.page.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .page-content {
   width: 100%;
   height: 100%;
