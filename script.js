@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Letter & Split Cover Elements
   const cardTop = document.getElementById("card-top");
   const cardBottom = document.getElementById("card-bottom");
+  const clickPrompt = document.getElementById("click-prompt");
   const letterScrollArea = document.getElementById("letter-scroll-area");
 
   // --- STATE ---
@@ -107,14 +108,17 @@ document.addEventListener("DOMContentLoaded", () => {
     memoryImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
   }
 
-  // --- SPLIT CARD COVER TOGGLE & SCROLL REVEAL ---
+  // --- SPLIT CARD COVER TOGGLE ---
   function openLetterCard() {
     pageLetter.classList.add("open");
+    cardTop.classList.add("slide-up");
+    cardBottom.classList.add("slide-down");
     isLetterOpen = true;
   }
 
-  cardTop.addEventListener("click", openLetterCard);
-  cardBottom.addEventListener("click", openLetterCard);
+  if (cardTop) cardTop.addEventListener("click", openLetterCard);
+  if (cardBottom) cardBottom.addEventListener("click", openLetterCard);
+  if (clickPrompt) clickPrompt.addEventListener("click", openLetterCard);
 
   // Reveal next button when scrolled to the end of letter
   if (letterScrollArea) {
@@ -178,6 +182,8 @@ document.addEventListener("DOMContentLoaded", () => {
     currentPageState = "letter";
     showPage(pageLetter);
     pageLetter.classList.remove("open");
+    if (cardTop) cardTop.classList.remove("slide-up");
+    if (cardBottom) cardBottom.classList.remove("slide-down");
     isLetterOpen = false;
     letterNextBtn.classList.remove("visible");
     if (letterScrollArea) letterScrollArea.scrollTop = 0;
