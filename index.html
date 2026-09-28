@@ -3,171 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Birthday Letter & Website</title>
-  <style>
-    /* RESET & BASE STYLES */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body, html {
-      width: 100%;
-      height: 100%;
-      font-family: 'Courier New', Courier, monospace;
-      scroll-behavior: smooth;
-    }
-
-    /* 1. TURN PAGE SECTION */
-    .turn-page-section {
-      width: 100%;
-      height: 100vh;
-      background-image: url('assets/turnpage-bg.jpg');
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* 2. LETTER SECTION CONTAINER */
-    .letter-section {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      background-image: url('assets/letter-bg.jpg');
-      background-size: cover;
-      background-position: center;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* SLIDING FRONT COVER (CARD) */
-    .card-cover {
-      position: absolute;
-      width: 100%;
-      height: 50%;
-      left: 0;
-      background-size: cover;
-      background-position: center;
-      z-index: 10;
-      transition: transform 1.2s ease-in-out;
-      cursor: pointer;
-    }
-
-    .card-top {
-      top: 0;
-      background-image: url('assets/front-card-top.jpg');
-      background-position: bottom center;
-    }
-
-    .card-bottom {
-      bottom: 0;
-      background-image: url('assets/front-card-bottom.jpg');
-      background-position: top center;
-    }
-
-    /* SLIDE ANIMATION CLASSES */
-    .letter-section.open .card-top {
-      transform: translateY(-100%);
-    }
-
-    .letter-section.open .card-bottom {
-      transform: translateY(100%);
-    }
-
-    .click-prompt {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 11;
-      background: rgba(255, 255, 255, 0.85);
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-size: 14px;
-      color: #4a4a4a;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .letter-section.open .click-prompt {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* 3. SCROLLABLE LETTER AREA */
-    .letter-scroll-container {
-      width: 85%;
-      max-width: 500px;
-      height: 70vh;
-      overflow-y: auto;
-      padding: 30px 25px;
-      background: rgba(255, 255, 255, 0.35);
-      backdrop-filter: blur(4px);
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-      z-index: 5;
-      scrollbar-width: thin;
-      scrollbar-color: #e0a9af transparent;
-    }
-
-    .letter-content {
-      font-size: 16px;
-      line-height: 1.8;
-      color: #333;
-      white-space: pre-line;
-    }
-
-    /* 4. NEXT PAGE BUTTON (Lalabas lang pag na-scroll hanggang baba) */
-    .next-page-btn {
-      position: absolute;
-      bottom: 25px;
-      padding: 12px 28px;
-      background-color: #e0a9af;
-      color: white;
-      border: none;
-      border-radius: 25px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 6;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(15px);
-      transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-
-    .next-page-btn.visible {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    /* 5. NEXT SECTION / PAGE SAMPLE */
-    .next-section {
-      width: 100%;
-      height: 100vh;
-      background-color: #fdfbf7;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  </style>
+  <title>Birthday Letter</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- PAGE 1: TURN PAGE SECTION WITH MATCHING BACKGROUND -->
+  <!-- PAGE 1: TURN PAGE SECTION -->
   <section class="turn-page-section">
     <!-- Dito nakalagay ang turn page / 8 images mo -->
   </section>
 
-  <!-- PAGE 2: LETTER SECTION WITH SLIDING CARD -->
+  <!-- PAGE 2: LETTER SECTION -->
   <section class="letter-section" id="letterSection">
     
     <!-- Split Front Cover -->
@@ -205,34 +51,6 @@ End of Letter 💕
     <h2>Welcome to the Next Page! 🎉</h2>
   </section>
 
-  <!-- JAVASCRIPT LOGIC -->
-  <script>
-    const letterSection = document.getElementById('letterSection');
-    const letterContainer = document.getElementById('letterContainer');
-    const nextBtn = document.getElementById('nextBtn');
-
-    // Function para mag-slide open ang front card cover
-    function openLetter() {
-      letterSection.classList.add('open');
-    }
-
-    // Function para i-detect kapag na-scroll na ang sulat sa pinaka-ibaba
-    if (letterContainer) {
-      letterContainer.addEventListener('scroll', () => {
-        const scrollPosition = letterContainer.scrollTop + letterContainer.clientHeight;
-        const totalHeight = letterContainer.scrollHeight;
-
-        // Lalabas ang button kapag umabot na sa dulo (may 10px buffer)
-        if (scrollPosition >= totalHeight - 10) {
-          nextBtn.classList.add('visible');
-        }
-      });
-    }
-
-    // Function para mag-scroll papunta sa susunod na page
-    function goToNextPage() {
-      document.getElementById('nextSection').scrollIntoView({ behavior: 'smooth' });
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
