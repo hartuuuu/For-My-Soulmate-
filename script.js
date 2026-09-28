@@ -26,51 +26,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const letterBackBtn = document.getElementById("letter-back-btn");
   const letterNextBtn = document.getElementById("letter-next-btn");
 
-  const videoBackBtn = document.getElementById("video-back-btn");
-  const videoNextBtn = document.getElementById("video-next-btn");
-
-  // Letter & Split Cover Elements
   const cardTop = document.getElementById("card-top");
   const cardBottom = document.getElementById("card-bottom");
   const clickPrompt = document.getElementById("click-prompt");
   const letterScrollArea = document.getElementById("letter-scroll-area");
 
-  // Canvas
+  // Video Page Elements
+  const videoBackBtn = document.getElementById("video-back-btn");
+  const videoScrollArea = document.getElementById("video-scroll-area");
+  const video1 = document.getElementById("video-1");
+  const video2 = document.getElementById("video-2");
+  const replayV1 = document.getElementById("replay-v1");
+  const replayV2 = document.getElementById("replay-v2");
+  const videoFooterTrigger = document.getElementById("video-footer-trigger");
+
+  // Final Page Elements
+  const finalClickArea = document.getElementById("final-click-area");
   const confettiCanvas = document.getElementById("confetti-canvas");
 
   // --- STATE ---
-  let currentPageState = "page1"; // 'page1', 'page2', 'memory', 'letter', 'video', 'final'
+  let currentPageState = "page1";
   let currentMemoryIndex = 1;
   const totalMemories = 8;
   let isFlipping = false;
-  let isLetterOpen = false;
 
   // Zoom / Drag State
   let scale = 1;
-  let pointX = 0;
-  let pointY = 0;
-  let startX = 0;
-  let startY = 0;
+  let pointX = 0, pointY = 0, startX = 0, startY = 0;
   let isDragging = false;
-
-  // Touch State
-  let initialPinchDistance = null;
-  let initialScale = 1;
   let lastTapTime = 0;
 
   // --- PAGE NAVIGATION ---
   function showPage(pageToShow) {
     [page1, page2, pageMemory, pageLetter, pageVideo, pageFinal].forEach((p) => {
-      if (p) {
-        p.classList.add("hidden");
-        p.classList.remove("active");
-      }
+      p.classList.add("hidden");
+      p.classList.remove("active");
     });
 
-    if (pageToShow) {
-      pageToShow.classList.remove("hidden");
-      pageToShow.classList.add("active");
-    }
+    pageToShow.classList.remove("hidden");
+    pageToShow.classList.add("active");
   }
 
   // --- TURN.JS STYLE PAGE TURN ANIMATION ---
@@ -79,30 +73,21 @@ document.addEventListener("DOMContentLoaded", () => {
     isFlipping = true;
 
     resetZoom();
-
-    if (memoryImageUnder) {
-      memoryImageUnder.src = `assets/memory-${newIndex}.png`;
-    }
+    memoryImageUnder.src = `assets/memory-${newIndex}.png`;
 
     const flipClass = direction === "next" ? "turn-next" : "turn-prev";
-    if (flipCard) flipCard.classList.add(flipClass);
+    flipCard.classList.add(flipClass);
 
     setTimeout(() => {
       currentMemoryIndex = newIndex;
-      if (memoryImage) {
-        memoryImage.src = `assets/memory-${newIndex}.png`;
-        memoryImage.alt = `Memory ${newIndex}`;
-      }
-      if (memoryCounter) {
-        memoryCounter.textContent = `${newIndex} / ${totalMemories}`;
-      }
+      memoryImage.src = `assets/memory-${newIndex}.png`;
+      memoryImage.alt = `Memory ${newIndex}`;
+      memoryCounter.textContent = `${newIndex} / ${totalMemories}`;
 
       const nextUnder = newIndex < totalMemories ? newIndex + 1 : totalMemories;
-      if (memoryImageUnder) {
-        memoryImageUnder.src = `assets/memory-${nextUnder}.png`;
-      }
+      memoryImageUnder.src = `assets/memory-${nextUnder}.png`;
 
-      if (flipCard) flipCard.classList.remove(flipClass);
+      flipCard.classList.remove(flipClass);
       isFlipping = false;
     }, 400);
   }
@@ -116,75 +101,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function applyTransform() {
     scale = Math.min(Math.max(1, scale), 4);
-
-    if (scale === 1) {
-      pointX = 0;
-      pointY = 0;
-    }
-
-    if (memoryImage) {
-      memoryImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
-    }
+    if (scale === 1) { pointX = 0; pointY = 0; }
+    memoryImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
   }
 
   // --- SPLIT CARD COVER TOGGLE ---
   function openLetterCard() {
-    if (pageLetter) pageLetter.classList.add("open");
+    pageLetter.classList.add("open");
     if (cardTop) cardTop.classList.add("slide-up");
     if (cardBottom) cardBottom.classList.add("slide-down");
-    isLetterOpen = true;
   }
 
   if (cardTop) cardTop.addEventListener("click", openLetterCard);
   if (cardBottom) cardBottom.addEventListener("click", openLetterCard);
   if (clickPrompt) clickPrompt.addEventListener("click", openLetterCard);
 
-  // Reveal next button when scrolled to the end of letter
   if (letterScrollArea) {
     letterScrollArea.addEventListener("scroll", () => {
       const scrollPosition = letterScrollArea.scrollTop + letterScrollArea.clientHeight;
       const totalHeight = letterScrollArea.scrollHeight;
-
-      if (scrollPosition >= totalHeight - 15 && letterNextBtn) {
+      if (scrollPosition >= totalHeight - 15) {
         letterNextBtn.classList.add("visible");
       }
     });
   }
 
-  // --- NAVIGATION ACTIONS ---
+  // --- ROUTING / FLOW CONTROLS ---
   function startExperience() {
-    if (bgMusic) {
-      bgMusic.play().catch((err) => console.log("Audio play deferred:", err));
-    }
+    if (bgMusic) bgMusic.play().catch(() => {});
     currentPageState = "page2";
     showPage(page2);
-  }
-
-  function goBackFromPage2() {
-    currentPageState = "page1";
-    showPage(page1);
   }
 
   function goToMemoryBook() {
     currentPageState = "memory";
     currentMemoryIndex = 1;
-    if (memoryImage) {
-      memoryImage.src = `assets/memory-1.png`;
-      memoryImage.alt = `Memory 1`;
-    }
-    if (memoryImageUnder) {
-      memoryImageUnder.src = `assets/memory-2.png`;
-    }
-    if (memoryCounter) {
-      memoryCounter.textContent = `1 / ${totalMemories}`;
-    }
+    memoryImage.src = `assets/memory-1.png`;
+    memoryImageUnder.src = `assets/memory-2.png`;
+    memoryCounter.textContent = `1 / ${totalMemories}`;
     resetZoom();
     showPage(pageMemory);
   }
 
   function nextMemoryOrPage() {
     if (isFlipping) return;
-
     if (currentMemoryIndex < totalMemories) {
       changeMemoryWithFlip(currentMemoryIndex + 1, "next");
     } else {
@@ -192,295 +152,123 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function previousMemoryOrPage() {
-    if (isFlipping) return;
-
-    if (currentMemoryIndex > 1) {
-      changeMemoryWithFlip(currentMemoryIndex - 1, "prev");
-    } else {
-      currentPageState = "page2";
-      showPage(page2);
-    }
-  }
-
   function goToLetterPage() {
     currentPageState = "letter";
     showPage(pageLetter);
-    if (pageLetter) pageLetter.classList.remove("open");
+    pageLetter.classList.remove("open");
     if (cardTop) cardTop.classList.remove("slide-up");
     if (cardBottom) cardBottom.classList.remove("slide-down");
-    isLetterOpen = false;
-    if (letterNextBtn) letterNextBtn.classList.remove("visible");
+    letterNextBtn.classList.remove("visible");
     if (letterScrollArea) letterScrollArea.scrollTop = 0;
-  }
-
-  function goBackFromLetter() {
-    currentPageState = "memory";
-    currentMemoryIndex = totalMemories;
-    if (memoryImage) {
-      memoryImage.src = `assets/memory-${totalMemories}.png`;
-      memoryImage.alt = `Memory ${totalMemories}`;
-    }
-    if (memoryImageUnder) {
-      memoryImageUnder.src = `assets/memory-${totalMemories}.png`;
-    }
-    if (memoryCounter) {
-      memoryCounter.textContent = `${totalMemories} / ${totalMemories}`;
-    }
-    resetZoom();
-    showPage(pageMemory);
   }
 
   function goToVideoPage() {
     currentPageState = "video";
     showPage(pageVideo);
-  }
-
-  function goBackFromVideo() {
-    currentPageState = "letter";
-    showPage(pageLetter);
+    if (videoScrollArea) videoScrollArea.scrollTop = 0;
+    
+    // Play videos
+    if (video1) { video1.currentTime = 0; video1.play().catch(() => {}); }
+    if (video2) { video2.currentTime = 0; video2.play().catch(() => {}); }
   }
 
   function goToFinalPage() {
     currentPageState = "final";
     showPage(pageFinal);
-    startConfetti();
+    startSimpleConfetti();
   }
 
   function restartWebsite() {
-    const vids = document.querySelectorAll("video");
-    vids.forEach((v) => {
-      v.pause();
-      v.currentTime = 0;
-    });
-
-    if (pageLetter) pageLetter.classList.remove("open");
+    stopConfetti();
     currentPageState = "page1";
     showPage(page1);
   }
 
-  // --- CONFETTI ANIMATION ---
-  function startConfetti() {
-    if (!confettiCanvas) return;
+  // --- EVENT LISTENERS ---
+  btnStart.addEventListener("click", startExperience);
+  p2BackBtn.addEventListener("click", (e) => { e.stopPropagation(); showPage(page1); });
+  p2MainContent.addEventListener("click", goToMemoryBook);
+
+  memNextBtn.addEventListener("click", (e) => { e.stopPropagation(); nextMemoryOrPage(); });
+  memBackBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (currentMemoryIndex > 1) {
+      changeMemoryWithFlip(currentMemoryIndex - 1, "prev");
+    } else {
+      showPage(page2);
+    }
+  });
+
+  scrapbookPage.addEventListener("click", () => {
+    if (scale === 1 && !isFlipping) nextMemoryOrPage();
+  });
+
+  letterBackBtn.addEventListener("click", () => {
+    currentMemoryIndex = totalMemories;
+    memoryImage.src = `assets/memory-${totalMemories}.png`;
+    memoryCounter.textContent = `${totalMemories} / ${totalMemories}`;
+    showPage(pageMemory);
+  });
+
+  letterNextBtn.addEventListener("click", goToVideoPage);
+
+  videoBackBtn.addEventListener("click", goToLetterPage);
+
+  if (replayV1) replayV1.addEventListener("click", () => { video1.currentTime = 0; video1.play(); });
+  if (replayV2) replayV2.addEventListener("click", () => { video2.currentTime = 0; video2.play(); });
+
+  videoFooterTrigger.addEventListener("click", goToFinalPage);
+  finalClickArea.addEventListener("click", restartWebsite);
+
+  // --- SIMPLE FALLING CONFETTI ANIMATION ---
+  let confettiAnimationId = null;
+  let particles = [];
+
+  function startSimpleConfetti() {
     const ctx = confettiCanvas.getContext("2d");
+    confettiCanvas.width = pageFinal.clientWidth;
+    confettiCanvas.height = pageFinal.clientHeight;
 
-    confettiCanvas.width = confettiCanvas.parentElement.clientWidth || window.innerWidth;
-    confettiCanvas.height = confettiCanvas.parentElement.clientHeight || window.innerHeight;
+    const colors = ["#ff71ce", "#01cdfe", "#05ffa1", "#b967ff", "#fffb96"];
+    particles = [];
 
-    const confettiCount = 50;
-    const particles = [];
-    const colors = ["#fce1e4", "#fcf4dd", "#ddedf8", "#e8dff5", "#ffffff"];
-
-    for (let i = 0; i < confettiCount; i++) {
+    for (let i = 0; i < 60; i++) {
       particles.push({
         x: Math.random() * confettiCanvas.width,
         y: Math.random() * confettiCanvas.height - confettiCanvas.height,
         size: Math.random() * 6 + 4,
-        speedY: Math.random() * 2 + 1,
-        speedX: Math.random() * 1 - 0.5,
-        color: colors[Math.floor(Math.random() * colors.length)]
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speedY: Math.random() * 2 + 1.5,
+        speedX: Math.random() * 1 - 0.5
       });
     }
 
     function render() {
       ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
       particles.forEach((p) => {
         p.y += p.speedY;
         p.x += p.speedX;
-        if (p.y > confettiCanvas.height) p.y = -10;
+
+        if (p.y > confettiCanvas.height) {
+          p.y = -10;
+          p.x = Math.random() * confettiCanvas.width;
+        }
 
         ctx.fillStyle = p.color;
-        ctx.fillRect(p.x, p.y, p.size, p.size * 1.5);
+        ctx.fillRect(p.x, p.y, p.size, p.size);
       });
-      if (currentPageState === "final") {
-        requestAnimationFrame(render);
-      }
+
+      confettiAnimationId = requestAnimationFrame(render);
     }
 
     render();
   }
 
-  // --- EVENT LISTENERS ---
-  if (btnStart) btnStart.addEventListener("click", startExperience);
-
-  if (p2BackBtn) {
-    p2BackBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      goBackFromPage2();
-    });
-  }
-
-  if (p2MainContent) p2MainContent.addEventListener("click", goToMemoryBook);
-
-  if (memNextBtn) {
-    memNextBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      nextMemoryOrPage();
-    });
-  }
-
-  if (memBackBtn) {
-    memBackBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      previousMemoryOrPage();
-    });
-  }
-
-  if (scrapbookPage) {
-    scrapbookPage.addEventListener("click", () => {
-      if (scale === 1 && !isFlipping) {
-        nextMemoryOrPage();
-      }
-    });
-  }
-
-  if (letterBackBtn) letterBackBtn.addEventListener("click", goBackFromLetter);
-  if (letterNextBtn) letterNextBtn.addEventListener("click", goToVideoPage);
-
-  if (videoBackBtn) videoBackBtn.addEventListener("click", goBackFromVideo);
-  if (videoNextBtn) videoNextBtn.addEventListener("click", goToFinalPage);
-
-  if (pageFinal) pageFinal.addEventListener("click", restartWebsite);
-
-  // --- KEYBOARD SUPPORT ---
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowRight" || e.key === "Enter" || e.key === " ") {
-      if (currentPageState === "page1") {
-        startExperience();
-      } else if (currentPageState === "page2") {
-        goToMemoryBook();
-      } else if (currentPageState === "memory") {
-        nextMemoryOrPage();
-      } else if (currentPageState === "letter" && letterNextBtn && letterNextBtn.classList.contains("visible")) {
-        goToVideoPage();
-      } else if (currentPageState === "video") {
-        goToFinalPage();
-      } else if (currentPageState === "final") {
-        restartWebsite();
-      }
-    } else if (e.key === "ArrowLeft") {
-      if (currentPageState === "page2") {
-        goBackFromPage2();
-      } else if (currentPageState === "memory") {
-        previousMemoryOrPage();
-      } else if (currentPageState === "letter") {
-        goBackFromLetter();
-      } else if (currentPageState === "video") {
-        goBackFromVideo();
-      }
+  function stopConfetti() {
+    if (confettiAnimationId) {
+      cancelAnimationFrame(confettiAnimationId);
+      confettiAnimationId = null;
     }
-  });
-
-  // --- ZOOM & DRAG IMPLEMENTATION ---
-  if (memoryImage) {
-    memoryImage.addEventListener(
-      "wheel",
-      (e) => {
-        if (e.ctrlKey || e.metaKey || scale > 1) {
-          e.preventDefault();
-          const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85;
-          scale *= zoomFactor;
-          applyTransform();
-        }
-      },
-      { passive: false }
-    );
-
-    memoryImage.addEventListener("dblclick", (e) => {
-      e.stopPropagation();
-      if (scale > 1) {
-        resetZoom();
-      } else {
-        scale = 2.5;
-        applyTransform();
-      }
-    });
-
-    memoryImage.addEventListener("mousedown", (e) => {
-      if (scale > 1) {
-        e.stopPropagation();
-        isDragging = true;
-        startX = e.clientX - pointX;
-        startY = e.clientY - pointY;
-      }
-    });
-
-    window.addEventListener("mousemove", (e) => {
-      if (isDragging && scale > 1) {
-        e.preventDefault();
-        pointX = e.clientX - startX;
-        pointY = e.clientY - startY;
-        applyTransform();
-      }
-    });
-
-    window.addEventListener("mouseup", () => {
-      isDragging = false;
-    });
-
-    function getPinchDistance(touches) {
-      const dx = touches[0].clientX - touches[1].clientX;
-      const dy = touches[0].clientY - touches[1].clientY;
-      return Math.sqrt(dx * dx + dy * dy);
-    }
-
-    memoryImage.addEventListener(
-      "touchstart",
-      (e) => {
-        if (e.touches.length === 1) {
-          const now = Date.now();
-          if (now - lastTapTime < 300) {
-            e.preventDefault();
-            if (scale > 1) {
-              resetZoom();
-            } else {
-              scale = 2;
-              applyTransform();
-            }
-          }
-          lastTapTime = now;
-
-          if (scale > 1) {
-            isDragging = true;
-            startX = e.touches[0].clientX - pointX;
-            startY = e.touches[0].clientY - pointY;
-          }
-        } else if (e.touches.length === 2) {
-          e.preventDefault();
-          isDragging = false;
-          initialPinchDistance = getPinchDistance(e.touches);
-          initialScale = scale;
-        }
-      },
-      { passive: false }
-    );
-
-    memoryImage.addEventListener(
-      "touchmove",
-      (e) => {
-        if (e.touches.length === 1 && isDragging && scale > 1) {
-          e.preventDefault();
-          pointX = e.touches[0].clientX - startX;
-          pointY = e.touches[0].clientY - startY;
-          applyTransform();
-        } else if (e.touches.length === 2 && initialPinchDistance) {
-          e.preventDefault();
-          const currentDistance = getPinchDistance(e.touches);
-          const factor = currentDistance / initialPinchDistance;
-          scale = initialScale * factor;
-          applyTransform();
-        }
-      },
-      { passive: false }
-    );
-
-    memoryImage.addEventListener("touchend", (e) => {
-      if (e.touches.length < 2) {
-        initialPinchDistance = null;
-      }
-      if (e.touches.length === 0) {
-        isDragging = false;
-      }
-    });
   }
 });
