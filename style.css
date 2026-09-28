@@ -133,6 +133,7 @@ html, body {
   cursor: pointer;
   box-shadow: 2px 3px 0px var(--text-brown);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
+  z-index: 2;
 }
 
 .cute-btn:active {
@@ -165,9 +166,13 @@ html, body {
   background-image: url('assets/background.png');
   background-size: cover;
   background-position: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .cover-content {
+  position: relative;
+  z-index: 2;
   justify-content: space-between;
   padding: 60px 0 40px;
 }
@@ -307,16 +312,15 @@ html, body {
   width: 100%;
   height: 100%;
   transform-origin: left center;
-  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
-/* Page flip transition animations */
+/* Instant Page Turn Animations (150ms duration) */
 .flip-card.flipping-next {
-  animation: flipPageNext 0.5s ease-in-out forwards;
+  animation: flipPageNext 0.15s ease-in-out forwards;
 }
 
 .flip-card.flipping-prev {
-  animation: flipPagePrev 0.5s ease-in-out forwards;
+  animation: flipPagePrev 0.15s ease-in-out forwards;
 }
 
 @keyframes flipPageNext {
