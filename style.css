@@ -21,7 +21,7 @@
 :root {
   --bg-cream: #fbf7f0;
   --bg-beige: #f3ece0;
-  --letter-beige: #eadaa2; /* Semi-dark yellow beige */
+  --letter-beige: #eadaa2;
   --envelope-outer: #d1be8e;
   --card-white: #ffffff;
   --text-brown: #5a4638;
@@ -412,91 +412,92 @@ html, body {
 }
 
 /* ==========================================================================
-   9. INTERACTIVE ENVELOPE & LETTER SECTION
+   9. INTERACTIVE LETTER SECTION & SLIDING COVER
    ========================================================================== */
-.envelope-wrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 40px 0 10px;
-  perspective: 1000px;
-}
-
-.envelope-hint {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.envelope {
+.letter-section {
   position: relative;
   width: 100%;
-  flex: 1;
-  max-height: 70vh;
-  margin: 10px 0;
-  background-color: var(--envelope-outer);
-  border-radius: 12px;
-  box-shadow: 0 10px 30px var(--shadow-medium);
+  height: 100%;
+  background-image: url('assets/letter-bg.jpg');
+  background-size: cover;
+  background-position: center;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
 }
 
-/* Flap at top of envelope */
-.envelope-flap {
+/* Split Front Covers */
+.card-cover {
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 120px;
-  background-color: #c4b07e;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  transform-origin: top center;
-  transition: transform 0.5s ease;
-  z-index: 5;
+  height: 50%;
+  left: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 10;
+  transition: transform 1.2s ease-in-out;
   cursor: pointer;
 }
 
-.envelope.open .envelope-flap {
-  transform: rotateX(180deg);
-  z-index: 1;
+.card-top {
+  top: 0;
+  background-image: url('assets/front-card-top.jpg');
+  background-position: bottom center;
 }
 
-/* Front bottom pocket of envelope */
-.envelope-pocket {
-  position: absolute;
+.card-bottom {
   bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 55%;
-  background-color: #bfa872;
-  clip-path: polygon(0 100%, 100% 100%, 100% 0, 50% 40%, 0 0);
-  z-index: 4;
-  pointer-events: none;
+  background-image: url('assets/front-card-bottom.jpg');
+  background-position: top center;
 }
 
-/* The Letter Sheet inside */
-.letter-sheet {
+.letter-section.open .card-top {
+  transform: translateY(-100%);
+}
+
+.letter-section.open .card-bottom {
+  transform: translateY(100%);
+}
+
+.click-prompt {
   position: absolute;
-  top: 20px;
-  left: 5%;
-  width: 90%;
-  height: calc(100% - 30px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--text-brown);
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.letter-section.open .click-prompt {
+  opacity: 0;
+}
+
+/* Scrollable Area for Letter Sheet */
+.letter-scroll-container {
+  position: relative;
+  width: 85%;
+  height: 70vh;
+  overflow-y: auto;
+  padding: 25px 20px;
   background-color: var(--letter-beige);
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  transform: translateY(60px);
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-  z-index: 3;
-  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-muted) transparent;
+  -webkit-overflow-scrolling: touch;
 }
 
-.envelope.open .letter-sheet {
-  transform: translateY(0px);
-}
-
-/* Doodles layer (50% Opacity) */
+/* Doodles Layer */
 .doodle-overlay {
   position: absolute;
   top: 0;
@@ -523,18 +524,9 @@ html, body {
 .d-star2 { bottom: 8%; left: 25px; }
 .d-heart2 { bottom: 5%; right: 35px; }
 
-/* Scrollable area for long text */
-.letter-scroll-area {
+.letter-text {
   position: relative;
   z-index: 2;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 6px;
-  -webkit-overflow-scrolling: touch;
-}
-
-.letter-text {
   font-size: 0.98rem;
   line-height: 1.65;
   color: var(--text-brown);
@@ -544,19 +536,36 @@ html, body {
   text-align: left;
 }
 
-/* Custom scrollbar */
-.letter-scroll-area::-webkit-scrollbar {
+/* Custom Scrollbar */
+.letter-scroll-container::-webkit-scrollbar {
   width: 4px;
 }
 
-.letter-scroll-area::-webkit-scrollbar-track {
+.letter-scroll-container::-webkit-scrollbar-track {
   background: rgba(90, 70, 56, 0.05);
   border-radius: 10px;
 }
 
-.letter-scroll-area::-webkit-scrollbar-thumb {
+.letter-scroll-container::-webkit-scrollbar-thumb {
   background: var(--text-muted);
   border-radius: 10px;
+}
+
+/* Next Page Button Reveal */
+.next-page-btn {
+  position: absolute;
+  bottom: 25px;
+  z-index: 6;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(15px);
+  transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
+}
+
+.next-page-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 /* ==========================================================================
@@ -569,10 +578,10 @@ html, body {
 .temp-title {
   font-family: var(--font-display);
   font-size: 2.2rem;
-  font-weight: normal;
+  color: var(--text-brown);
 }
 
 .temp-sub {
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: var(--text-muted);
 }
