@@ -1,19 +1,717 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  >
+  />
 
   <title>A Little Something for You ♡</title>
 
-  <link rel="stylesheet" href="style.css">
+  <style>
 
+    /* =========================================================
+       FONTS
+       ========================================================= */
+
+    @font-face {
+      font-family: "InternetFriends";
+      src: url("assets/Internet Friends.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "IceCream";
+      src: url("assets/Ice Cream.otf") format("opentype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+
+    /* =========================================================
+       RESET
+       ========================================================= */
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+
+      overflow: hidden;
+
+      background: #f7efdf;
+
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    /* =========================================================
+       PORTRAIT SITE
+       ========================================================= */
+
+    #site {
+      position: relative;
+
+      width: min(100vw, 430px);
+      height: 100svh;
+
+      max-height: 100svh;
+
+      overflow: hidden;
+
+      background: #fffaf0;
+
+      isolation: isolate;
+    }
+
+
+    /* =========================================================
+       GENERAL SCREEN SYSTEM
+       ========================================================= */
+
+    .screen {
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      overflow: hidden;
+
+      opacity: 0;
+      visibility: hidden;
+
+      pointer-events: none;
+
+      transition:
+        opacity 0.65s ease,
+        visibility 0.65s ease;
+    }
+
+    .screen.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+
+    /* =========================================================
+       PAGE 1
+       ========================================================= */
+
+    #cover {
+      background-image: url("assets/background.png");
+
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+    }
+
+    .cover-overlay {
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          rgba(255, 249, 226, 0.10),
+          rgba(255, 249, 226, 0.18)
+        );
+
+      pointer-events: none;
+    }
+
+    .cover-content {
+      position: relative;
+      z-index: 2;
+
+      width: 88%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      gap: 14px;
+    }
+
+    .date {
+      margin: 0;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 0.95rem;
+
+      color: #665548;
+
+      letter-spacing: 0.08em;
+    }
+
+    .cover-small {
+      margin: 0;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: clamp(1.35rem, 5vw, 1.75rem);
+
+      color: #34281f;
+    }
+
+    .cover-small .heart {
+      color: #f1c928;
+    }
+
+    .cover-message {
+      margin: 0;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: clamp(1.15rem, 4.5vw, 1.55rem);
+
+      line-height: 1.25;
+
+      color: #34281f;
+    }
+
+    .open-button {
+      margin-top: 16px;
+
+      border: 1.5px solid #493b30;
+
+      background: rgba(255, 252, 239, 0.72);
+
+      color: #34281f;
+
+      border-radius: 999px;
+
+      padding: 12px 22px;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 1.1rem;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .open-button:hover {
+      transform: translateY(-2px);
+
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .open-button:active {
+      transform: scale(0.96);
+    }
+
+    .button-heart {
+      margin-left: 5px;
+    }
+
+    .cover-squiggle {
+      position: absolute;
+
+      font-family: "InternetFriends", cursive;
+
+      color: #7d674e;
+
+      opacity: 0.65;
+
+      pointer-events: none;
+    }
+
+    .squiggle-1 {
+      top: 7%;
+      left: 8%;
+    }
+
+    .squiggle-2 {
+      top: 11%;
+      right: 8%;
+    }
+
+    .squiggle-3 {
+      bottom: 9%;
+      left: 10%;
+    }
+
+    .squiggle-4 {
+      bottom: 13%;
+      right: 10%;
+    }
+
+
+    /* =========================================================
+       PAGE 2 — HAPPY BIRTHDAY
+       ========================================================= */
+
+    #birthday {
+      background:
+        radial-gradient(
+          circle at 50% 30%,
+          rgba(255,255,255,0.9),
+          transparent 45%
+        ),
+        #f8f0df;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .birthday-inner {
+      width: 88%;
+      height: 92%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      position: relative;
+    }
+
+    .birthday-intro {
+      margin: 0 0 7px;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 1.05rem;
+
+      color: #796452;
+    }
+
+    .birthday-label {
+      margin: 0;
+
+      font-size: 0.55rem;
+
+      letter-spacing: 0.25em;
+
+      color: #a48b70;
+    }
+
+    .birthday-title {
+      margin: 3px 0 0;
+
+      font-family: "IceCream", cursive;
+
+      font-size: clamp(2.6rem, 13vw, 4rem);
+
+      line-height: 0.82;
+
+      color: #49392d;
+
+      text-align: center;
+    }
+
+    .birthday-name {
+      margin: 7px 0 15px;
+
+      font-family: "IceCream", cursive;
+
+      font-size: clamp(2rem, 9vw, 3rem);
+
+      color: #e1ae22;
+    }
+
+    .birthday-photo-wrap {
+      position: relative;
+
+      width: 66%;
+
+      margin: 4px 0 15px;
+    }
+
+    .birthday-photo {
+      display: block;
+
+      width: 100%;
+
+      background: white;
+
+      padding: 8px;
+
+      box-shadow:
+        0 10px 25px rgba(70, 52, 35, 0.16);
+
+      transform: rotate(-2deg);
+    }
+
+    .birthday-caption {
+      margin: -2px 0 0;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 0.9rem;
+
+      color: #55463a;
+    }
+
+    .birthday-message {
+      margin-top: 4px;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 1.05rem;
+
+      line-height: 1.45;
+
+      color: #403329;
+    }
+
+    .birthday-message p {
+      margin: 3px 0;
+    }
+
+    .birthday-heart {
+      color: #d7ae25;
+    }
+
+    .birthday-next {
+      margin-top: 15px;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 0.85rem;
+
+      color: #907b67;
+
+      opacity: 0.8;
+    }
+
+
+    /* =========================================================
+       MEMORY BOOK
+       ========================================================= */
+
+    #memories {
+      background: #f4ead7;
+
+      perspective: 1800px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .memory-book {
+      position: relative;
+
+      width: 100%;
+      height: 100%;
+
+      transform-style: preserve-3d;
+    }
+
+
+    /* =========================================================
+       MEMORY PAGES
+       ========================================================= */
+
+    .memory-page {
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      overflow: hidden;
+
+      background: #fff;
+
+      transform-origin: left center;
+
+      transform-style: preserve-3d;
+
+      backface-visibility: hidden;
+
+      transition:
+        transform 0.85s cubic-bezier(0.65, 0, 0.35, 1),
+        opacity 0.2s ease;
+    }
+
+    .memory-page img {
+      display: block;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+
+      user-select: none;
+
+      -webkit-user-drag: none;
+    }
+
+
+    /* page stacking */
+
+    .memory-page:nth-child(1) {
+      z-index: 8;
+    }
+
+    .memory-page:nth-child(2) {
+      z-index: 7;
+    }
+
+    .memory-page:nth-child(3) {
+      z-index: 6;
+    }
+
+    .memory-page:nth-child(4) {
+      z-index: 5;
+    }
+
+    .memory-page:nth-child(5) {
+      z-index: 4;
+    }
+
+    .memory-page:nth-child(6) {
+      z-index: 3;
+    }
+
+    .memory-page:nth-child(7) {
+      z-index: 2;
+    }
+
+    .memory-page:nth-child(8) {
+      z-index: 1;
+    }
+
+    .memory-page.flipped {
+      transform: rotateY(-180deg);
+    }
+
+
+    /* =========================================================
+       MEMORY CONTROLS
+       ========================================================= */
+
+    .memory-counter {
+      position: absolute;
+
+      left: 50%;
+      bottom: 14px;
+
+      transform: translateX(-50%);
+
+      z-index: 30;
+
+      padding: 5px 9px;
+
+      border-radius: 999px;
+
+      background: rgba(255, 250, 238, 0.72);
+
+      backdrop-filter: blur(4px);
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 0.75rem;
+
+      color: #625344;
+
+      pointer-events: none;
+    }
+
+    .memory-hint {
+      position: absolute;
+
+      left: 50%;
+      bottom: 38px;
+
+      transform: translateX(-50%);
+
+      z-index: 30;
+
+      white-space: nowrap;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 0.75rem;
+
+      color: #685746;
+
+      opacity: 0.85;
+
+      pointer-events: none;
+
+      animation: hintFloat 2s ease-in-out infinite;
+    }
+
+    @keyframes hintFloat {
+
+      0%,
+      100% {
+        transform:
+          translateX(-50%)
+          translateY(0);
+      }
+
+      50% {
+        transform:
+          translateX(-50%)
+          translateY(-4px);
+      }
+
+    }
+
+    .memory-next-button {
+      position: absolute;
+
+      right: 13px;
+      bottom: 13px;
+
+      z-index: 40;
+
+      border: 1px solid rgba(79, 62, 46, 0.35);
+
+      background: rgba(255, 250, 239, 0.78);
+
+      color: #4d3e31;
+
+      border-radius: 999px;
+
+      padding: 8px 13px;
+
+      font-family: "InternetFriends", cursive;
+
+      font-size: 0.75rem;
+
+      cursor: pointer;
+
+      backdrop-filter: blur(4px);
+    }
+
+    .memory-next-button:active {
+      transform: scale(0.95);
+    }
+
+
+    /* =========================================================
+       TEMPORARY NEXT PAGE
+       ========================================================= */
+
+    #after-memories {
+      background: #f8efdf;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+    }
+
+    .after-content {
+      width: 82%;
+    }
+
+    .after-content h2 {
+      margin: 0;
+
+      font-family: "IceCream", cursive;
+
+      font-size: 3rem;
+
+      color: #49392d;
+    }
+
+    .after-content p {
+      font-family: "InternetFriends", cursive;
+
+      font-size: 1.15rem;
+
+      color: #5c4b3b;
+    }
+
+
+    /* =========================================================
+       SMALL PHONES
+       ========================================================= */
+
+    @media (max-width: 360px) {
+
+      .birthday-photo-wrap {
+        width: 62%;
+      }
+
+      .birthday-message {
+        font-size: 0.95rem;
+      }
+
+      .memory-next-button {
+        right: 8px;
+        bottom: 8px;
+      }
+
+      .memory-counter {
+        bottom: 9px;
+      }
+
+      .memory-hint {
+        bottom: 31px;
+      }
+
+    }
+
+
+    /* =========================================================
+       LAPTOP / DESKTOP
+       ========================================================= */
+
+    @media (min-width: 700px) {
+
+      body {
+        background:
+          radial-gradient(
+            circle at center,
+            #fffaf0 0%,
+            #eadfca 100%
+          );
+      }
+
+      #site {
+        width: 430px;
+
+        height: min(100svh, 645px);
+
+        box-shadow:
+          0 20px 60px rgba(70, 52, 35, 0.18);
+
+        border-radius: 2px;
+      }
+
+    }
+
+  </style>
 </head>
 
 
@@ -24,7 +722,7 @@
 
     <!-- =====================================================
          PAGE 1
-    ====================================================== -->
+         ===================================================== -->
 
     <section
       class="screen active"
@@ -33,7 +731,6 @@
     >
 
       <div class="cover-overlay"></div>
-
 
       <div class="cover-squiggle squiggle-1">
         〰 ♡
@@ -81,10 +778,9 @@
     </section>
 
 
-
     <!-- =====================================================
-         PAGE 2 — HAPPY BIRTHDAY
-    ====================================================== -->
+         PAGE 2
+         ===================================================== -->
 
     <section
       class="screen"
@@ -102,12 +798,10 @@
           TODAY IS ALL ABOUT YOU
         </p>
 
-
         <h1 class="birthday-title">
           HAPPY<br>
           BIRTHDAY,
         </h1>
-
 
         <h2 class="birthday-name">
           NICOLE <span>♥</span>
@@ -147,27 +841,14 @@
           click anywhere to keep going ↓
         </p>
 
-
-        <!-- NEW: BACK BUTTON -->
-
-        <button
-          class="page-back-button"
-          id="birthdayBack"
-          type="button"
-          aria-label="Go back to the cover"
-        >
-          ←
-        </button>
-
       </div>
 
     </section>
 
 
-
     <!-- =====================================================
          PAGE 3 — MEMORY BOOK
-    ====================================================== -->
+         ===================================================== -->
 
     <section
       class="screen"
@@ -181,175 +862,110 @@
       >
 
 
-        <!-- =================================================
-             MEMORY 1
-        ================================================== -->
+        <!-- MEMORY 1 -->
 
         <div class="memory-page">
 
-          <div class="memory-zoom-area">
-
-            <img
-              class="memory-image"
-              src="assets/memory-1.png"
-              alt="Memory page 1"
-              draggable="false"
-            >
-
-          </div>
+          <img
+            src="assets/memory-1.png"
+            alt="Memory page 1"
+            draggable="false"
+          >
 
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 2
-        ================================================== -->
+        <!-- MEMORY 2 -->
 
         <div class="memory-page">
 
-          <div class="memory-zoom-area">
-
-            <img
-              class="memory-image"
-              src="assets/memory-2.png"
-              alt="Memory page 2"
-              draggable="false"
-            >
-
-          </div>
+          <img
+            src="assets/memory-2.png"
+            alt="Memory page 2"
+            draggable="false"
+          >
 
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 3
-        ================================================== -->
+        <!-- MEMORY 3 -->
 
         <div class="memory-page">
 
-          <div class="memory-zoom-area">
-
-            <img
-              class="memory-image"
-              src="assets/memory-3.png"
-              alt="Memory page 3"
-              draggable="false"
-            >
-
-          </div>
+          <img
+            src="assets/memory-3.png"
+            alt="Memory page 3"
+            draggable="false"
+          >
 
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 4
-        ================================================== -->
+        <!-- MEMORY 4 -->
 
         <div class="memory-page">
 
-          <div class="memory-zoom-area">
-
-            <img
-              class="memory-image"
-              src="assets/memory-4.png"
-              alt="Memory page 4"
-              draggable="false"
-            >
-
-          </div>
+          <img
+            src="assets/memory-4.png"
+            alt="Memory page 4"
+            draggable="false"
+          >
 
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 5
-        ================================================== -->
+        <!-- MEMORY 5 -->
 
         <div class="memory-page">
 
-          <div class="memory-zoom-area">
-
-            <img
-              class="memory-image"
-              src="assets/memory-5.png"
-              alt="Memory page 5"
-              draggable="false"
-            >
-
-          </div>
+          <img
+            src="assets/memory-5.png"
+            alt="Memory page 5"
+            draggable="false"
+          >
 
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 6
-        ================================================== -->
+        <!-- MEMORY 6 -->
 
         <div class="memory-page">
 
-          <div class="memory-zoom-area">
-
-            <img
-              class="memory-image"
-              src="assets/memory-6.png"
-              alt="Memory page 6"
-              draggable="false"
-            >
-
-          </div>
+          <img
+            src="assets/memory-6.png"
+            alt="Memory page 6"
+            draggable="false"
+          >
 
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 7
-        ================================================== -->
+        <!-- MEMORY 7 -->
 
         <div class="memory-page">
 
-          <div class="memory-zoom-area">
-
-            <img
-              class="memory-image"
-              src="assets/memory-7.png"
-              alt="Memory page 7"
-              draggable="false"
-            >
-
-          </div>
+          <img
+            src="assets/memory-7.png"
+            alt="Memory page 7"
+            draggable="false"
+          >
 
         </div>
 
 
-
-        <!-- =================================================
-             MEMORY 8
-        ================================================== -->
+        <!-- MEMORY 8 -->
 
         <div class="memory-page">
 
-          <div class="memory-zoom-area">
-
-            <img
-              class="memory-image"
-              src="assets/memory-8.png"
-              alt="Memory page 8"
-              draggable="false"
-            >
-
-          </div>
+          <img
+            src="assets/memory-8.png"
+            alt="Memory page 8"
+            draggable="false"
+          >
 
         </div>
-
 
       </div>
-
 
 
       <!-- MEMORY COUNTER -->
@@ -362,7 +978,6 @@
       </div>
 
 
-
       <!-- MEMORY HINT -->
 
       <div
@@ -371,20 +986,6 @@
       >
         click to turn the page ♡
       </div>
-
-
-
-      <!-- BACK BUTTON -->
-
-      <button
-        class="memory-back-button"
-        id="memoryBack"
-        type="button"
-        aria-label="Go back"
-      >
-        ←
-      </button>
-
 
 
       <!-- NEXT BUTTON -->
@@ -397,15 +998,12 @@
         NEXT →
       </button>
 
-
     </section>
-
 
 
     <!-- =====================================================
          TEMPORARY PAGE AFTER MEMORY 8
-         KEEPING YOUR ORIGINAL PLAN
-    ====================================================== -->
+         ===================================================== -->
 
     <section
       class="screen"
@@ -424,24 +1022,12 @@
 
       </div>
 
-
-      <!-- BACK FROM THIS PAGE -->
-
-      <button
-        class="after-back-button"
-        id="afterBack"
-        type="button"
-      >
-        ← back
-      </button>
-
     </section>
-
 
 
     <!-- =====================================================
          MUSIC
-    ====================================================== -->
+         ===================================================== -->
 
     <audio
       id="birthdayMusic"
@@ -460,8 +1046,270 @@
   </div>
 
 
-  <script src="script.js"></script>
+  <script>
+
+    /* =========================================================
+       ELEMENTS
+       ========================================================= */
+
+    const cover =
+      document.getElementById("cover");
+
+    const birthday =
+      document.getElementById("birthday");
+
+    const memories =
+      document.getElementById("memories");
+
+    const afterMemories =
+      document.getElementById("after-memories");
+
+    const openButton =
+      document.getElementById("openButton");
+
+    const birthdayMusic =
+      document.getElementById("birthdayMusic");
+
+    const birthdayInner =
+      document.querySelector(".birthday-inner");
+
+    const memoryPages =
+      document.querySelectorAll(".memory-page");
+
+    const memoryCounter =
+      document.getElementById("memoryCounter");
+
+    const memoryHint =
+      document.getElementById("memoryHint");
+
+    const memoryNext =
+      document.getElementById("memoryNext");
+
+
+    /* =========================================================
+       CURRENT SCREEN
+       ========================================================= */
+
+    let currentScreen =
+      "cover";
+
+
+    function showScreen(screen) {
+
+      document
+        .querySelectorAll(".screen")
+        .forEach((element) => {
+
+          element.classList.remove("active");
+
+        });
+
+
+      screen.classList.add("active");
+
+      currentScreen =
+        screen.id;
+
+    }
+
+
+    /* =========================================================
+       PAGE 1 → PAGE 2
+       ========================================================= */
+
+    openButton.addEventListener(
+      "click",
+      async () => {
+
+        try {
+
+          await birthdayMusic.play();
+
+        } catch (error) {
+
+          console.log(
+            "Music playback was blocked."
+          );
+
+        }
+
+
+        showScreen(birthday);
+
+      }
+    );
+
+
+    /* =========================================================
+       PAGE 2 → MEMORY BOOK
+       ========================================================= */
+
+    birthdayInner.addEventListener(
+      "click",
+      () => {
+
+        showScreen(memories);
+
+      }
+    );
+
+
+    /* =========================================================
+       MEMORY BOOK
+       ========================================================= */
+
+    let currentMemory =
+      0;
+
+
+    function updateMemoryUI() {
+
+      memoryCounter.textContent =
+        `${currentMemory + 1} / ${memoryPages.length}`;
+
+
+      if (
+        currentMemory ===
+        memoryPages.length - 1
+      ) {
+
+        memoryHint.textContent =
+          "one more click... ♡";
+
+        memoryNext.textContent =
+          "FINISH →";
+
+      } else {
+
+        memoryHint.textContent =
+          "click to turn the page ♡";
+
+        memoryNext.textContent =
+          "NEXT →";
+
+      }
+
+    }
+
+
+    function turnNextPage() {
+
+      if (
+        currentMemory <
+        memoryPages.length - 1
+      ) {
+
+        memoryPages[
+          currentMemory
+        ].classList.add("flipped");
+
+        currentMemory++;
+
+        updateMemoryUI();
+
+        return;
+
+      }
+
+
+      showScreen(afterMemories);
+
+    }
+
+
+    /* =========================================================
+       CLICK MEMORY PAGE
+       ========================================================= */
+
+    memories.addEventListener(
+      "click",
+      (event) => {
+
+        if (
+          event.target ===
+          memoryNext
+        ) {
+
+          return;
+
+        }
+
+        turnNextPage();
+
+      }
+    );
+
+
+    /* =========================================================
+       NEXT BUTTON
+       ========================================================= */
+
+    memoryNext.addEventListener(
+      "click",
+      (event) => {
+
+        event.stopPropagation();
+
+        turnNextPage();
+
+      }
+    );
+
+
+    /* =========================================================
+       KEYBOARD
+       ========================================================= */
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (
+          event.key === "Enter" ||
+          event.key === "ArrowRight" ||
+          event.key === " "
+        ) {
+
+          if (
+            currentScreen ===
+            "cover"
+          ) {
+
+            openButton.click();
+
+          }
+
+          else if (
+            currentScreen ===
+            "birthday"
+          ) {
+
+            showScreen(memories);
+
+          }
+
+          else if (
+            currentScreen ===
+            "memories"
+          ) {
+
+            turnNextPage();
+
+          }
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       INITIAL STATE
+       ========================================================= */
+
+    updateMemoryUI();
+
+  </script>
 
 </body>
-
 </html>
