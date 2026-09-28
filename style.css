@@ -428,7 +428,7 @@ html, body {
   padding: 0;
 }
 
-/* Split Front Covers */
+/* Split Card Front Covers */
 .card-cover {
   position: absolute;
   width: 100%;
@@ -437,7 +437,7 @@ html, body {
   background-size: cover;
   background-position: center;
   z-index: 10;
-  transition: transform 1.2s ease-in-out;
+  transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
   cursor: pointer;
 }
 
@@ -453,11 +453,14 @@ html, body {
   background-position: top center;
 }
 
-.letter-section.open .card-top {
+/* Sliding animation when clicked */
+.page.open .card-top,
+.card-top.slide-up {
   transform: translateY(-100%);
 }
 
-.letter-section.open .card-bottom {
+.page.open .card-bottom,
+.card-bottom.slide-down {
   transform: translateY(100%);
 }
 
@@ -467,18 +470,19 @@ html, body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 11;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   padding: 10px 20px;
   border-radius: 20px;
   font-size: 14px;
   color: var(--text-brown);
   pointer-events: none;
-  transition: opacity 0.5s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.4s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.letter-section.open .click-prompt {
+.page.open .click-prompt {
   opacity: 0;
+  pointer-events: none;
 }
 
 /* Scrollable Area for Letter Sheet */
