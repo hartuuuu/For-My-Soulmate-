@@ -212,8 +212,24 @@ document.addEventListener("DOMContentLoaded", () => {
     currentPageState = "videos";
     showPage(pageVideos);
     if (videoScrollArea) videoScrollArea.scrollTop = 0;
-    if (video1) video1.play().catch(() => {});
-    if (video2) video2.play().catch(() => {});
+    if (video1) {
+      video1.currentTime = 0;
+      video1.play().catch(() => {});
+    }
+  }
+
+  // Scroll listener to manage video playback on scroll
+  if (videoScrollArea) {
+    videoScrollArea.addEventListener("scroll", () => {
+      const containerHeight = videoScrollArea.clientHeight;
+      const scrollTop = videoScrollArea.scrollTop;
+
+      if (scrollTop < containerHeight * 0.5) {
+        if (video1 && video1.paused) video1.play().catch(() => {});
+      } else if (scrollTop >= containerHeight * 0.5 && scrollTop < containerHeight * 1.5) {
+        if (video2 && video2.paused) video2.play().catch(() => {});
+      }
+    });
   }
 
   function goBackFromVideos() {
